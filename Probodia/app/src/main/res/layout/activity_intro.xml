@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="vm"
             type="com.example.probodia.viewmodel.IntroViewModel" />
     </data>
 
@@ -15,11 +15,11 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/kakaoLoginBtn"
+            android:id="@+id/kakao_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="카카오 로그인"
-            android:onClick="@{()->viewModel.kakaoLogin()}"/>
+            android:onClick="@{()->vm.kakaoLogin()}"/>
 
     </LinearLayout>
 </layout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.probodia.viewmodel.RecordViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.RecordFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/intro_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="무엇을 기록할까요?"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"/>
+
+            <LinearLayout
+                android:id="@+id/record_btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/record_glucose_btn"
+                    android:text="혈당"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->vm.recordGlucose()}"/>
+
+                <Button
+                    android:id="@+id/record_pressure_btn"
+                    android:text="혈압"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->vm.recordPressure()}"/>
+
+                <Button
+                    android:id="@+id/record_medicine_btn"
+                    android:text="투약"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->vm.recordMedicine()}"/>
+
+                <Button
+                    android:id="@+id/record_food_btn"
+                    android:text="음식"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->vm.recordFood()}"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/record_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/record_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

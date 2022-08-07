@@ -1,4 +1,4 @@
-package com.example.probodia.view
+package com.example.probodia.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
+import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.databinding.ActivityIntroBinding
 import com.example.probodia.viewmodel.IntroViewModel
+import com.kakao.auth.Session
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class IntroActivity : AppCompatActivity() {
 
@@ -22,17 +27,40 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        supportActionBar?.hide()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
         viewModel = ViewModelProvider(this).get(IntroViewModel::class.java)
-        binding.viewModel = viewModel
+        binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.autoLogin(::goMain)
+        viewModel.autoLogin()
 
         viewModel.liveKakaoLogin.observe(this, Observer {
             if (it) {
                 kakaoLogin()
                 viewModel.setKakaoLoginFalse()
+            }
+        })
+
+        viewModel.liveKakaoUserId.observe(this, Observer {
+            if (it != 0.toLong()) {
+                if (viewModel.liveKakaoAccessToken.value == "") {
+                    kakaoLogin()
+                } else {
+                    ApiLogin()
+                }
+            }
+        })
+
+        viewModel.liveKakaoAccessToken.observe(this, Observer {
+            if (it != "") {
+                if (viewModel.liveKakaoUserId.value == 0.toLong()) {
+                    viewModel.autoLogin()
+                } else {
+                    ApiLogin()
+                }
             }
         })
     }
@@ -44,6 +72,8 @@ class IntroActivity : AppCompatActivity() {
             } else if (token != null) {
                 // 로그인 성공
                 Log.e("KAKAOLOGIN", "LOGIN SUCCESS")
+                Log.e("KAKAOLOGIN", "Token info : ${token}")
+                viewModel.setKakaoAccessToken(token.accessToken)
             }
         }
 
@@ -62,7 +92,8 @@ class IntroActivity : AppCompatActivity() {
                 } else if (token != null) {
                     // 로그인 성공
                     Log.e("KAKAOLOGIN", "APP LOGIN SUCCESS")
-                    goMain()
+                    Log.e("KAKAOLOGIN", "Token info : ${token}")
+                    viewModel.setKakaoAccessToken(token.accessToken)
                 }
             }
         } else {
@@ -70,9 +101,19 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
+    fun ApiLogin() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val apiToken = viewModel.getApiToken()
+            Log.e("TOKEN", "${apiToken}")
+            viewModel.saveApiToken(apiToken)
+            goMain()
+        }
+    }
+
     fun goMain() {
         val intent = Intent(applicationContext, MainActivity::class.java)
-        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+//        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        startActivity(intent)
         finish()
     }
 }

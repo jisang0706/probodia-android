@@ -20,6 +20,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties['kakao_native_app_key']
+        buildConfigField "String", "SERVER_URL", properties['server_url']
 
         manifestPlaceholders = [KAKAO_NATIVE_APP_KEY_MANIFEST: properties['kakao_native_app_key_manifest']]
     }
@@ -48,9 +49,18 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Design Support
+    // noinspection GradleCompatible
+    implementation 'com.android.support:design:28.0.0'
+
+    // Coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_record"
+        android:enabled="true"
+        android:title="기록"/>
+
+    <item
+        android:id="@+id/item_challenge"
+        android:enabled="true"
+        android:title="챌린지"/>
+
+    <item
+        android:id="@+id/item_search_food"
+        android:enabled="true"
+        android:title="음식 검색"/>
+
+    <item
+        android:id="@+id/item_community"
+        android:enabled="true"
+        android:title="커뮤니티"/>
+
+    <item
+        android:id="@+id/item_etc"
+        android:enabled="true"
+        android:title="더보기"/>
+
+</menu>
