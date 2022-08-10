@@ -16,10 +16,14 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val medicineType = 3
     val mealType = 4
 
-    val dataSet : TodayRecord = TodayRecord(mutableListOf())
+    var dataSet : TodayRecord = TodayRecord(mutableListOf())
 
     fun addDataSet(newDataSet : TodayRecord) {
         dataSet.temp.addAll(newDataSet.temp)
+    }
+
+    fun resetDataSet() {
+        dataSet = TodayRecord(mutableListOf())
     }
 
     override fun getItemViewType(position: Int): Int {

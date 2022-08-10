@@ -46,6 +46,7 @@ class RecordFragment : Fragment() {
 
         recordPagerAdapter = RecordPagerAdapter(childFragmentManager, lifecycle)
         binding.recordViewpager.adapter = recordPagerAdapter
+        binding.recordViewpager.isUserInputEnabled = false
         binding.recordViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -72,6 +73,9 @@ class RecordFragment : Fragment() {
                     R.integer.record_glucose_result_code -> {
                         val reload = intent!!.getBooleanExtra("RELOAD", false)
                         Log.e("RECORD", "GLUCOSE : ${reload}")
+                        if (reload) {
+                            recordPagerAdapter.recordTodayFragment.reloadTodayRecord()
+                        }
                     }
                     R.integer.record_pressure_result_code -> {
                         val reload = intent!!.getBooleanExtra("RELOAD", false)

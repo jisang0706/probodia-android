@@ -73,4 +73,9 @@ class RecordTodayFragment : Fragment(), AbsListView.OnScrollListener {
             }
         }
     }
+
+    fun reloadTodayRecord() {
+        recordRVAdapter.resetDataSet()
+        viewModel.reloadTodayRecord()
+    }
 }

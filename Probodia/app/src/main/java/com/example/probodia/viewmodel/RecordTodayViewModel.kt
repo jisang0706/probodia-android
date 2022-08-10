@@ -25,4 +25,9 @@ class RecordTodayViewModel(application : Application) : AndroidViewModel(applica
         val accessToken = preferenceRecord.getApiToken().apiAccessToken
         _result.value = serverRepository.getTodayRecords(accessToken, page++, 10)
     }
+
+    fun reloadTodayRecord() = viewModelScope.launch {
+        page = 1
+        getTodayRecord()
+    }
 }
