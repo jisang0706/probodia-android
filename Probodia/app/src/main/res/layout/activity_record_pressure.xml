@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.probodia.viewmodel.RecordPressureViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.RecordGlucoseActivity">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="혈압 기록"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="15dp" />
+
+        <Button
+            android:id="@+id/date_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_text"
+            android:text="date"/>
+
+        <Button
+            android:id="@+id/time_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_btn"
+            android:text="time"/>
+
+        <TextView
+            android:id="@+id/high_pressure_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_btn"
+            android:text="최고 혈압"/>
+
+        <LinearLayout
+            android:id="@+id/high_pressure_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/high_pressure_text">
+
+            <EditText
+                android:id="@+id/high_pressure_edit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mg/dL"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/low_pressure_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/high_pressure_layout"
+            android:text="최저 혈압"/>
+
+        <LinearLayout
+            android:id="@+id/low_pressure_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/low_pressure_text">
+
+            <EditText
+                android:id="@+id/low_pressure_edit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mg/dL"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/heart_rate_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/low_pressure_layout"
+            android:text="심박수"/>
+
+        <LinearLayout
+            android:id="@+id/heart_rate_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/heart_rate_text">
+
+            <EditText
+                android:id="@+id/heart_rate_edit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mg/dL"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="완료"/>
+
+    </RelativeLayout>
+</layout>

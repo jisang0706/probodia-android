@@ -10,4 +10,7 @@ class ServerRepository {
 
     suspend fun getApiToken(userId : Long, accessToken: String)
         = client.getApiToken(GetApiTokenBody(userId, accessToken))
+
+    suspend fun getTodayRecords(apiToken : String, page : Int, pageSize : Int)
+        = client.getTodayRecord("Bearer ${apiToken}", page, pageSize)
 }

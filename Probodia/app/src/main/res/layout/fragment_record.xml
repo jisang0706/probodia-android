@@ -40,16 +40,14 @@
                     android:text="혈당"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:onClick="@{()->vm.recordGlucose()}"/>
+                    android:layout_weight="1"/>
 
                 <Button
                     android:id="@+id/record_pressure_btn"
                     android:text="혈압"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:onClick="@{()->vm.recordPressure()}"/>
+                    android:layout_weight="1"/>
 
                 <Button
                     android:id="@+id/record_medicine_btn"

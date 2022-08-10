@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.26869806094182824" />
+        <entry key="app/src/main/res/layout/activity_record_pressure.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.18177083333333333" />
@@ -13,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_record_past.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_today.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.16304347826086957" />

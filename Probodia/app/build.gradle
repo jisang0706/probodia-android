@@ -58,6 +58,9 @@ dependencies {
     // noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
 
+    // ConcatAdapter (Recycler View)
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-rc01'
+
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
