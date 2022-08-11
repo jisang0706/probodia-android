@@ -3,10 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
+        <entry key="app/src/main/res/drawable/gray_button_2_background.xml" value="0.20625" />
+        <entry key="app/src/main/res/drawable/layerlist_ic_chevron_down.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/orange_button_2_background.xml" value="0.20625" />
+        <entry key="app/src/main/res/drawable/orange_button_background.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/white_button_2_background.xml" value="0.20625" />
+        <entry key="app/src/main/res/drawable/white_button_background.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.26869806094182824" />
-        <entry key="app/src/main/res/layout/activity_record_pressure.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_record_pressure.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.18177083333333333" />
@@ -15,6 +22,8 @@
         <entry key="app/src/main/res/layout/fragment_record_past.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_today.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_time_selector.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_record.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />

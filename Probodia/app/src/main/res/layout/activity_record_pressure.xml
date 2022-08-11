@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.RecordPressureViewModel" />
+            type="com.example.probodia.viewmodel.RecordAnythingViewModel" />
     </data>
 
     <RelativeLayout
@@ -14,109 +14,186 @@
         android:layout_height="match_parent"
         tools:context=".view.activity.RecordGlucoseActivity">
 
-        <TextView
-            android:id="@+id/title_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="혈압 기록"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="15dp" />
-
-        <Button
-            android:id="@+id/date_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title_text"
-            android:text="date"/>
-
-        <Button
-            android:id="@+id/time_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/date_btn"
-            android:text="time"/>
-
-        <TextView
-            android:id="@+id/high_pressure_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_btn"
-            android:text="최고 혈압"/>
-
         <LinearLayout
-            android:id="@+id/high_pressure_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/high_pressure_text">
-
-            <EditText
-                android:id="@+id/high_pressure_edit"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/title_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="mg/dL"
-                android:layout_gravity="bottom"/>
+                android:text="혈압 추가"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/time_selector_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/low_pressure_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/high_pressure_layout"
-            android:text="최저 혈압"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/low_pressure_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/low_pressure_text">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/low_pressure_edit"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/high_pressure_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고 혈압"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/gray_100_2_background"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center">
+
+                            <EditText
+                                android:id="@+id/high_pressure_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:digits="0987654321"
+                                android:singleLine="true"
+                                android:maxLength="3"
+                                android:hint="120"
+                                android:textSize="24dp"
+                                android:textStyle="bold"
+                                android:background="@android:color/transparent"
+                                android:layout_marginHorizontal="3dp"
+                                android:gravity="center"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="mmHg"
+                                android:layout_marginHorizontal="3dp"
+                                android:layout_gravity="center_vertical"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/low_pressure_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고 혈압"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/gray_100_2_background"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center">
+
+                            <EditText
+                                android:id="@+id/low_pressure_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:digits="0987654321"
+                                android:singleLine="true"
+                                android:maxLength="3"
+                                android:hint="120"
+                                android:textSize="24dp"
+                                android:textStyle="bold"
+                                android:background="@android:color/transparent"
+                                android:layout_marginHorizontal="3dp"
+                                android:gravity="center"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="mmHg"
+                                android:layout_marginHorizontal="3dp"
+                                android:layout_gravity="center_vertical"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/heart_rate_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="mg/dL"
-                android:layout_gravity="bottom"/>
+                android:text="심박수"
+                android:layout_marginHorizontal="10dp"/>
 
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/heart_rate_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/low_pressure_layout"
-            android:text="심박수"/>
-
-        <LinearLayout
-            android:id="@+id/heart_rate_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/heart_rate_text">
-
-            <EditText
-                android:id="@+id/heart_rate_edit"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="mg/dL"
-                android:layout_gravity="bottom"/>
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/gray_100_2_background">
+
+                <LinearLayout
+                    android:id="@+id/heart_rate_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <EditText
+                        android:id="@+id/heart_rate_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:digits="0987654321"
+                        android:singleLine="true"
+                        android:maxLength="3"
+                        android:hint="100"
+                        android:textSize="24dp"
+                        android:textStyle="bold"
+                        android:background="@android:color/transparent"
+                        android:layout_marginHorizontal="7dp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="회/분"
+                        android:layout_marginHorizontal="7dp"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -125,6 +202,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/gray_300_2_background"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
             android:text="완료"/>
 
     </RelativeLayout>
