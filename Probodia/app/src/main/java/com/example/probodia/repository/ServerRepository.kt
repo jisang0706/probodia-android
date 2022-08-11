@@ -4,6 +4,7 @@ import com.example.probodia.data.remote.api.RetrofitServerInstance
 import com.example.probodia.data.remote.api.ServerService
 import com.example.probodia.data.remote.body.GetApiTokenBody
 import com.example.probodia.data.remote.body.PostGlucoseBody
+import com.example.probodia.data.remote.body.PostPressureBody
 
 class ServerRepository {
 
@@ -17,4 +18,7 @@ class ServerRepository {
 
     suspend fun postGlucose(apiToken : String, timeTag : String, glucose : Int, recordDate : String)
         = client.postGlucose("Bearer ${apiToken}", PostGlucoseBody(timeTag, glucose, recordDate))
+
+    suspend fun postPressure(apiToken : String, timeTag: String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
+        = client.postPressure("Bearer ${apiToken}", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
 }

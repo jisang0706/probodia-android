@@ -3,5 +3,5 @@
     <integer name="record_glucose_result_code">9001</integer>
     <integer name="record_pressure_result_code">9002</integer>
     <integer name="record_medicine_result_code">9003</integer>
-    <integer name="record_food_result_code">9004</integer>
+    <integer name="record_meal_result_code">9004</integer>
 </resources>

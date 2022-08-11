@@ -69,17 +69,15 @@ class RecordFragment : Fragment() {
         ) { result: ActivityResult ->
             val intent = result.data
             if (intent != null) {
-                when (result.resultCode) {
-                    R.integer.record_glucose_result_code -> {
-                        val reload = intent!!.getBooleanExtra("RELOAD", false)
-                        Log.e("RECORD", "GLUCOSE : ${reload}")
-                        if (reload) {
-                            recordPagerAdapter.recordTodayFragment.reloadTodayRecord()
-                        }
-                    }
-                    R.integer.record_pressure_result_code -> {
-                        val reload = intent!!.getBooleanExtra("RELOAD", false)
-                        Log.e("RECORD", "PRESSURE : ${reload}")
+                if (mutableListOf(
+                        R.integer.record_glucose_result_code,
+                        R.integer.record_pressure_result_code,
+                        R.integer.record_medicine_result_code,
+                        R.integer.record_meal_result_code
+                    ).any{ it == result.resultCode}) {
+                    val reload = intent!!.getBooleanExtra("RELOAD", false)
+                    if (reload) {
+                        recordPagerAdapter.recordTodayFragment.reloadTodayRecord()
                     }
                 }
             }

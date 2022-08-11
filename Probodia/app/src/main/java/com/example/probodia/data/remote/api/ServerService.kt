@@ -2,8 +2,10 @@ package com.example.probodia.data.remote.api
 
 import com.example.probodia.data.remote.body.GetApiTokenBody
 import com.example.probodia.data.remote.body.PostGlucoseBody
+import com.example.probodia.data.remote.body.PostPressureBody
 import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.data.remote.model.GlucoseDto
+import com.example.probodia.data.remote.model.PressureDto
 import com.example.probodia.data.remote.model.TodayRecord
 import retrofit2.http.*
 
@@ -26,4 +28,10 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Body postGlucoseBody : PostGlucoseBody
     ) : GlucoseDto
+
+    @POST("user-service/api/record/pressure")
+    suspend fun postPressure(
+        @Header("Authorization") token : String,
+        @Body postPressureBody : PostPressureBody
+    ) : PressureDto
 }
