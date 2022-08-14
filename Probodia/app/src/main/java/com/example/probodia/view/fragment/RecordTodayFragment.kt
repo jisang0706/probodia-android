@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
 import com.example.probodia.adapter.RecordTodayAdapter
 import com.example.probodia.databinding.FragmentRecordTodayBinding
+import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.RecordTodayViewModel
+import com.example.probodia.viewmodel.factory.RecordTodayViewModelFactory
 
 class RecordTodayFragment : Fragment(), AbsListView.OnScrollListener {
 
     private lateinit var binding: FragmentRecordTodayBinding
+    private lateinit var viewModelFactory : RecordTodayViewModelFactory
     private lateinit var viewModel : RecordTodayViewModel
     private lateinit var recordRVAdapter: RecordTodayAdapter
 
@@ -34,7 +37,8 @@ class RecordTodayFragment : Fragment(), AbsListView.OnScrollListener {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_today, container, false)
 
-        viewModel = ViewModelProvider(this).get(RecordTodayViewModel::class.java)
+        viewModelFactory = RecordTodayViewModelFactory(PreferenceRepository(requireContext()))
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecordTodayViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 

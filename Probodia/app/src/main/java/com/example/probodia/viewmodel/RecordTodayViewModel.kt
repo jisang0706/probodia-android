@@ -8,12 +8,9 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordTodayViewModel(application : Application) : AndroidViewModel(application) {
-
-    private val applicationContext = getApplication<Application>().applicationContext
+class RecordTodayViewModel(private val preferenceRepository : PreferenceRepository) : ViewModel() {
 
     private val serverRepository = ServerRepository()
-    private val preferenceRecord = PreferenceRepository(applicationContext)
 
     private val _result = MutableLiveData<TodayRecord>()
     val result: LiveData<TodayRecord>
@@ -22,7 +19,7 @@ class RecordTodayViewModel(application : Application) : AndroidViewModel(applica
     private var page = 1
 
     fun getTodayRecord() = viewModelScope.launch {
-        val accessToken = preferenceRecord.getApiToken().apiAccessToken
+        val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _result.value = serverRepository.getTodayRecords(accessToken, page++, 10)
     }
 
