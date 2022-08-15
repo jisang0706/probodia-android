@@ -1,6 +1,7 @@
 package com.example.probodia.data.remote.api
 
 import com.example.probodia.data.remote.body.GetApiTokenBody
+import com.example.probodia.data.remote.body.GetRecordBody
 import com.example.probodia.data.remote.body.PostGlucoseBody
 import com.example.probodia.data.remote.body.PostPressureBody
 import com.example.probodia.data.remote.model.ApiToken
@@ -16,12 +17,12 @@ interface ServerService {
         @Body getApiTokenBody : GetApiTokenBody
     ) : ApiToken
 
-    @GET("user-service/api/record/getAll/{page}/{pageSize}")
-    suspend fun getTodayRecord(
-        @Header("Authorization") token : String,
-        @Path("page") page : Int,
-        @Path("pageSize") pageSize : Int
-    ) : TodayRecord
+//    @GET("user-service/api/record/getAll/{page}/{pageSize}")
+//    suspend fun getTodayRecord(
+//        @Header("Authorization") token : String,
+//        @Path("page") page : Int,
+//        @Path("pageSize") pageSize : Int
+//    ) : TodayRecord
 
     @POST("user-service/api/record/sugar")
     suspend fun postGlucose(
@@ -34,4 +35,10 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Body postPressureBody : PostPressureBody
     ) : PressureDto
+
+    @POST("user-service/api/record/getAllByDateAndTimeTag")
+    suspend fun getRecord(
+        @Header("Authorization") token : String,
+        @Body getRecordBody : GetRecordBody
+    ) : MutableList<TodayRecord.AllData>
 }

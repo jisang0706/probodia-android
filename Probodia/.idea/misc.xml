@@ -19,12 +19,14 @@
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_record_analysis.xml" value="0.1671195652173913" />
+        <entry key="app/src/main/res/layout/fragment_record_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_past.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_today.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_time_selector.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_record.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_record_sortation.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.16304347826086957" />

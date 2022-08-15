@@ -77,7 +77,7 @@ class RecordFragment : Fragment() {
                     ).any{ it == result.resultCode}) {
                     val reload = intent!!.getBooleanExtra("RELOAD", false)
                     if (reload) {
-                        recordPagerAdapter.recordTodayFragment.reloadTodayRecord()
+                        recordPagerAdapter.recordTodayFragment.loadTodayRecord()
                     }
                 }
             }

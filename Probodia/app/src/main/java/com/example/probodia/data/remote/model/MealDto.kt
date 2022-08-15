@@ -24,6 +24,8 @@ data class MealDto(
 
         val bloodSugar : Int,
 
-        val foodName : String
+        val foodName : String,
+
+        val quantity : Int
     )
 }

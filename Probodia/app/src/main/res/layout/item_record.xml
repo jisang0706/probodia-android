@@ -10,7 +10,8 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/kind_text"
@@ -20,19 +21,13 @@
             android:layout_centerVertical="true"
             android:text="혈당"/>
 
-        <TextView
-            android:id="@+id/content_text"
+        <LinearLayout
+            android:id="@+id/content_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_toRightOf="@id/kind_text"
-            android:text="100"/>
-
-        <TextView
-            android:id="@+id/unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/content_text"
-            android:text="mg/dL"/>
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/time_text"
