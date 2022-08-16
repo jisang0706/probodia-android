@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_record_meal.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_record_pressure.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
