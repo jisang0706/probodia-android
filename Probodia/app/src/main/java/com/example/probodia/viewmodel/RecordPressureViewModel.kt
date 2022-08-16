@@ -9,7 +9,7 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-public class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : ViewModel() {
+class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : ViewModel() {
 
     open val serverRepository = ServerRepository()
 
