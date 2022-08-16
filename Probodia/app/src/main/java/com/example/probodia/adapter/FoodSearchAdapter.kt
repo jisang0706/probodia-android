@@ -1,6 +1,7 @@
 package com.example.probodia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,16 @@ import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.databinding.ItemFoodBinding
 
 class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(v : View, position : Int)
+    }
+
+    var clickListener : OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener : OnItemClickListener) {
+        clickListener = listener
+    }
 
     var dataSet : MutableList<ApiFoodDto.Body.FoodItem> = mutableListOf()
 
@@ -21,6 +32,17 @@ class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>()
     }
 
     inner class ViewHolder(val binding : ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (clickListener != null) {
+                        clickListener!!.onItemClick(it, position)
+                    }
+                }
+            }
+        }
 
         fun bind(item : ApiFoodDto.Body.FoodItem) {
             binding.foodText.text = item.name

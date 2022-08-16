@@ -1,7 +1,10 @@
 package com.example.probodia.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -43,6 +46,15 @@ class SearchFoodActivity : AppCompatActivity() {
 
             listAdapter.addDataSet(it.second.body.items)
             listAdapter.notifyDataSetChanged()
+        })
+
+        listAdapter.setOnItemClickListener(object : FoodSearchAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, position: Int) {
+                val intent = Intent(applicationContext, SearchFoodDetail::class.java)
+                intent.putExtra("FOOD", listAdapter.dataSet[position])
+                startActivity(intent)
+            }
+
         })
     }
 }

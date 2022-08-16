@@ -1,5 +1,7 @@
 package com.example.probodia.data.remote.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class ApiFoodDto(
@@ -49,6 +51,49 @@ data class ApiFoodDto(
 
             @SerializedName("NUTR_CONT9")
             val trans_fat : String
-        )
+        ) : Parcelable {
+
+            constructor(parcel: Parcel) : this(
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!
+            )
+
+            override fun describeContents() = 0
+
+            override fun writeToParcel(dest: Parcel?, flags: Int) {
+                dest?.writeString(name)
+                dest?.writeString(id)
+                dest?.writeString(quantity)
+                dest?.writeString(kcal)
+                dest?.writeString(carbohydrate)
+                dest?.writeString(protein)
+                dest?.writeString(fat)
+                dest?.writeString(sugar)
+                dest?.writeString(sodium)
+                dest?.writeString(cholesterol)
+                dest?.writeString(saturated_fatty_acid)
+                dest?.writeString(trans_fat)
+            }
+
+            companion object CREATOR : Parcelable.Creator<FoodItem> {
+                override fun createFromParcel(parcel: Parcel): FoodItem {
+                    return FoodItem(parcel)
+                }
+
+                override fun newArray(size: Int): Array<FoodItem?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
     }
 }
