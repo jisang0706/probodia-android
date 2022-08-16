@@ -22,6 +22,9 @@ android {
         buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties['kakao_native_app_key']
         buildConfigField "String", "SERVER_URL", properties['server_url']
 
+        buildConfigField "String", "OPEN_API_FOOD_URL", properties['open_api_food_url']
+        buildConfigField "String", "OPEN_API_FOOD_KEY", properties['open_api_food_key']
+
         manifestPlaceholders = [KAKAO_NATIVE_APP_KEY_MANIFEST: properties['kakao_native_app_key_manifest']]
     }
 

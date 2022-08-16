@@ -26,7 +26,4 @@ class ServerRepository {
 
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>
          = client.getRecord("Bearer ${apiToken}", getRecordBody)
-
-//    suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody)
-//            = client.getRecord("Bearer ${apiToken}", getRecordBody.startDate, getRecordBody.endDate, getRecordBody.filterType, getRecordBody.timeTagList)
 }
