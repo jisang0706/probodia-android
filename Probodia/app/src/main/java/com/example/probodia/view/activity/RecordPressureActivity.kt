@@ -97,7 +97,7 @@ class RecordPressureActivity : AppCompatActivity() {
 
         baseViewModel.buttonClickEnable.observe(this, Observer {
             if (it) {
-                binding.enterBtn.setBackgroundResource(R.drawable.orange_100_2_background)
+                binding.enterBtn.setBackgroundResource(R.drawable.primary_100_2_background)
             } else {
                 binding.enterBtn.setBackgroundResource(R.drawable.gray_300_2_background)
             }

@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
 import com.example.probodia.databinding.FragmentTimeSelectorBinding
 import com.example.probodia.viewmodel.RecordAnythingViewModel
-import com.example.probodia.viewmodel.RecordGlucoseViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -45,7 +44,7 @@ class TimeSelectorFragment : Fragment() {
             binding.dinnerFirBtn.text = "저녁"
         }
 
-        binding.morningFirBtn.setBackgroundResource(R.drawable.orange_100_1_background)
+        binding.morningFirBtn.setBackgroundResource(R.drawable.primary_100_1_background)
         binding.morningFirBtn.setTextColor(Color.WHITE)
 
         viewModel.selectedTimeTag.observe(requireActivity(), Observer {
@@ -55,7 +54,7 @@ class TimeSelectorFragment : Fragment() {
 
             for(i in 0 until buttons.size) {
                 if (it == i + 1) {
-                    buttons[i].setBackgroundResource(R.drawable.orange_100_1_background)
+                    buttons[i].setBackgroundResource(R.drawable.primary_100_1_background)
                     buttons[i].setTextColor(Color.WHITE)
                 } else {
                     buttons[i].setBackgroundResource(R.drawable.white_1_background)
