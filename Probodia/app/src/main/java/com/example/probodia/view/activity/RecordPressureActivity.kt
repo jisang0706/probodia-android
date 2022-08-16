@@ -14,14 +14,20 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
+import com.example.probodia.viewmodel.RecordPressureViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
+import com.example.probodia.viewmodel.factory.RecordPressureViewModelFactory
 import java.time.format.DateTimeFormatter
 
 class RecordPressureActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRecordPressureBinding
-    private lateinit var viewModel: RecordAnythingViewModel
-    private lateinit var viewModelFactory : RecordAnythingViewModelFactory
+    private lateinit var binding : ActivityRecordPressureBinding
+
+    private lateinit var pressureViewModel : RecordPressureViewModel
+    private lateinit var pressureViewModelFactory : RecordPressureViewModelFactory
+
+    private lateinit var baseViewModel : RecordAnythingViewModel
+    private lateinit var baseViewModelFactory: RecordAnythingViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +35,23 @@ class RecordPressureActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_pressure)
-        viewModelFactory = RecordAnythingViewModelFactory(PreferenceRepository(applicationContext), 2)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecordAnythingViewModel::class.java)
-        binding.vm = viewModel
+
+        pressureViewModelFactory = RecordPressureViewModelFactory(PreferenceRepository(applicationContext))
+        pressureViewModel = ViewModelProvider(this, pressureViewModelFactory).get(RecordPressureViewModel::class.java)
+        binding.pressureVm = pressureViewModel
+
+        baseViewModelFactory = RecordAnythingViewModelFactory(2)
+        baseViewModel = ViewModelProvider(this, baseViewModelFactory).get(RecordAnythingViewModel::class.java)
+        binding.baseVm = baseViewModel
+
         binding.lifecycleOwner = this
 
         initTimeSelector()
 
         binding.enterBtn.setOnClickListener {
-            if (viewModel.buttonClickEnable.value!!) {
-                viewModel.postPressure(
-                    when(viewModel.selectedTimeTag.value) {
+            if (baseViewModel.buttonClickEnable.value!!) {
+                pressureViewModel.postPressure(
+                    when(baseViewModel.selectedTimeTag.value) {
                         1 -> "아침"
                         2 -> "점심"
                         3 -> "저녁"
@@ -48,7 +60,7 @@ class RecordPressureActivity : AppCompatActivity() {
                     binding.highPressureEdit.text.toString().toInt(),
                     binding.lowPressureEdit.text.toString().toInt(),
                     binding.heartRateEdit.text.toString().toInt(),
-                    viewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    baseViewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             } else {
                 when(0) {
@@ -76,14 +88,14 @@ class RecordPressureActivity : AppCompatActivity() {
             examineEditTextFull()
         }
 
-        viewModel.pressureResult.observe(this, Observer {
+        pressureViewModel.pressureResult.observe(this, Observer {
             val resultIntent = Intent(applicationContext, RecordFragment::class.java)
             resultIntent.putExtra("RELOAD", true)
             setResult(R.integer.record_pressure_result_code, resultIntent)
             finish()
         })
 
-        viewModel.buttonClickEnable.observe(this, Observer {
+        baseViewModel.buttonClickEnable.observe(this, Observer {
             if (it) {
                 binding.enterBtn.setBackgroundResource(R.drawable.orange_100_2_background)
             } else {
@@ -101,6 +113,6 @@ class RecordPressureActivity : AppCompatActivity() {
     }
 
     fun examineEditTextFull() {
-        viewModel.setButtonClickEnable(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
+        baseViewModel.setButtonClickEnable(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
     }
 }

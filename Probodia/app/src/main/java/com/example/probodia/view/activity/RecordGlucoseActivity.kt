@@ -14,14 +14,20 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
+import com.example.probodia.viewmodel.RecordGlucoseViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
+import com.example.probodia.viewmodel.factory.RecordGlucoseViewModelFactory
 import java.time.format.DateTimeFormatter
 
 class RecordGlucoseActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityRecordGlucoseBinding
-    private lateinit var viewModel : RecordAnythingViewModel
-    private lateinit var viewModelFactory : RecordAnythingViewModelFactory
+
+    private lateinit var glucoseViewModel : RecordGlucoseViewModel
+    private lateinit var glucoseViewModelFactory : RecordGlucoseViewModelFactory
+
+    private lateinit var baseViewModel : RecordAnythingViewModel
+    private lateinit var baseViewModelFactory : RecordAnythingViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +35,23 @@ class RecordGlucoseActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_glucose)
-        viewModelFactory = RecordAnythingViewModelFactory(PreferenceRepository(applicationContext), 1)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecordAnythingViewModel::class.java)
-        binding.vm = viewModel
+
+        glucoseViewModelFactory = RecordGlucoseViewModelFactory(PreferenceRepository(applicationContext))
+        glucoseViewModel = ViewModelProvider(this, glucoseViewModelFactory).get(RecordGlucoseViewModel::class.java)
+        binding.glucoseVm = glucoseViewModel
+
+        baseViewModelFactory = RecordAnythingViewModelFactory(1)
+        baseViewModel = ViewModelProvider(this, baseViewModelFactory).get(RecordAnythingViewModel::class.java)
+        binding.baseVm = baseViewModel
+
         binding.lifecycleOwner = this
 
         initTimeSelector()
 
         binding.enterBtn.setOnClickListener {
-            if (viewModel.buttonClickEnable.value!!) {
-                viewModel.postGlucose(
-                    when(viewModel.selectedTimeTag.value) {
+            if (baseViewModel.buttonClickEnable.value!!) {
+                glucoseViewModel.postGlucose(
+                    when(baseViewModel.selectedTimeTag.value) {
                         1 -> "아침 식전"
                         2 -> "점심 식전"
                         3 -> "저녁 식전"
@@ -49,7 +61,7 @@ class RecordGlucoseActivity : AppCompatActivity() {
                         else -> "아침 식전"
                     },
                     binding.glucoseEdit.text.toString().toInt(),
-                    viewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    baseViewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             } else {
                 Toast.makeText(applicationContext, "입력된 혈당 수치가 없습니다.", Toast.LENGTH_LONG).show()
@@ -57,17 +69,17 @@ class RecordGlucoseActivity : AppCompatActivity() {
         }
 
         binding.glucoseEdit.addTextChangedListener {
-            viewModel.setButtonClickEnable(it?.length!! > 0)
+            baseViewModel.setButtonClickEnable(it?.length!! > 0)
         }
 
-        viewModel.glucoseResult.observe(this, Observer {
+        glucoseViewModel.glucoseResult.observe(this, Observer {
             val resultIntent = Intent(applicationContext, RecordFragment::class.java)
             resultIntent.putExtra("RELOAD", true)
             setResult(R.integer.record_glucose_result_code, resultIntent)
             finish()
         })
 
-        viewModel.buttonClickEnable.observe(this, Observer {
+        baseViewModel.buttonClickEnable.observe(this, Observer {
             if (it) {
                 binding.enterBtn.setBackgroundResource(R.drawable.orange_100_2_background)
             } else {
