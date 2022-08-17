@@ -3,7 +3,6 @@ package com.example.probodia.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -50,7 +49,7 @@ class SearchFoodActivity : AppCompatActivity() {
 
         listAdapter.setOnItemClickListener(object : FoodSearchAdapter.OnItemClickListener {
             override fun onItemClick(v: View, position: Int) {
-                val intent = Intent(applicationContext, SearchFoodDetail::class.java)
+                val intent = Intent(applicationContext, SearchFoodDetailAdapter::class.java)
                 intent.putExtra("FOOD", listAdapter.dataSet[position])
                 startActivity(intent)
             }

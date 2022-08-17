@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Probodia">
         <activity
-            android:name=".view.activity.SearchFoodDetail"
+            android:name=".view.activity.SearchFoodDetailAdapter"
             android:exported="false" />
         <activity
             android:name=".view.activity.SearchFoodActivity"
