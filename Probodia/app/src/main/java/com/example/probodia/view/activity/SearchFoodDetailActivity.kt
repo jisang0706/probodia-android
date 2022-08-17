@@ -10,7 +10,7 @@ import com.example.probodia.adapter.FoodInfoAdapter
 import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.databinding.ActivitySearchFoodDetailBinding
 
-class SearchFoodDetailAdapter : AppCompatActivity() {
+class SearchFoodDetailActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySearchFoodDetailBinding
     private lateinit var listAdapter : FoodInfoAdapter
@@ -30,6 +30,13 @@ class SearchFoodDetailAdapter : AppCompatActivity() {
         listAdapter = FoodInfoAdapter(getFoodInfoList(item))
         binding.foodInfoRv.adapter = listAdapter
         binding.foodInfoRv.layoutManager = LinearLayoutManager(applicationContext)
+
+        binding.enterBtn.setOnClickListener {
+            val resultIntent = Intent(applicationContext, SearchFoodActivity::class.java)
+            resultIntent.putExtra("ADDFOOD", item)
+            setResult(R.integer.record_meal_add_code, resultIntent)
+            finish()
+        }
     }
 
     fun getFoodInfoList(item : ApiFoodDto.Body.FoodItem) : List<Pair<String, Double>> {

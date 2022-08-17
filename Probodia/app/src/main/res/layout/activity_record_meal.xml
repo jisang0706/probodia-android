@@ -69,6 +69,10 @@
                     android:text="검색해서 추가"/>
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/food_add_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
         <Button

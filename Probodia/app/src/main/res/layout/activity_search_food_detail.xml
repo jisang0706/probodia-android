@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.activity.SearchFoodDetailAdapter"
+        tools:context=".view.activity.SearchFoodDetailActivity"
         android:layout_margin="10dp">
 
         <LinearLayout

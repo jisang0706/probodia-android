@@ -3,12 +3,16 @@ package com.example.probodia.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
+import com.example.probodia.adapter.FoodAddAdapter
+import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.databinding.ActivityRecordMealBinding
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
@@ -23,6 +27,8 @@ class RecordMealActivity : AppCompatActivity() {
 
     private lateinit var baseViewModel : RecordAnythingViewModel
     private lateinit var baseViewModelFactory : RecordAnythingViewModelFactory
+
+    private lateinit var listAdapter : FoodAddAdapter
 
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
@@ -42,6 +48,21 @@ class RecordMealActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
 
+        listAdapter = FoodAddAdapter()
+        binding.foodAddRv.adapter = listAdapter
+        binding.foodAddRv.layoutManager = LinearLayoutManager(applicationContext)
+
+        listAdapter.setOnItemButtonClickListener(object : FoodAddAdapter.OnItemButtonClickListener {
+            override fun onItemDeleteClick(position: Int) {
+                Log.e("FOOD CLICKED", "DELETE")
+            }
+
+            override fun onItemEditClick(position: Int) {
+                Log.e("FOOD CLICKED", "EDIT")
+            }
+
+        })
+
         binding.searchBtn.setOnClickListener {
             val intent = Intent(applicationContext, SearchFoodActivity::class.java)
             activityResultLauncher.launch(intent)
@@ -52,9 +73,10 @@ class RecordMealActivity : AppCompatActivity() {
         ) { result : ActivityResult ->
             val intent = result.data
             if (intent != null) {
-                val addFood = intent!!.getBooleanExtra("ADDFOOD", false)
-                if (addFood) {
-
+                if (result.resultCode == R.integer.record_meal_add_code) {
+                    val addFood: ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                    listAdapter.addItem(addFood)
+                    listAdapter.notifyDataSetChanged()
                 }
             }
         }
