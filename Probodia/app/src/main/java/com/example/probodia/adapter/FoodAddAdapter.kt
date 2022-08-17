@@ -35,6 +35,8 @@ class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
 
     fun getItem(position : Int) = dataSet[position]
 
+    fun getList() = dataSet
+
     inner class ViewHolder(val binding : ItemFoodAddBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {

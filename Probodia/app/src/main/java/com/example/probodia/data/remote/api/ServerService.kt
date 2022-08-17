@@ -1,13 +1,7 @@
 package com.example.probodia.data.remote.api
 
-import com.example.probodia.data.remote.body.GetApiTokenBody
-import com.example.probodia.data.remote.body.GetRecordBody
-import com.example.probodia.data.remote.body.PostGlucoseBody
-import com.example.probodia.data.remote.body.PostPressureBody
-import com.example.probodia.data.remote.model.ApiToken
-import com.example.probodia.data.remote.model.GlucoseDto
-import com.example.probodia.data.remote.model.PressureDto
-import com.example.probodia.data.remote.model.TodayRecord
+import com.example.probodia.data.remote.body.*
+import com.example.probodia.data.remote.model.*
 import retrofit2.http.*
 
 interface ServerService {
@@ -16,13 +10,6 @@ interface ServerService {
     suspend fun getApiToken(
         @Body getApiTokenBody : GetApiTokenBody
     ) : ApiToken
-
-//    @GET("user-service/api/record/getAll/{page}/{pageSize}")
-//    suspend fun getTodayRecord(
-//        @Header("Authorization") token : String,
-//        @Path("page") page : Int,
-//        @Path("pageSize") pageSize : Int
-//    ) : TodayRecord
 
     @POST("user-service/api/record/sugar")
     suspend fun postGlucose(
@@ -35,6 +22,12 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Body postPressureBody : PostPressureBody
     ) : PressureDto
+
+    @POST("user-service/api/record/meal")
+    suspend fun postMeal(
+        @Header("Authorization") token : String,
+        @Body postMealBody : PostMealBody
+    ) : MealDto
 
     @POST("user-service/api/record/getAllByDateAndTimeTag")
     suspend fun getRecord(

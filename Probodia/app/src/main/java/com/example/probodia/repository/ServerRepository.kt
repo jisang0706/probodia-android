@@ -2,10 +2,9 @@ package com.example.probodia.repository
 
 import com.example.probodia.data.remote.api.RetrofitServerInstance
 import com.example.probodia.data.remote.api.ServerService
-import com.example.probodia.data.remote.body.GetApiTokenBody
-import com.example.probodia.data.remote.body.GetRecordBody
-import com.example.probodia.data.remote.body.PostGlucoseBody
-import com.example.probodia.data.remote.body.PostPressureBody
+import com.example.probodia.data.remote.body.*
+import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.data.remote.model.TodayRecord
 
 class ServerRepository {
@@ -23,6 +22,23 @@ class ServerRepository {
 
     suspend fun postPressure(apiToken : String, timeTag: String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
         = client.postPressure("Bearer ${apiToken}", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
+
+    suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<ApiFoodDto.Body.FoodItem>, recordDate : String) : MealDto {
+        val itemList : List<PostMealBody.PostMealItem> = buildList {
+            for(food in foodList) {
+                PostMealBody.PostMealItem(
+                    food.name,
+                    food.id,
+                    food.eat_quantity,
+                    food.kcal.toInt(),
+                    food.glucose,
+                    food.image_url
+                )
+            }
+        }
+
+        return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, itemList))
+    }
 
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>
          = client.getRecord("Bearer ${apiToken}", getRecordBody)

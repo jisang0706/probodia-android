@@ -17,41 +17,45 @@ data class ApiFoodDto(
     ) {
         data class FoodItem(
             @SerializedName("DESC_KOR")
-            val name : String,
+            var name : String,
 
             @SerializedName("FOOD_CD")
             val id : String,
 
             @SerializedName("SERVING_SIZE")
-            val quantity : String,
+            var quantity : String,
 
             @SerializedName("NUTR_CONT1")
-            val kcal : String,
+            var kcal : String,
 
             @SerializedName("NUTR_CONT2")
-            val carbohydrate : String,
+            var carbohydrate : String,
 
             @SerializedName("NUTR_CONT3")
-            val protein : String,
+            var protein : String,
 
             @SerializedName("NUTR_CONT4")
-            val fat : String,
+            var fat : String,
 
             @SerializedName("NUTR_CONT5")
-            val sugar : String,
+            var sugar : String,
 
             @SerializedName("NUTR_CONT6")
-            val sodium : String,
+            var sodium : String,
 
             @SerializedName("NUTR_CONT7")
-            val cholesterol : String,
+            var cholesterol : String,
 
             @SerializedName("NUTR_CONT8")
-            val saturated_fatty_acid : String,
+            var saturated_fatty_acid : String,
 
             @SerializedName("NUTR_CONT9")
-            val trans_fat : String
+            var trans_fat : String
         ) : Parcelable {
+
+            var eat_quantity : Int = quantity.toInt()
+            var glucose : Int = 0
+            var image_url : String = ""
 
             constructor(parcel: Parcel) : this(
                 parcel.readString()!!,

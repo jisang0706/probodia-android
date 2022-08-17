@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class RecordGlucoseViewModel(val preferenceRepository: PreferenceRepository) : ViewModel() {
 
-    open val serverRepository = ServerRepository()
+    val serverRepository = ServerRepository()
 
     private val _glucoseResult = MutableLiveData<GlucoseDto>()
     val glucoseResult : LiveData<GlucoseDto>
