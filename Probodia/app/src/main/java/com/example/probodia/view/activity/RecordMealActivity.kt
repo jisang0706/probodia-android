@@ -1,5 +1,6 @@
 package com.example.probodia.view.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -62,6 +64,8 @@ class RecordMealActivity : AppCompatActivity() {
 
         listAdapter.setOnItemButtonClickListener(object : FoodAddAdapter.OnItemButtonClickListener {
             override fun onItemDeleteClick(position: Int) {
+                listAdapter.deleteItem(position)
+                listAdapter.notifyDataSetChanged()
                 baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
             }
 
