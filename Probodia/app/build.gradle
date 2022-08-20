@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 Properties properties = new Properties()
@@ -77,4 +79,11 @@ dependencies {
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.0'
     implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.5'
     implementation "com.kakao.sdk:v2-user:2.11.0" // 카카오 로그인
+
+    // firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:30.3.2')
+
+    // firebase analytics
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }
