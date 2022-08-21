@@ -10,6 +10,7 @@
 
     <color name="primary_100">#F58647</color>
 
+    <color name="gray_50">#F9FAFC</color>
     <color name="gray_100">#F6F7FA</color>
     <color name="gray_300">#DADEE4</color>
     <color name="gray_900">#1C1C1E</color>

@@ -84,14 +84,26 @@ class RecordFragment : Fragment() {
             }
         }
 
+        binding.recordGlucoseLayout.setOnClickListener {
+            binding.recordGlucoseBtn.callOnClick()
+        }
+
         binding.recordGlucoseBtn.setOnClickListener {
             val intent = Intent(activity, RecordGlucoseActivity::class.java)
             activityResultLauncher.launch(intent)
         }
 
+        binding.recordPressureLayout.setOnClickListener {
+            binding.recordPressureBtn.callOnClick()
+        }
+
         binding.recordPressureBtn.setOnClickListener {
             val intent = Intent(activity, RecordPressureActivity::class.java)
             activityResultLauncher.launch(intent)
+        }
+
+        binding.recordMealLayout.setOnClickListener {
+            binding.recordMealBtn.callOnClick()
         }
 
         binding.recordMealBtn.setOnClickListener {

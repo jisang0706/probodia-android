@@ -5,13 +5,19 @@
       <map>
         <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/drawable/gray_button_2_background.xml" value="0.20625" />
+        <entry key="app/src/main/res/drawable/ic_glucose.xml" value="0.26875" />
+        <entry key="app/src/main/res/drawable/ic_meal.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/layerlist_ic_chevron_down.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/drawable/orange_100_1_background.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/orange_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/orange_button_background.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/record_btn_background.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/white_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/white_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/white_button_background.xml" value="0.22864583333333333" />
-        <entry key="app/src/main/res/layout/activity_intro.xml" value="0.1" />
+        <entry key="app/src/main/res/font/font.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/layout/activity_intro.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_record_meal.xml" value="0.25" />
@@ -21,7 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.18177083333333333" />
-        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_record_analysis.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_past.xml" value="0.1671195652173913" />
@@ -35,6 +41,7 @@
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_sortation.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/sample_my_view.xml" value="0.2640625" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.16304347826086957" />
       </map>
