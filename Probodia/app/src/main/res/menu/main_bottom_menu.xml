@@ -3,26 +3,25 @@
     <item
         android:id="@+id/item_record"
         android:enabled="true"
+        android:icon="@drawable/menu_home_selector"
         android:title="기록"/>
 
     <item
         android:id="@+id/item_challenge"
         android:enabled="true"
+        android:icon="@drawable/menu_challenge_selector"
         android:title="챌린지"/>
-
-    <item
-        android:id="@+id/item_search_food"
-        android:enabled="true"
-        android:title="음식 검색"/>
 
     <item
         android:id="@+id/item_community"
         android:enabled="true"
+        android:icon="@drawable/ic_community"
         android:title="커뮤니티"/>
 
     <item
         android:id="@+id/item_etc"
         android:enabled="true"
+        android:icon="@drawable/ic_more"
         android:title="더보기"/>
 
 </menu>

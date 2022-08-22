@@ -9,19 +9,17 @@ import com.example.probodia.view.fragment.*
 class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
     val recordFragment = RecordFragment()
     val challengeFragment = ChallengeFragment()
-    val searchFoodFragment = SearchFoodFragment()
     val communityFragment = CommunityFragment()
     val etcFragment = EtcFragment()
 
-    override fun getItemCount() = 5
+    override fun getItemCount() = 4
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> recordFragment
             1 -> challengeFragment
-            2 -> searchFoodFragment
-            3 -> communityFragment
-            4 -> etcFragment
+            2 -> communityFragment
+            3 -> etcFragment
             else -> recordFragment
         }
     }

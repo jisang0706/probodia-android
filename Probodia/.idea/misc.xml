@@ -7,10 +7,19 @@
         <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/drawable/gray_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/green_1_background.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_challenge.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_challengeselected.xml" value="0.22407407407407406" />
+        <entry key="app/src/main/res/drawable/ic_community.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_glucose.xml" value="0.26875" />
+        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_homeselected.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/ic_meal.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_more.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/layerlist_ic_chevron_down.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/menu_bottom_selector_color.xml" value="0.2296875" />
+        <entry key="app/src/main/res/drawable/menu_challenge_selector.xml" value="0.22407407407407406" />
+        <entry key="app/src/main/res/drawable/menu_home_selector.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/orange_100_1_background.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/orange_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/orange_button_2_background.xml" value="0.20625" />

@@ -32,9 +32,8 @@ class MainActivity : AppCompatActivity() {
                 when(item.itemId) {
                     R.id.item_record -> binding.mainViewpager.currentItem = 0
                     R.id.item_challenge -> binding.mainViewpager.currentItem = 1
-                    R.id.item_search_food -> binding.mainViewpager.currentItem = 2
-                    R.id.item_community -> binding.mainViewpager.currentItem = 3
-                    R.id.item_etc -> binding.mainViewpager.currentItem = 4
+                    R.id.item_community -> binding.mainViewpager.currentItem = 2
+                    R.id.item_etc -> binding.mainViewpager.currentItem = 3
                     else -> true
                 }
                 true

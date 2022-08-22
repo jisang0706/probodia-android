@@ -24,11 +24,13 @@
             android:id="@+id/bottom_navigation"
             app:menu="@menu/main_bottom_menu"
             app:labelVisibilityMode="labeled"
+            app:itemIconTint="@drawable/menu_bottom_selector_color"
+            app:itemTextColor="@drawable/menu_bottom_selector_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
     </RelativeLayout>
 </layout>
