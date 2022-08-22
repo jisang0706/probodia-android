@@ -16,8 +16,11 @@
     <color name="gray_300">#DADEE4</color>
     <color name="gray_400">#BBBEC6</color>
     <color name="gray_500">#757883</color>
+    <color name="gray_700">#575B65</color>
     <color name="gray_800">#383940</color>
     <color name="gray_900">#1C1C1E</color>
+
+    <color name="alpha_30">#4D000000</color>
 
     <color name="orange_50">#FFEAD7</color>
     <color name="orange_800">#EC5704</color>
