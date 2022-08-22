@@ -16,7 +16,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.RecordGlucoseActivity">
+        tools:context=".view.activity.RecordGlucoseActivity"
+        android:paddingHorizontal="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,8 +32,8 @@
                 android:textSize="23dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:paddingVertical="20dp"
-                android:paddingHorizontal="15dp" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="34dp"/>
 
             <LinearLayout
                 android:id="@+id/time_selector_frame"
@@ -44,15 +45,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="혈당 수치"
-                android:layout_marginHorizontal="10dp"/>
+                android:text="혈당 수치"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:layout_marginHorizontal="10dp"
                 android:background="@drawable/gray_100_2_background">
 
                 <LinearLayout
@@ -96,7 +95,6 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/gray_300_2_background"
             android:textColor="@color/white"
-            android:layout_margin="10dp"
             android:text="완료"/>
     </RelativeLayout>
 </layout>

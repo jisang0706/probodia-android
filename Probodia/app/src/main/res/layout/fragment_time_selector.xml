@@ -17,7 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginVertical="24dp">
 
             <Button
                 android:id="@+id/date_picker_btn"
@@ -25,8 +26,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="0dp"
                 android:background="@drawable/white_1_background"
-                android:layout_margin="10dp"
-                android:paddingHorizontal="15dp"
+                android:layout_marginRight="7dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="10dp"
                 android:layout_weight="1"
                 android:gravity="left"
@@ -40,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="0dp"
                 android:background="@drawable/white_1_background"
-                android:layout_margin="10dp"
-                android:paddingHorizontal="15dp"
+                android:layout_marginLeft="7dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="10dp"
                 android:layout_weight="1"
                 android:gravity="left"
@@ -61,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(1)}"
                 android:text="아침 식전" />
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
+                android:layout_marginHorizontal="13dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(2)}"
                 android:text="점심 식전"/>
 
@@ -81,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(3)}"
                 android:text="저녁 식전"/>
         </LinearLayout>
@@ -90,7 +89,8 @@
             android:id="@+id/sec_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
             <Button
                 android:id="@+id/morning_sec_btn"
@@ -98,7 +98,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(4)}"
                 android:text="아침 식후"/>
 
@@ -108,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
+                android:layout_marginHorizontal="13dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(5)}"
                 android:text="점심 식후"/>
 
@@ -118,10 +117,15 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(6)}"
                 android:text="저녁 식후"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_200"
+            android:layout_marginVertical="24dp"/>
 
     </LinearLayout>
 </layout>
