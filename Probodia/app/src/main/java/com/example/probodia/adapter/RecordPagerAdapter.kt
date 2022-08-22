@@ -27,10 +27,10 @@ class RecordPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdap
 
     fun getItemTitle(position: Int): String {
         return when(position) {
-            0 -> "오늘 기록"
-            1 -> "과거 기록"
+            0 -> "오늘"
+            1 -> "과거"
             2 -> "분석 리포트"
-            else -> "오늘 기록"
+            else -> "오늘"
         }
     }
 }

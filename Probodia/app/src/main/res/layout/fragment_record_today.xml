@@ -11,7 +11,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.RecordTodayFragment">
+        tools:context=".view.fragment.RecordTodayFragment"
+        android:background="@color/gray_50">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/record_rv"

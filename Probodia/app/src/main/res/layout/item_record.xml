@@ -15,11 +15,18 @@
 
         <TextView
             android:id="@+id/kind_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="71dp"
+            android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="혈당"/>
+            android:gravity="center"
+            android:background="@drawable/orange_1_background"
+            android:text="식후 혈당"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            android:textColor="@color/orange_800"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="12dp"/>
 
         <LinearLayout
             android:id="@+id/content_layout"
@@ -27,7 +34,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@id/kind_text"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:paddingVertical="6dp"/>
 
         <TextView
             android:id="@+id/time_text"
@@ -35,7 +43,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="0000"/>
+            android:textColor="@color/gray_500"
+            android:textSize="12dp"
+            android:text="0000"
+            android:layout_marginRight="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_200"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 </layout>
