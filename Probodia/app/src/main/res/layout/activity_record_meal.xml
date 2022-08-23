@@ -13,77 +13,118 @@
             type="com.example.probodia.viewmodel.RecordAnythingViewModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.RecordMealActivity">
+        android:background="@color/alpha_30">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/title_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="음식"
-                android:textSize="23dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:paddingVertical="20dp"
-                android:paddingHorizontal="15dp" />
-
-            <LinearLayout
-                android:id="@+id/time_selector_frame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="음식 추가"
-                android:layout_marginHorizontal="10dp"/>
+            android:layout_height="match_parent"
+            tools:context=".view.activity.RecordMealActivity"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/white_top_3_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/camera_btn"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="음식"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray_900"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="34dp" />
+
+                    <ImageButton
+                        android:id="@+id/cancel_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_cancel"
+                        android:background="@android:color/transparent"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/time_selector_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="촬영해서 추가"/>
+                    android:layout_gravity="left"
+                    android:text="음식 추가"
+                    android:layout_marginBottom="8dp"/>
 
-                <Button
-                    android:id="@+id/search_btn"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="검색해서 추가"/>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
+
+                    <Button
+                        android:id="@+id/camera_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="6dp"
+                        android:text="촬영해서 추가"
+                        android:textSize="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:textColor="@color/gray_900"
+                        android:background="@drawable/white_1_background"
+                        android:gravity="left|center_vertical"
+                        android:drawableRight="@drawable/ic_rightarrow"/>
+
+                    <Button
+                        android:id="@+id/search_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:text="검색해서 추가"
+                        android:textSize="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:textColor="@color/gray_900"
+                        android:background="@drawable/white_1_background"
+                        android:gravity="left|center_vertical"
+                        android:drawableRight="@drawable/ic_rightarrow"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/food_add_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/food_add_rv"
+            <Button
+                android:id="@+id/enter_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/gray_300_2_background"
+                android:textColor="@color/white"
+                android:text="완료"
+                android:layout_marginVertical="12dp"/>
 
-        <Button
-            android:id="@+id/enter_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/gray_300_2_background"
-            android:textColor="@color/white"
-            android:layout_margin="10dp"
-            android:text="완료"/>
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </layout>

@@ -11,7 +11,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="food name"/>
+            android:text="food name"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/food_glucose_text"
@@ -19,23 +21,39 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/food_name_text"
-            android:text="100"/>
+            android:layout_marginTop="8dp"
+            android:text="100"
+            android:textSize="13dp"
+            android:textColor="@color/primary_100"/>
 
-        <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/food_glucose_text"
+            android:layout_toRightOf="@id/food_glucose_text"
+            android:layout_marginLeft="4dp"
+            android:text="mmHg"
+            android:textSize="10dp"
+            android:textColor="@color/gray_500"/>
+
+        <ImageButton
             android:id="@+id/delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="삭제"/>
+            android:src="@drawable/ic_delete"
+            android:background="@android:color/transparent"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/delete_btn"
-            android:text="수정"/>
+            android:layout_marginRight="19dp"
+            android:src="@drawable/ic_edit"
+            android:background="@android:color/transparent"/>
 
     </RelativeLayout>
 </layout>
