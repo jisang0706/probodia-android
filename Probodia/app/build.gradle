@@ -22,10 +22,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties['kakao_native_app_key']
+
         buildConfigField "String", "SERVER_URL", properties['server_url']
+        buildConfigField "String", "AI_SERVER_URL", properties['ai_server_url']
 
         buildConfigField "String", "OPEN_API_FOOD_URL", properties['open_api_food_url']
         buildConfigField "String", "OPEN_API_FOOD_KEY", properties['open_api_food_key']
+
+        buildConfigField "String", "AWS_S3_ACCESS_KEY", properties['aws_s3_access_key']
+        buildConfigField "String", "AWS_S3_SECRET_KEY", properties['aws_s3_secret_key']
 
         manifestPlaceholders = [KAKAO_NATIVE_APP_KEY_MANIFEST: properties['kakao_native_app_key_manifest']]
     }
@@ -88,4 +93,9 @@ dependencies {
     // firebase analytics
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+
+    // Amazon
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.5'
 }

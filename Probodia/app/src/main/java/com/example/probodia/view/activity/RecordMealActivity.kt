@@ -2,19 +2,35 @@ package com.example.probodia.view.activity
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.example.probodia.BuildConfig
 import com.example.probodia.R
 import com.example.probodia.adapter.FoodAddAdapter
 import com.example.probodia.data.remote.model.ApiFoodDto
@@ -26,7 +42,14 @@ import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMealViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.example.probodia.viewmodel.factory.RecordMealViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.lang.Exception
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 class RecordMealActivity : AppCompatActivity() {
 
@@ -84,16 +107,30 @@ class RecordMealActivity : AppCompatActivity() {
             activityResultLauncher.launch(intent)
         }
 
+        binding.cameraBtn.setOnClickListener {
+            checkCameraPermission()
+        }
+
+        binding.cancelBtn.setOnClickListener {
+            finish()
+        }
+
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
-                if (result.resultCode == R.integer.record_meal_add_code) {
-                    val addFood: ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
-                    listAdapter.addItem(addFood)
-                    listAdapter.notifyDataSetChanged()
-                    baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+            when (result.resultCode) {
+                R.integer.record_meal_add_code -> {
+                    val intent = result.data
+                    if (intent != null) {
+                        val addFood: ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                        listAdapter.addItem(addFood)
+                        listAdapter.notifyDataSetChanged()
+                        baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+                    }
+                }
+                RESULT_OK -> {
+                    val bitmap = result.data?.extras?.get("data") as Bitmap
+                    uploadImage(bitmap)
                 }
             }
         }
@@ -131,6 +168,10 @@ class RecordMealActivity : AppCompatActivity() {
                 binding.enterBtn.setBackgroundResource(R.drawable.gray_300_2_background)
             }
         })
+
+        mealViewModel.foodNamesResult.observe(this, Observer {
+            Log.e("FOODLIST", "${it.foodList}")
+        })
     }
 
     fun initTimeSelector() {
@@ -139,5 +180,89 @@ class RecordMealActivity : AppCompatActivity() {
         val fragment = TimeSelectorFragment()
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.commit()
+    }
+
+    fun checkCameraPermission() {
+        val cameraPermission = ContextCompat.checkSelfPermission(
+            applicationContext,
+            android.Manifest.permission.CAMERA
+        )
+
+        if (cameraPermission == PackageManager.PERMISSION_GRANTED) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            activityResultLauncher.launch(intent)
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), R.integer.permission_camera)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == R.integer.permission_camera) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                activityResultLauncher.launch(intent)
+            }
+        }
+    }
+
+    fun uploadImage(bitmap : Bitmap) {
+        val uri = bitmapToUri("${Random.nextInt(0, 999999)}_${System.currentTimeMillis()}", bitmap)
+        val file = File(getRealPathFromURI(uri))
+
+        val awsCredentials = BasicAWSCredentials(BuildConfig.AWS_S3_ACCESS_KEY, BuildConfig.AWS_S3_SECRET_KEY)
+        val s3Client = AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2))
+
+        val transferUtility = TransferUtility.builder().s3Client(s3Client).context(applicationContext).build()
+        TransferNetworkLossHandler.getInstance(applicationContext)
+
+        val uploadObserver = transferUtility.upload("probodia-food-s3-bucket/food", file.name, file)
+
+        uploadObserver.setTransferListener(object : TransferListener {
+            override fun onStateChanged(id: Int, state: TransferState?) {
+                if (state == TransferState.COMPLETED) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        Log.e("FOODLIST", file.name)
+                        mealViewModel.getImageFood(file.name)
+                        contentResolver.delete(uri, null, null)
+                    }
+
+                }
+            }
+
+            override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+                val done = (bytesCurrent.toDouble() / bytesTotal * 100.0).toInt()
+                Log.e("AWS", "UPLOAD - - ID: $id, percent done = $done")
+            }
+
+            override fun onError(id: Int, ex: Exception?) {
+                Log.e("AWS", "UPLOAD ERROR - - ID: $id - - EX:$ex")
+            }
+
+        })
+    }
+
+    fun bitmapToUri(fileName : String, bitmap : Bitmap) : Uri {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, fileName, null)
+        return Uri.parse(path)
+    }
+
+    fun getRealPathFromURI(contentUri : Uri) : String? {
+        var cursor : Cursor? = null
+        return try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = contentResolver.query(contentUri, proj, null, null, null)
+            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor!!.moveToFirst()
+            cursor!!.getString(column_index)
+        } finally {
+            cursor?.close()
+        }
     }
 }

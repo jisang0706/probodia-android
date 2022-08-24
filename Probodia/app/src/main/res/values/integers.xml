@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="permission_camera">1001</integer>
+
     <integer name="record_glucose_result_code">9001</integer>
     <integer name="record_pressure_result_code">9002</integer>
     <integer name="record_medicine_result_code">9003</integer>
