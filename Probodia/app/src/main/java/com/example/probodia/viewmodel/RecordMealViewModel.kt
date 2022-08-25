@@ -33,6 +33,10 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
     val foodNamesResult : LiveData<FoodNamesDto>
         get() = _foodNamesResult
 
+    private val _foodImage = MutableLiveData<Bitmap>()
+    val foodImage : LiveData<Bitmap>
+        get() = _foodImage
+
     fun postMeal(timeTag : String, foodList : MutableList<ApiFoodDto.Body.FoodItem>, recordDate : String) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _mealResult.value = serverRepository.postMeal(accessToken, timeTag, foodList, recordDate)
@@ -40,5 +44,9 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
 
     fun getImageFood(filename : String) = viewModelScope.launch {
         _foodNamesResult.value = aiServerRepository.getImageFood(filename)
+    }
+
+    fun setFoodImage(bitmap : Bitmap) {
+        _foodImage.value = bitmap
     }
 }

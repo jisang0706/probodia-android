@@ -130,6 +130,7 @@ class RecordMealActivity : AppCompatActivity() {
                 }
                 RESULT_OK -> {
                     val bitmap = result.data?.extras?.get("data") as Bitmap
+                    mealViewModel.setFoodImage(bitmap)
                     uploadImage(bitmap)
                 }
             }
@@ -170,7 +171,10 @@ class RecordMealActivity : AppCompatActivity() {
         })
 
         mealViewModel.foodNamesResult.observe(this, Observer {
-            Log.e("FOODLIST", "${it.foodList}")
+            val intent = Intent(applicationContext, RecognitionFoodActivity::class.java)
+            intent.putExtra("foodNames", it.foodList.toTypedArray())
+            intent.putExtra("foodImage", mealViewModel.foodImage.value)
+            activityResultLauncher.launch(intent)
         })
     }
 
@@ -226,7 +230,6 @@ class RecordMealActivity : AppCompatActivity() {
             override fun onStateChanged(id: Int, state: TransferState?) {
                 if (state == TransferState.COMPLETED) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        Log.e("FOODLIST", file.name)
                         mealViewModel.getImageFood(file.name)
                         contentResolver.delete(uri, null, null)
                     }
