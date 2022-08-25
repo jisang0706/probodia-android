@@ -23,15 +23,31 @@
             android:orientation="vertical"
             android:background="@drawable/white_top_3_background">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="음식 찾기"
-                android:textSize="23dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:paddingVertical="20dp"
-                android:paddingHorizontal="15dp"/>
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="음식 찾기"
+                    android:textSize="20dp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="34dp"/>
+
+                <ImageButton
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_cancel"
+                    android:background="@android:color/transparent"/>
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/food_edittext"

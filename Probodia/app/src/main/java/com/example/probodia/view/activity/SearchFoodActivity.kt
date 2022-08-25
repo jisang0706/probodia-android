@@ -81,6 +81,10 @@ class SearchFoodActivity : AppCompatActivity() {
             }
 
         })
+
+        binding.cancelBtn.setOnClickListener {
+            finish()
+        }
     }
 
     fun applyItem(item : ApiFoodDto.Body.FoodItem) {

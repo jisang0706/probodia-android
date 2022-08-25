@@ -13,7 +13,8 @@ class FoodInfoAdapter(val dataSet : List<Pair<String, Double>>) : RecyclerView.A
 
         fun bind(item : Pair<String, Double>) {
             binding.ingredientNameText.text = item.first
-            binding.ingredientQuantityText.text = "${item.second}"
+            val unit = { name : String -> if(name == "나트륨") "mg" else "g"}
+            binding.ingredientQuantityText.text = "${item.second}${unit(item.first)}"
         }
     }
 
