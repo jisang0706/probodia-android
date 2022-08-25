@@ -1,14 +1,19 @@
 package com.example.probodia.view.activity
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
+import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.databinding.ActivityRecognitionFoodBinding
 import com.example.probodia.viewmodel.RecognitionFoodViewModel
 import com.example.probodia.viewmodel.factory.RecognitionFoodViewModelFactory
@@ -19,6 +24,8 @@ class RecognitionFoodActivity : AppCompatActivity() {
 
     private lateinit var viewModel : RecognitionFoodViewModel
     private lateinit var viewModelFactory : RecognitionFoodViewModelFactory
+
+    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,5 +69,37 @@ class RecognitionFoodActivity : AppCompatActivity() {
                 }
             }
         })
+
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result : ActivityResult ->
+            val intent = result.data
+            if (intent != null) {
+                if (result.resultCode == R.integer.record_meal_add_code) {
+                    val item : ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                    applyItem(item)
+                }
+            }
+        }
+
+        binding.enterBtn.setOnClickListener {
+            val intent = Intent(applicationContext, SearchFoodActivity::class.java)
+            intent.putExtra("foodName", viewModel.foodNameResult.value!![viewModel.selectedFood.value!!])
+            intent.putExtra("imageSearch", true)
+            activityResultLauncher.launch(intent)
+        }
+
+        binding.searchBtn.setOnClickListener {
+            val intent = Intent(applicationContext, SearchFoodActivity::class.java)
+            intent.putExtra("imageSearch", true)
+            activityResultLauncher.launch(intent)
+        }
+    }
+
+    fun applyItem(item : ApiFoodDto.Body.FoodItem) {
+        val resultIntent = Intent(applicationContext, RecordMealActivity::class.java)
+        resultIntent.putExtra("ADDFOOD", item)
+        setResult(R.integer.record_meal_add_code, resultIntent)
+        finish()
     }
 }

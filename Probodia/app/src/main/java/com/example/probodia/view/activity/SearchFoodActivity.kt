@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,6 +37,12 @@ class SearchFoodActivity : AppCompatActivity() {
         listAdapter = FoodSearchAdapter()
         binding.foodRv.adapter = listAdapter
         binding.foodRv.layoutManager = LinearLayoutManager(applicationContext)
+
+        val foodName = intent.getStringExtra("foodName")
+        if (foodName != "") {
+            binding.foodEdittext.setText(foodName, TextView.BufferType.EDITABLE)
+            binding.tempSearchBtn.callOnClick()
+        }
 
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -73,7 +80,12 @@ class SearchFoodActivity : AppCompatActivity() {
     }
 
     fun applyItem(item : ApiFoodDto.Body.FoodItem) {
-        val resultIntent = Intent(applicationContext, RecordMealActivity::class.java)
+        var resultIntent : Intent
+        if (intent.getBooleanExtra("imageSearch", false)) {
+            resultIntent = Intent(applicationContext, RecognitionFoodActivity::class.java)
+        } else {
+            resultIntent = Intent(applicationContext, RecordMealActivity::class.java)
+        }
         resultIntent.putExtra("ADDFOOD", item)
         setResult(R.integer.record_meal_add_code, resultIntent)
         finish()
