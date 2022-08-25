@@ -12,35 +12,54 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.SearchFoodActivity"
-        android:orientation="vertical">
+        android:background="@color/alpha_30">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="음식 찾기"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="15dp"/>
+            android:layout_height="match_parent"
+            tools:context=".view.activity.SearchFoodActivity"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:background="@drawable/white_top_3_background">
 
-        <EditText
-            android:id="@+id/food_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="음식 찾기"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"/>
 
-        <Button
-            android:id="@+id/temp_search_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="검색"/>
+            <EditText
+                android:id="@+id/food_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="음식 검색"
+                android:singleLine="true"
+                android:textSize="17dp"
+                android:paddingHorizontal="20dp"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="10dp"
+                android:background="@drawable/gray_50_2_background"
+                android:cursorVisible="false"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/food_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/temp_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="검색"
+                android:background="@drawable/white_primary_100_1_background"
+                android:textColor="@color/primary_100"
+                android:layout_marginVertical="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/food_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

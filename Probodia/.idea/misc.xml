@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/drawable/blue_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
+        <entry key="app/src/main/res/drawable/gray_300_2_background.xml" value="0.19212962962962962" />
+        <entry key="app/src/main/res/drawable/gray_400_2_background.xml" value="0.19212962962962962" />
         <entry key="app/src/main/res/drawable/gray_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/green_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.1648148148148148" />
@@ -20,6 +22,7 @@
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_rightarrow.xml" value="0.16157407407407406" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.16018518518518518" />
         <entry key="app/src/main/res/drawable/layerlist_ic_chevron_down.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/drawable/menu_bottom_selector_color.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/menu_challenge_selector.xml" value="0.22407407407407406" />
@@ -28,6 +31,7 @@
         <entry key="app/src/main/res/drawable/orange_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/orange_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/orange_button_background.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/primary_100_2_background.xml" value="0.16018518518518518" />
         <entry key="app/src/main/res/drawable/record_btn_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/red_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/tab_text.xml" value="0.20677083333333332" />
@@ -57,7 +61,7 @@
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_time_selector.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_food.xml" value="0.15476190476190477" />
-        <entry key="app/src/main/res/layout/item_food_add.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_food_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_food_info.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/item_record.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
