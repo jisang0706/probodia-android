@@ -111,10 +111,6 @@ class RecordMealActivity : AppCompatActivity() {
             checkCameraPermission()
         }
 
-        binding.cancelBtn.setOnClickListener {
-            finish()
-        }
-
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
@@ -176,6 +172,10 @@ class RecordMealActivity : AppCompatActivity() {
             intent.putExtra("foodImage", mealViewModel.foodImage.value)
             activityResultLauncher.launch(intent)
         })
+
+        binding.cancelBtn.setOnClickListener {
+            finish()
+        }
     }
 
     fun initTimeSelector() {

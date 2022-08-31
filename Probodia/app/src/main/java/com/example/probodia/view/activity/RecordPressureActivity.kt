@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -33,6 +34,9 @@ class RecordPressureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         supportActionBar?.hide()
+        window.statusBarColor = ContextCompat.getColor(
+            applicationContext, R.color.alpha_30
+        )
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_pressure)
 
@@ -102,6 +106,10 @@ class RecordPressureActivity : AppCompatActivity() {
                 binding.enterBtn.setBackgroundResource(R.drawable.gray_300_2_background)
             }
         })
+
+        binding.cancelBtn.setOnClickListener {
+            finish()
+        }
     }
 
     fun initTimeSelector() {
