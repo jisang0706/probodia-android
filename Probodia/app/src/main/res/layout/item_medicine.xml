@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="약 이름 / 용량"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/medicine_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:layout_marginRight="6dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:text="약 선택하기"
+                android:textSize="16dp"
+                android:textColor="@color/gray_900"
+                android:gravity="left|center_vertical"
+                android:background="@drawable/white_2_background"
+                android:drawableRight="@drawable/ic_rightarrow"/>
+
+            <com.example.probodia.layout.SquareFrameLayout
+                android:id="@+id/delete_medicine_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/red_1_background"
+                android:clickable="true"
+                android:layout_marginLeft="6dp">
+
+                <ImageButton
+                    android:id="@+id/delete_medicine_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_trash"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"/>
+            </com.example.probodia.layout.SquareFrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/unit_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/gray_100_2_background"
+                android:inputType="number"
+                android:digits="0987654321"
+                android:singleLine="true"
+                android:textSize="24dp"
+                android:text="1"
+                android:textStyle="bold"
+                android:textColor="@color/primary_100"
+                android:gravity="center"
+                android:cursorVisible="false"/>
+
+            <Button
+                android:id="@+id/unit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:layout_weight="1"
+                android:text="unit"
+                android:background="@drawable/white_1_background"
+                android:drawableRight="@drawable/ic_downarrow"
+                android:paddingHorizontal="10dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_200"/>
+    </LinearLayout>
+</layout>

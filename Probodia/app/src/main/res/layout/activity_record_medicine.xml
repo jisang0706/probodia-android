@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="medicineVm"
+            type="com.example.probodia.viewmodel.RecordMedicineViewModel" />
+
+        <variable
+            name="baseVm"
+            type="com.example.probodia.viewmodel.RecordAnythingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.RecordMedicineActivity"
+        android:background="@color/alpha_30">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/white_top_3_background">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="투약"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray_900"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="34dp"/>
+
+                    <ImageButton
+                        android:id="@+id/cancel_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_cancel"
+                        android:background="@android:color/transparent"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/time_selector_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/gray_300_2_background"
+                android:textColor="@color/white"
+                android:text="완료"
+                android:layout_marginVertical="12dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

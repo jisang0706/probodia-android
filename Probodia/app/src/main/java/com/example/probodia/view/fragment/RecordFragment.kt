@@ -21,6 +21,7 @@ import com.example.probodia.adapter.RecordPagerAdapter
 import com.example.probodia.databinding.FragmentRecordBinding
 import com.example.probodia.view.activity.RecordGlucoseActivity
 import com.example.probodia.view.activity.RecordMealActivity
+import com.example.probodia.view.activity.RecordMedicineActivity
 import com.example.probodia.view.activity.RecordPressureActivity
 import com.example.probodia.viewmodel.RecordViewModel
 import com.google.android.material.tabs.TabLayout
@@ -101,6 +102,15 @@ class RecordFragment : Fragment() {
 
         binding.recordPressureBtn.setOnClickListener {
             val intent = Intent(activity, RecordPressureActivity::class.java)
+            activityResultLauncher.launch(intent)
+        }
+
+        binding.recordMedicineLayout.setOnClickListener {
+            binding.recordMedicineBtn.callOnClick()
+        }
+
+        binding.recordMedicineBtn.setOnClickListener {
+            val intent = Intent(activity, RecordMedicineActivity::class.java)
             activityResultLauncher.launch(intent)
         }
 

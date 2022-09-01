@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_rightarrow.xml" value="0.16157407407407406" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.16018518518518518" />
+        <entry key="app/src/main/res/drawable/ic_trash.xml" value="0.2537037037037037" />
         <entry key="app/src/main/res/drawable/layerlist_ic_chevron_down.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/drawable/menu_bottom_selector_color.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/menu_challenge_selector.xml" value="0.22407407407407406" />
@@ -47,6 +48,7 @@
         <entry key="app/src/main/res/layout/activity_recognition_food.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_record_meal.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/activity_record_medicine.xml" value="0.3277777777777778" />
         <entry key="app/src/main/res/layout/activity_record_pressure.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_search_food.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_search_food_detail.xml" value="0.165" />
@@ -63,6 +65,7 @@
         <entry key="app/src/main/res/layout/item_food.xml" value="0.15476190476190477" />
         <entry key="app/src/main/res/layout/item_food_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_food_info.xml" value="0.3390625" />
+        <entry key="app/src/main/res/layout/item_medicine.xml" value="0.30864197530864196" />
         <entry key="app/src/main/res/layout/item_record.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_sortation.xml" value="0.375" />
