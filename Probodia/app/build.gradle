@@ -29,6 +29,9 @@ android {
         buildConfigField "String", "OPEN_API_FOOD_URL", properties['open_api_food_url']
         buildConfigField "String", "OPEN_API_FOOD_KEY", properties['open_api_food_key']
 
+        buildConfigField "String", "OPEN_API_MEDICINE_URL", properties['open_api_medicine_url']
+        buildConfigField "String", "OPEN_API_MEDICINE_KEY", properties['open_api_medicine_key']
+
         buildConfigField "String", "AWS_S3_ACCESS_KEY", properties['aws_s3_access_key']
         buildConfigField "String", "AWS_S3_SECRET_KEY", properties['aws_s3_secret_key']
 

@@ -7,7 +7,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
+import com.example.probodia.adapter.MedicineAddAdapter
+import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.databinding.ActivityRecordMedicineBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.view.fragment.TimeSelectorFragment
@@ -24,7 +27,10 @@ class RecordMedicineActivity : AppCompatActivity() {
     private lateinit var baseViewModel : RecordAnythingViewModel
     private lateinit var baseViewModelFactory : RecordAnythingViewModelFactory
 
+    private lateinit var listAdapter : MedicineAddAdapter
+
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,6 +51,35 @@ class RecordMedicineActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         initTimeSelector()
+
+        listAdapter = MedicineAddAdapter()
+        binding.medicineAddRv.adapter = listAdapter
+        binding.medicineAddRv.layoutManager = LinearLayoutManager(applicationContext)
+
+        listAdapter.setOnItemButtonClickListener(object : MedicineAddAdapter.OnItemButtonClickListener {
+            override fun onItemDeleteClick(position: Int) {
+                listAdapter.deleteItem(position)
+                listAdapter.notifyDataSetChanged()
+                baseViewModel.setButtonClickEnable(listAdapter.itemCount > 1)
+            }
+
+            override fun onItemSearchClick(position: Int) {
+                
+            }
+
+            override fun onItemPlusClick() {
+                listAdapter.addItem(ApiMedicineDto.Body.MedicineItem(
+                    "",
+                    "약 선택하기",
+                "",
+                    "",
+                    "",
+                    ""
+                ))
+                listAdapter.notifyDataSetChanged()
+                binding.medicineAddRv.scrollToPosition(listAdapter.itemCount - 1)
+            }
+        })
 
         binding.cancelBtn.setOnClickListener {
             finish()

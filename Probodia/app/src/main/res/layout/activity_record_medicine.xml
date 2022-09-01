@@ -26,10 +26,22 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/white_top_3_background">
 
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/gray_300_2_background"
+                android:textColor="@color/white"
+                android:text="완료"
+                android:layout_marginVertical="12dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_above="@id/enter_btn">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -65,19 +77,10 @@
                     android:orientation="horizontal"/>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/medicine_add_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/enter_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/gray_300_2_background"
-                android:textColor="@color/white"
-                android:text="완료"
-                android:layout_marginVertical="12dp"/>
         </RelativeLayout>
 
     </LinearLayout>
