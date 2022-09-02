@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Probodia">
         <activity
+            android:name=".view.activity.SearchMedicineActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.RecordMedicineActivity"
             android:exported="false" />
         <activity

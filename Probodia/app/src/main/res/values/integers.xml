@@ -7,5 +7,7 @@
     <integer name="record_medicine_result_code">9003</integer>
     <integer name="record_meal_result_code">9004</integer>
 
-    <integer name="record_meal_add_code">10001</integer>
+    <integer name="record_meal_add_code">10004</integer>
+
+    <integer name="record_medicine_set_code">11003</integer>
 </resources>

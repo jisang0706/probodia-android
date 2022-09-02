@@ -14,8 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
-import com.example.probodia.adapter.FoodSearchAdapter
+import com.example.probodia.adapter.SearchAdapter
 import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.model.ApiItemName
 import com.example.probodia.databinding.ActivitySearchFoodBinding
 import com.example.probodia.viewmodel.SearchFoodViewModel
 
@@ -23,7 +24,7 @@ class SearchFoodActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySearchFoodBinding
     private lateinit var viewModel : SearchFoodViewModel
-    private lateinit var listAdapter : FoodSearchAdapter
+    private lateinit var listAdapter : SearchAdapter
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +37,10 @@ class SearchFoodActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_food)
         viewModel = ViewModelProvider(this).get(SearchFoodViewModel::class.java)
+        binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        listAdapter = FoodSearchAdapter()
+        listAdapter = SearchAdapter()
         binding.foodRv.adapter = listAdapter
         binding.foodRv.layoutManager = LinearLayoutManager(applicationContext)
 
@@ -69,14 +71,14 @@ class SearchFoodActivity : AppCompatActivity() {
                 listAdapter.resetDataSet()
             }
 
-            listAdapter.addDataSet(it.second.body.items)
+            listAdapter.addDataSet(it.second.body.items as MutableList<ApiItemName>)
             listAdapter.notifyDataSetChanged()
         })
 
-        listAdapter.setOnItemClickListener(object : FoodSearchAdapter.OnItemClickListener {
+        listAdapter.setOnItemClickListener(object : SearchAdapter.OnItemClickListener {
             override fun onItemClick(v: View, position: Int) {
                 val intent = Intent(applicationContext, SearchFoodDetailActivity::class.java)
-                intent.putExtra("FOOD", listAdapter.dataSet[position])
+                intent.putExtra("FOOD", listAdapter.dataSet[position] as ApiFoodDto.Body.FoodItem)
                 activityResultLauncher.launch(intent)
             }
 

@@ -17,7 +17,7 @@ data class ApiFoodDto(
     ) {
         data class FoodItem(
             @SerializedName("DESC_KOR")
-            var name : String,
+            override var itemName : String,
 
             @SerializedName("FOOD_CD")
             val id : String,
@@ -51,7 +51,7 @@ data class ApiFoodDto(
 
             @SerializedName("NUTR_CONT9")
             var trans_fat : String
-        ) : Parcelable {
+        ) : Parcelable, ApiItemName {
 
             var eat_quantity : Int = quantity.toInt()
             var glucose : Int = 0
@@ -75,7 +75,7 @@ data class ApiFoodDto(
             override fun describeContents() = 0
 
             override fun writeToParcel(dest: Parcel?, flags: Int) {
-                dest?.writeString(name)
+                dest?.writeString(itemName)
                 dest?.writeString(id)
                 dest?.writeString(quantity)
                 dest?.writeString(kcal)

@@ -38,7 +38,7 @@ class SearchFoodDetailActivity : AppCompatActivity() {
         viewModel = SearchFoodDetailViewModel(item)
         binding.vm = viewModel
 
-        binding.foodNameText.text = item.name
+        binding.foodNameText.text = item.itemName
 
         listAdapter = FoodInfoAdapter(getFoodInfoList(item))
         binding.foodInfoRv.adapter = listAdapter

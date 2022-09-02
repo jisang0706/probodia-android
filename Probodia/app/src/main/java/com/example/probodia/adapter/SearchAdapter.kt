@@ -7,9 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
 import com.example.probodia.data.remote.model.ApiFoodDto
-import com.example.probodia.databinding.ItemFoodBinding
+import com.example.probodia.data.remote.model.ApiItemName
+import com.example.probodia.data.remote.model.ApiMedicineDto
+import com.example.probodia.databinding.ItemSearchBinding
 
-class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>() {
+class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(v : View, position : Int)
@@ -21,9 +23,9 @@ class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>()
         clickListener = listener
     }
 
-    var dataSet : MutableList<ApiFoodDto.Body.FoodItem> = mutableListOf()
+    var dataSet : MutableList<ApiItemName> = mutableListOf()
 
-    fun addDataSet(newDataSet : MutableList<ApiFoodDto.Body.FoodItem>) {
+    fun addDataSet(newDataSet : MutableList<ApiItemName>) {
         dataSet.addAll(newDataSet)
     }
 
@@ -31,7 +33,7 @@ class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>()
         dataSet = mutableListOf()
     }
 
-    inner class ViewHolder(val binding : ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding : ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
@@ -44,15 +46,15 @@ class FoodSearchAdapter() : RecyclerView.Adapter<FoodSearchAdapter.ViewHolder>()
             }
         }
 
-        fun bind(item : ApiFoodDto.Body.FoodItem) {
-            binding.foodText.text = item.name
+        fun bind(item : ApiItemName) {
+            binding.itemName.text = item.itemName
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_food,
+            R.layout.item_search,
             parent,
             false
         ))

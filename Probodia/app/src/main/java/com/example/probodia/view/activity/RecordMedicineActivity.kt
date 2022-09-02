@@ -3,7 +3,10 @@ package com.example.probodia.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +20,9 @@ import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMedicineViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecordMedicineActivity : AppCompatActivity() {
 
@@ -64,7 +70,9 @@ class RecordMedicineActivity : AppCompatActivity() {
             }
 
             override fun onItemSearchClick(position: Int) {
-                
+                val intent = Intent(applicationContext, SearchMedicineActivity::class.java)
+                intent.putExtra("position", position)
+                activityResultLauncher.launch(intent)
             }
 
             override fun onItemPlusClick() {
@@ -83,6 +91,17 @@ class RecordMedicineActivity : AppCompatActivity() {
 
         binding.cancelBtn.setOnClickListener {
             finish()
+        }
+
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result : ActivityResult ->
+            val intent = result.data
+            if (intent != null) {
+                if (result.resultCode == R.integer.record_medicine_set_code) {
+                    val item : ApiMedicineDto.Body.MedicineItem = intent.getParcelableExtra("SETMEDICINE")!!
+                }
+            }
         }
     }
 

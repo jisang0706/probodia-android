@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
 import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.databinding.ItemFoodAddBinding
-import com.example.probodia.databinding.ItemFoodBinding
 
 class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
 
@@ -60,7 +59,7 @@ class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
         }
 
         fun bind(item : ApiFoodDto.Body.FoodItem) {
-            binding.foodNameText.text = item.name
+            binding.foodNameText.text = item.itemName
         }
     }
 

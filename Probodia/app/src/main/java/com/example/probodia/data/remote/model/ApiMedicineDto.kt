@@ -3,17 +3,19 @@ package com.example.probodia.data.remote.model
 import com.google.gson.annotations.SerializedName
 
 data class ApiMedicineDto (
+    @SerializedName("body")
     val body : Body
         ) {
     data class Body(
-        val items : MutableList<MedicineItem>
+        @SerializedName("items")
+        val items : List<MedicineItem>
     ) {
         data class MedicineItem (
             @SerializedName("ITEM_SEQ")
             val item_seq : String,
 
             @SerializedName("ITEM_NAME")
-            val item_name : String,
+            override val itemName : String,
 
             @SerializedName("ENTP_SEQ")
             val entp_seq : String,
@@ -26,6 +28,6 @@ data class ApiMedicineDto (
 
             @SerializedName("ITEM_IMAGE")
             val item_image : String
-                )
+                ) : ApiItemName
     }
 }

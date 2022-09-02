@@ -107,7 +107,7 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         fun bind(item : ApiMedicineDto.Body.MedicineItem) {
-            binding.medicineBtn.text = item.item_name
+            binding.medicineBtn.text = item.itemName
         }
     }
 

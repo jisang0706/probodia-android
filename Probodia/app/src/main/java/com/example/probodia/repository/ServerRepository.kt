@@ -30,7 +30,7 @@ class ServerRepository {
             for(food in foodList) {
                 add(
                     PostMealBody.PostMealItem(
-                        food.name,
+                        food.itemName,
                         food.id,
                         food.eat_quantity,
                         food.kcal.toDouble().toInt(),
