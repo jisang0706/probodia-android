@@ -1,5 +1,7 @@
 package com.example.probodia.data.remote.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class ApiMedicineDto (
@@ -28,6 +30,40 @@ data class ApiMedicineDto (
 
             @SerializedName("ITEM_IMAGE")
             val item_image : String
-                ) : ApiItemName
+                ) : Parcelable, ApiItemName {
+
+            var unit : Int = 1
+
+            constructor(parcel : Parcel) : this(
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!,
+                parcel.readString()!!
+                    )
+
+            override fun describeContents(): Int = 0
+
+            override fun writeToParcel(dest: Parcel?, flags: Int) {
+                dest?.writeString(item_seq)
+                dest?.writeString(itemName)
+                dest?.writeString(entp_seq)
+                dest?.writeString(entp_name)
+                dest?.writeString(chart)
+                dest?.writeString(item_image)
+            }
+
+            companion object CREATOR : Parcelable.Creator<MedicineItem> {
+                override fun createFromParcel(source: Parcel): MedicineItem {
+                    return MedicineItem(source)
+                }
+
+                override fun newArray(size: Int): Array<MedicineItem?> {
+                    return arrayOfNulls(size)
+                }
+
+            }
+        }
     }
 }

@@ -11,7 +11,6 @@ class OpenApiMedicineRepository {
     private val client = RetrofitOpenApiMedicineInstance.getInstance().create(OpenApiMedicineService::class.java)
 
     suspend fun getMedicineList(name : String, pageNo : Int) : ApiMedicineDto {
-        Log.e("GETMEDICINE", "${BuildConfig.OPEN_API_MEDICINE_KEY} ${name} ${pageNo}")
         return client.getMedicineList(
             BuildConfig.OPEN_API_MEDICINE_KEY,
             name,

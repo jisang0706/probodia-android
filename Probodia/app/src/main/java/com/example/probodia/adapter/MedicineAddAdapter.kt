@@ -1,7 +1,10 @@
 package com.example.probodia.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
@@ -34,7 +37,13 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         dataSet.removeAt(position)
     }
 
-    fun getList() = dataSet
+    fun setItem(position : Int, item : ApiMedicineDto.Body.MedicineItem) {
+        dataSet[position] = item
+    }
+
+    fun setItemUnit(position : Int, unit : Int) {
+        dataSet[position].unit = unit
+    }
 
     override fun getItemViewType(position: Int): Int {
         if (position >= dataSet.size) {
@@ -104,10 +113,18 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }
                 }
             }
+
+            binding.unitEdit.addTextChangedListener {
+                if (binding.unitEdit.text.toString() != "") {
+                    val position = bindingAdapterPosition
+                    dataSet[position].unit = binding.unitEdit.text.toString().toInt()
+                }
+            }
         }
 
         fun bind(item : ApiMedicineDto.Body.MedicineItem) {
             binding.medicineBtn.text = item.itemName
+            binding.unitEdit.setText("${item.unit}")
         }
     }
 

@@ -71,7 +71,7 @@ class RecordMedicineActivity : AppCompatActivity() {
 
             override fun onItemSearchClick(position: Int) {
                 val intent = Intent(applicationContext, SearchMedicineActivity::class.java)
-                intent.putExtra("position", position)
+                intent.putExtra("POSITION", position)
                 activityResultLauncher.launch(intent)
             }
 
@@ -96,10 +96,17 @@ class RecordMedicineActivity : AppCompatActivity() {
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
+            Log.e("MEDICINE", "RESULT")
             val intent = result.data
             if (intent != null) {
                 if (result.resultCode == R.integer.record_medicine_set_code) {
                     val item : ApiMedicineDto.Body.MedicineItem = intent.getParcelableExtra("SETMEDICINE")!!
+                    val position : Int = intent.getIntExtra("POSITION", -1)
+                    if (position != -1) {
+                        listAdapter.setItem(position, item)
+                        Log.e("MEDICINE", item.toString())
+                        listAdapter.notifyDataSetChanged()
+                    }
                 }
             }
         }

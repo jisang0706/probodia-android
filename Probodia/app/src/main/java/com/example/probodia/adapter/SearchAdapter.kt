@@ -33,6 +33,10 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
         dataSet = mutableListOf()
     }
 
+    fun getItem(position : Int): ApiItemName {
+        return dataSet.get(position)
+    }
+
     inner class ViewHolder(val binding : ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
