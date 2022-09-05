@@ -30,11 +30,11 @@ import kotlin.coroutines.coroutineContext
 
 class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val glucoseType = 1
-    val pressureType = 2
-    val medicineType = 3
-    val mealType = 4
-    val sortationType = 5
+    private val glucoseType = 1
+    private val pressureType = 2
+    private val medicineType = 3
+    private val mealType = 4
+    private val sortationType = 5
 
     var dataSet : MutableList<RecordDatasBase> = mutableListOf()
 
@@ -182,9 +182,12 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.kindText.text = "투약"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.blue_800))
             binding.kindText.setBackgroundResource(R.drawable.blue_1_background)
-//            binding.contentText.text = item.record.medicineName
+            val medicineName = fun(medicineName : String): String { if (medicineName.length > 5) return "${medicineName.substring(0, 5)}.." else return medicineName }
+            for(i in item.record.medicineDetails.indices) {
+                val str = "${medicineName(item.record.medicineDetails[i].medicineName)} ${item.record.medicineDetails[i].medicineCnt} Unit"
+                addTextView(binding, getBoldText(str, str.length - 4))
+            }
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
-//            binding.unitText.text = "Unit"
         }
     }
 
@@ -194,7 +197,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.kindText.text = "음식"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_800))
             binding.kindText.setBackgroundResource(R.drawable.green_1_background)
-            for(i in 0 until item.record.mealDetails.size) {
+            for(i in item.record.mealDetails.indices) {
                 var str = "${item.record.mealDetails[i].foodName} ${item.record.mealDetails[i].quantity} g"
                 addTextView(binding, getBoldText(str, str.length - 1))
             }
@@ -225,7 +228,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun getDisplayTime(time : String): String {
         val hour = time.slice(IntRange(0, 1)).toInt()
         return if (hour < 12) {
-            "오전 ${hour}"
+            "오전 $hour"
         } else {
             "오후 ${hour - 12}"
         } + ":${time.slice(IntRange(3, 4))}"

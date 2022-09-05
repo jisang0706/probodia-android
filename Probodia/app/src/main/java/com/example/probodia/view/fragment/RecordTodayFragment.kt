@@ -57,7 +57,7 @@ class RecordTodayFragment : Fragment() {
         viewModel.result.observe(viewLifecycleOwner, Observer {
             val todayRecord = TodayRecord(it.second)
             val dataSet : MutableList<RecordDatasBase> =
-                mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first,  "2022-08-14", todayRecord.getDatas().size)))
+                mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first,  "2022-01-01", todayRecord.getDatas().size)))
             dataSet.addAll(todayRecord.getDatas())
             recordRVAdapter.addDataSet(dataSet)
             recordRVAdapter.notifyDataSetChanged()
