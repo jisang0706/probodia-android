@@ -75,6 +75,7 @@
                         android:inputType="number"
                         android:digits="0987654321"
                         android:singleLine="true"
+                        android:maxLength="4"
                         android:textSize="24dp"
                         android:text="1"
                         android:textStyle="bold"
