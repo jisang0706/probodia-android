@@ -61,13 +61,7 @@ class TodayRecord(
         val heartRate : Int?,
 
         @Expose
-        val medicineCnt : Int?,
-
-        @Expose
-        val medicineName : String?,
-
-        @Expose
-        val medicineId : String?,
+        val medicineDetails : List<MedicineDto.Record.MedicineDetail>?,
 
         @Expose
         val mealDetails : List<MealDto.MealDetail>?,
@@ -95,11 +89,9 @@ class TodayRecord(
         fun getMedicineRecord() : MedicineDto.Record {
             return MedicineDto.Record(
                 timeTag,
-                medicineCnt!!,
-                medicineName!!,
-                medicineId!!,
                 recordId,
-                recordDate
+                recordDate,
+                medicineDetails!!
             )
         }
 

@@ -29,6 +29,8 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         clickListener = listener
     }
 
+    fun getList() = dataSet
+
     fun addItem(item : ApiMedicineDto.Body.MedicineItem) {
         dataSet.add(item)
     }
@@ -43,6 +45,19 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setItemUnit(position : Int, unit : Int) {
         dataSet[position].unit = unit
+    }
+
+    fun checkItemComplete() : Boolean {
+        Log.e("MEDICINECOMPLETE", dataSet.size.toString())
+        if (dataSet.size == 0)  return false
+        for(data in dataSet) {
+            Log.e("MEDICINECOMPLETE", "${data.item_seq} ${data.unit}")
+            if (data.item_seq == "" || data.unit == 0) {
+                return false
+            }
+        }
+        Log.e("MEDICINECOMPLETE", "COMPLETE")
+        return true
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -115,16 +130,20 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
             binding.unitEdit.addTextChangedListener {
+                val position = bindingAdapterPosition
                 if (binding.unitEdit.text.toString() != "") {
-                    val position = bindingAdapterPosition
                     dataSet[position].unit = binding.unitEdit.text.toString().toInt()
+                } else {
+                    dataSet[position].unit = 0
                 }
             }
         }
 
         fun bind(item : ApiMedicineDto.Body.MedicineItem) {
             binding.medicineBtn.text = item.itemName
-            binding.unitEdit.setText("${item.unit}")
+            if (item.unit != 0) {
+                binding.unitEdit.setText("${item.unit}")
+            }
         }
     }
 

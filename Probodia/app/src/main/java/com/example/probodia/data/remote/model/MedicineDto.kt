@@ -8,14 +8,18 @@ data class MedicineDto(
     data class Record(
         val timeTag : String,
 
-        val medicineCnt : Int,
-
-        val medicineName : String,
-
-        val medicineId : String,
-
         val recordId : Int,
 
-        val recordDate : String
-    )
+        val recordDate : String,
+
+        val medicineDetails : List<MedicineDetail>
+    ) {
+        data class MedicineDetail(
+            val medicineCnt : Int,
+
+            val medicineName : String,
+
+            val medicineId : String
+        )
+    }
 }

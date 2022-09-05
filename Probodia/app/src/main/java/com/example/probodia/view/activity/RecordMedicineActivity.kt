@@ -4,11 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
@@ -16,6 +18,7 @@ import com.example.probodia.adapter.MedicineAddAdapter
 import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.databinding.ActivityRecordMedicineBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMedicineViewModel
@@ -23,6 +26,7 @@ import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 
 class RecordMedicineActivity : AppCompatActivity() {
 
@@ -66,7 +70,7 @@ class RecordMedicineActivity : AppCompatActivity() {
             override fun onItemDeleteClick(position: Int) {
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
-                baseViewModel.setButtonClickEnable(listAdapter.itemCount > 1)
+                baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
             }
 
             override fun onItemSearchClick(position: Int) {
@@ -86,6 +90,7 @@ class RecordMedicineActivity : AppCompatActivity() {
                 ))
                 listAdapter.notifyDataSetChanged()
                 binding.medicineAddRv.scrollToPosition(listAdapter.itemCount - 1)
+                baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
             }
         })
 
@@ -106,10 +111,45 @@ class RecordMedicineActivity : AppCompatActivity() {
                         listAdapter.setItem(position, item)
                         Log.e("MEDICINE", item.toString())
                         listAdapter.notifyDataSetChanged()
+                        baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
                     }
                 }
             }
         }
+
+        binding.enterBtn.setOnClickListener {
+            if (baseViewModel.buttonClickEnable.value!!) {
+                Log.e("MEDICINEPOST", "${listAdapter.getList()}")
+                medicineViewModel.postMedicine(
+                    PreferenceRepository(applicationContext),
+                    when(baseViewModel.selectedTimeTag.value) {
+                        1 -> "아침"
+                        2 -> "점심"
+                        3 -> "저녁"
+                        else -> "아침"
+                    },
+                    listAdapter.getList(),
+                    baseViewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                )
+            } else {
+                Toast.makeText(applicationContext, "입력된 투약 기록이 없습니다.", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        baseViewModel.buttonClickEnable.observe(this, Observer {
+            if (it) {
+                binding.enterBtn.setBackgroundResource(R.drawable.primary_100_2_background)
+            } else {
+                binding.enterBtn.setBackgroundResource(R.drawable.gray_300_2_background)
+            }
+        })
+
+        medicineViewModel.medicineResult.observe(this, Observer {
+            val resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            resultIntent.putExtra("RELOAD", true)
+            setResult(R.integer.record_medicine_result_code, resultIntent)
+            finish()
+        })
     }
 
     fun initTimeSelector() {

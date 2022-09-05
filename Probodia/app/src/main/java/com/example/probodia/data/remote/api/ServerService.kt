@@ -23,6 +23,12 @@ interface ServerService {
         @Body postPressureBody : PostPressureBody
     ) : PressureDto
 
+    @POST("user-service/api/record/medicine")
+    suspend fun postMedicine(
+        @Header("Authorization") token : String,
+        @Body postMedicineBody : PostMedicineBody
+    ) : MedicineDto
+
     @POST("user-service/api/record/meal")
     suspend fun postMeal(
         @Header("Authorization") token : String,

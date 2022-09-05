@@ -4,9 +4,7 @@ import android.util.Log
 import com.example.probodia.data.remote.api.RetrofitServerInstance
 import com.example.probodia.data.remote.api.ServerService
 import com.example.probodia.data.remote.body.*
-import com.example.probodia.data.remote.model.ApiFoodDto
-import com.example.probodia.data.remote.model.MealDto
-import com.example.probodia.data.remote.model.TodayRecord
+import com.example.probodia.data.remote.model.*
 
 class ServerRepository {
 
@@ -24,8 +22,23 @@ class ServerRepository {
     suspend fun postPressure(apiToken : String, timeTag: String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
         = client.postPressure("Bearer ${apiToken}", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
 
+    suspend fun postMedicine(apiToken : String, timeTag : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>, recordDate : String) : MedicineDto {
+        val itemList : List<PostMedicineBody.PostMedicineItem> = buildList {
+            for (medicine in medicineList) {
+                add(
+                    PostMedicineBody.PostMedicineItem(
+                        medicine.item_seq,
+                        medicine.itemName,
+                        medicine.unit
+                    )
+                )
+            }
+        }
+
+        return client.postMedicine("Bearer ${apiToken}", PostMedicineBody(timeTag, recordDate, itemList))
+    }
+
     suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<ApiFoodDto.Body.FoodItem>, recordDate : String) : MealDto {
-        Log.e(("POSTMEAL"), foodList.toString())
         val itemList : List<PostMealBody.PostMealItem> = buildList {
             for(food in foodList) {
                 add(
