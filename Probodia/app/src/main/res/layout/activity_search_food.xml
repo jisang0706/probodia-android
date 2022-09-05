@@ -62,15 +62,6 @@
                 android:background="@drawable/gray_50_2_background"
                 android:cursorVisible="false"/>
 
-            <Button
-                android:id="@+id/temp_search_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="검색"
-                android:background="@drawable/white_primary_100_1_background"
-                android:textColor="@color/primary_100"
-                android:layout_marginVertical="20dp"/>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/food_rv"
                 android:layout_width="match_parent"

@@ -6,36 +6,36 @@ import retrofit2.http.*
 
 interface ServerService {
 
-    @POST("user-service/login")
+    @POST("login")
     suspend fun getApiToken(
         @Body getApiTokenBody : GetApiTokenBody
     ) : ApiToken
 
-    @POST("user-service/api/record/sugar")
+    @POST("api/record/sugar")
     suspend fun postGlucose(
         @Header("Authorization") token : String,
         @Body postGlucoseBody : PostGlucoseBody
     ) : GlucoseDto
 
-    @POST("user-service/api/record/pressure")
+    @POST("api/record/pressure")
     suspend fun postPressure(
         @Header("Authorization") token : String,
         @Body postPressureBody : PostPressureBody
     ) : PressureDto
 
-    @POST("user-service/api/record/medicine")
+    @POST("api/record/medicine")
     suspend fun postMedicine(
         @Header("Authorization") token : String,
         @Body postMedicineBody : PostMedicineBody
     ) : MedicineDto
 
-    @POST("user-service/api/record/meal")
+    @POST("api/record/meal")
     suspend fun postMeal(
         @Header("Authorization") token : String,
         @Body postMealBody : PostMealBody
     ) : MealDto
 
-    @POST("user-service/api/record/getAllByDateAndTimeTag")
+    @POST("api/record/getAllByDateAndTimeTag")
     suspend fun getRecord(
         @Header("Authorization") token : String,
         @Body getRecordBody : GetRecordBody

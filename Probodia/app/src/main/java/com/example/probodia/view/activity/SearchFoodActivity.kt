@@ -3,6 +3,8 @@ package com.example.probodia.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
@@ -47,7 +49,6 @@ class SearchFoodActivity : AppCompatActivity() {
         val foodName = intent.getStringExtra("foodName")
         if (foodName != "") {
             binding.foodEdittext.setText(foodName, TextView.BufferType.EDITABLE)
-            binding.tempSearchBtn.callOnClick()
         }
 
         activityResultLauncher = registerForActivityResult(
@@ -62,9 +63,20 @@ class SearchFoodActivity : AppCompatActivity() {
             }
         }
 
-        binding.tempSearchBtn.setOnClickListener {
-            viewModel.getFood(true, binding.foodEdittext.text.toString(), 1)
-        }
+        binding.foodEdittext.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.getFood(true, binding.foodEdittext.text.toString(), 1)
+            }
+
+        })
 
         viewModel.result.observe(this, Observer {
             if (it.first) {
