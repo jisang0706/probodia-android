@@ -27,9 +27,6 @@ android {
         buildConfigField "String", "AI_SERVER_URL", properties['ai_server_url']
         buildConfigField "String", "SERVER_FOOD_URL", properties['server_food_url']
 
-        buildConfigField "String", "OPEN_API_FOOD_URL", properties['open_api_food_url']
-        buildConfigField "String", "OPEN_API_FOOD_KEY", properties['open_api_food_key']
-
         buildConfigField "String", "OPEN_API_MEDICINE_URL", properties['open_api_medicine_url']
         buildConfigField "String", "OPEN_API_MEDICINE_KEY", properties['open_api_medicine_key']
 

@@ -9,13 +9,11 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -33,7 +31,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.example.probodia.BuildConfig
 import com.example.probodia.R
 import com.example.probodia.adapter.FoodAddAdapter
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.databinding.ActivityRecordMealBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.view.fragment.RecordFragment
@@ -118,7 +116,7 @@ class RecordMealActivity : AppCompatActivity() {
                 R.integer.record_meal_add_code -> {
                     val intent = result.data
                     if (intent != null) {
-                        val addFood: ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                        val addFood: PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
                         listAdapter.addItem(addFood)
                         listAdapter.notifyDataSetChanged()
                         baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)

@@ -17,9 +17,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
 import com.example.probodia.adapter.SearchAdapter
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.data.remote.model.ApiItemName
+import com.example.probodia.data.remote.model.FoodDto
 import com.example.probodia.databinding.ActivitySearchFoodBinding
+import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.SearchFoodViewModel
 
 class SearchFoodActivity : AppCompatActivity() {
@@ -57,7 +59,7 @@ class SearchFoodActivity : AppCompatActivity() {
             val intent = result.data
             if (intent != null) {
                 if (result.resultCode == R.integer.record_meal_add_code) {
-                    val item : ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                    val item : PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
                     applyItem(item)
                 }
             }
@@ -73,7 +75,7 @@ class SearchFoodActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                viewModel.getFood(true, binding.foodEdittext.text.toString(), 1)
+                viewModel.getFood(true, PreferenceRepository(applicationContext), binding.foodEdittext.text.toString(), 1)
             }
 
         })
@@ -83,14 +85,14 @@ class SearchFoodActivity : AppCompatActivity() {
                 listAdapter.resetDataSet()
             }
 
-            listAdapter.addDataSet(it.second.body.items as MutableList<ApiItemName>)
+            listAdapter.addDataSet(it.second.data as MutableList<ApiItemName>)
             listAdapter.notifyDataSetChanged()
         })
 
         listAdapter.setOnItemClickListener(object : SearchAdapter.OnItemClickListener {
             override fun onItemClick(v: View, position: Int) {
                 val intent = Intent(applicationContext, SearchFoodDetailActivity::class.java)
-                intent.putExtra("FOOD", listAdapter.dataSet[position] as ApiFoodDto.Body.FoodItem)
+                intent.putExtra("FOODID", (listAdapter.dataSet[position] as FoodDto.FoodItem).foodId)
                 activityResultLauncher.launch(intent)
             }
 
@@ -101,7 +103,7 @@ class SearchFoodActivity : AppCompatActivity() {
         }
     }
 
-    fun applyItem(item : ApiFoodDto.Body.FoodItem) {
+    fun applyItem(item : PostMealBody.PostMealItem) {
         var resultIntent : Intent
         if (intent.getBooleanExtra("imageSearch", false)) {
             resultIntent = Intent(applicationContext, RecognitionFoodActivity::class.java)

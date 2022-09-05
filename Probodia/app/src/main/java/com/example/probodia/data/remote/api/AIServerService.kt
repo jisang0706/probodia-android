@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface AIServerService {
 
-    @POST("predict/")
+    @POST("predict")
     suspend fun getImageFood(
         @Body getImageFoodBody : GetImageFoodBody
     ) : FoodNamesDto

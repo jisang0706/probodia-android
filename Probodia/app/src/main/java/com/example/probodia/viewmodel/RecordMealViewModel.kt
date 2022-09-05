@@ -3,12 +3,11 @@ package com.example.probodia.viewmodel
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.data.remote.model.FoodNamesDto
 import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.repository.AIServerRepository
@@ -37,7 +36,7 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
     val foodImage : LiveData<Bitmap>
         get() = _foodImage
 
-    fun postMeal(timeTag : String, foodList : MutableList<ApiFoodDto.Body.FoodItem>, recordDate : String) = viewModelScope.launch {
+    fun postMeal(timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _mealResult.value = serverRepository.postMeal(accessToken, timeTag, foodList, recordDate)
     }

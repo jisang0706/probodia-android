@@ -30,7 +30,7 @@ data class ApiMedicineDto (
 
             @SerializedName("ITEM_IMAGE")
             val item_image : String
-                ) : Parcelable, ApiItemName {
+        ) : Parcelable, ApiItemName {
 
             var unit : Int = 1
 

@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
+import com.example.probodia.data.remote.model.FoodDto
 import com.example.probodia.databinding.ItemFoodAddBinding
 
 class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
@@ -22,9 +23,9 @@ class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
         clickListener = listener
     }
 
-    private val dataSet : MutableList<ApiFoodDto.Body.FoodItem> = mutableListOf()
+    private val dataSet : MutableList<PostMealBody.PostMealItem> = mutableListOf()
 
-    fun addItem(item : ApiFoodDto.Body.FoodItem) {
+    fun addItem(item : PostMealBody.PostMealItem) {
         dataSet.add(0, item)
     }
 
@@ -58,8 +59,8 @@ class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
             }
         }
 
-        fun bind(item : ApiFoodDto.Body.FoodItem) {
-            binding.foodNameText.text = item.itemName
+        fun bind(item : PostMealBody.PostMealItem) {
+            binding.foodNameText.text = item.foodName
         }
     }
 

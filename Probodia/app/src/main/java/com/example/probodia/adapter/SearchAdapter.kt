@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
-import com.example.probodia.data.remote.model.ApiFoodDto
 import com.example.probodia.data.remote.model.ApiItemName
-import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.databinding.ItemSearchBinding
 
 class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {

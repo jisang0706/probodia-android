@@ -1,6 +1,5 @@
 package com.example.probodia.repository
 
-import android.util.Log
 import com.example.probodia.data.remote.api.RetrofitServerInstance
 import com.example.probodia.data.remote.api.ServerService
 import com.example.probodia.data.remote.body.*
@@ -38,24 +37,8 @@ class ServerRepository {
         return client.postMedicine("Bearer ${apiToken}", PostMedicineBody(timeTag, recordDate, itemList))
     }
 
-    suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<ApiFoodDto.Body.FoodItem>, recordDate : String) : MealDto {
-        val itemList : List<PostMealBody.PostMealItem> = buildList {
-            for(food in foodList) {
-                add(
-                    PostMealBody.PostMealItem(
-                        food.itemName,
-                        food.id,
-                        food.eat_quantity,
-                        food.kcal.toDouble().toInt(),
-                        food.glucose,
-                        food.image_url
-                    )
-                )
-            }
-        }
-        Log.e("POSTMEALLIST", itemList.toString())
-
-        return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, itemList))
+    suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) : MealDto {
+        return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, foodList))
     }
 
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>

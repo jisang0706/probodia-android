@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
 import com.example.probodia.adapter.FoodInfoAdapter
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
+import com.example.probodia.data.remote.model.FoodDetailDto
 import com.example.probodia.databinding.ActivitySearchFoodDetailBinding
+import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.SearchFoodDetailViewModel
-import com.example.probodia.viewmodel.factory.SearchFoodDetailViewModelFactory
+import kotlin.math.roundToInt
 
 class SearchFoodDetailActivity : AppCompatActivity() {
 
@@ -19,7 +22,6 @@ class SearchFoodDetailActivity : AppCompatActivity() {
     private lateinit var listAdapter : FoodInfoAdapter
 
     private lateinit var viewModel : SearchFoodDetailViewModel
-    private lateinit var viewModelFactory : SearchFoodDetailViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,21 +34,31 @@ class SearchFoodDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_food_detail)
         binding.lifecycleOwner = this
 
-        val item : ApiFoodDto.Body.FoodItem = intent.getParcelableExtra("FOOD")!!
+        val foodId = intent.getStringExtra("FOODID")!!
 
-        viewModelFactory = SearchFoodDetailViewModelFactory(item)
-        viewModel = SearchFoodDetailViewModel(item)
+        viewModel = SearchFoodDetailViewModel()
         binding.vm = viewModel
 
-        binding.foodNameText.text = item.itemName
+        viewModel.getFoodInfo(PreferenceRepository(applicationContext), foodId)
 
-        listAdapter = FoodInfoAdapter(getFoodInfoList(item))
-        binding.foodInfoRv.adapter = listAdapter
-        binding.foodInfoRv.layoutManager = LinearLayoutManager(applicationContext)
+        viewModel.foodInfo.observe(this, Observer {
+            binding.foodNameText.text = it.name
+
+            listAdapter = FoodInfoAdapter(getFoodInfoList(it))
+            binding.foodInfoRv.adapter = listAdapter
+            binding.foodInfoRv.layoutManager = LinearLayoutManager(applicationContext)
+        })
 
         binding.enterBtn.setOnClickListener {
             val resultIntent = Intent(applicationContext, SearchFoodActivity::class.java)
-            resultIntent.putExtra("ADDFOOD", item)
+            resultIntent.putExtra("ADDFOOD", PostMealBody.PostMealItem(
+                viewModel.foodInfo.value!!.name,
+                foodId,
+                viewModel.foodInfo.value!!.quantityByOne,
+                viewModel.foodInfo.value!!.calories.roundToInt(),
+                100,
+                ""
+            ))
             setResult(R.integer.record_meal_add_code, resultIntent)
             finish()
         }
@@ -56,14 +68,14 @@ class SearchFoodDetailActivity : AppCompatActivity() {
         }
     }
 
-    fun getFoodInfoList(item : ApiFoodDto.Body.FoodItem) : List<Pair<String, Double>> {
+    fun getFoodInfoList(item : FoodDetailDto) : List<Pair<String, Double>> {
         return listOf(
-            Pair("탄수화물", item.carbohydrate.toDouble()),
-            Pair("당류", item.sugar.toDouble()),
-            Pair("단백질", item.protein.toDouble()),
-            Pair("지방", item.fat.toDouble()),
-            Pair("콜레스테롤", item.cholesterol.toDouble()),
-            Pair("나트륨", item.sodium.toDouble())
+            Pair("탄수화물", item.carbohydrate),
+            Pair("당류", item.sugars),
+            Pair("단백질", item.protein),
+            Pair("지방", item.fat),
+            Pair("콜레스테롤", item.cholesterol),
+            Pair("나트륨", item.salt)
         )
     }
 }

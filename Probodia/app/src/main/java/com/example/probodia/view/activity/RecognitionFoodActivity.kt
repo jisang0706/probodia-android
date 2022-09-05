@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
-import com.example.probodia.data.remote.model.ApiFoodDto
+import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.databinding.ActivityRecognitionFoodBinding
 import com.example.probodia.viewmodel.RecognitionFoodViewModel
 import com.example.probodia.viewmodel.factory.RecognitionFoodViewModelFactory
@@ -76,7 +76,7 @@ class RecognitionFoodActivity : AppCompatActivity() {
             val intent = result.data
             if (intent != null) {
                 if (result.resultCode == R.integer.record_meal_add_code) {
-                    val item : ApiFoodDto.Body.FoodItem = intent!!.getParcelableExtra("ADDFOOD")!!
+                    val item : PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
                     applyItem(item)
                 }
             }
@@ -96,7 +96,7 @@ class RecognitionFoodActivity : AppCompatActivity() {
         }
     }
 
-    fun applyItem(item : ApiFoodDto.Body.FoodItem) {
+    fun applyItem(item : PostMealBody.PostMealItem) {
         val resultIntent = Intent(applicationContext, RecordMealActivity::class.java)
         resultIntent.putExtra("ADDFOOD", item)
         setResult(R.integer.record_meal_add_code, resultIntent)
