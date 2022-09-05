@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="glucose_type">1</integer>
+    <integer name="pressure_type">2</integer>
+    <integer name="medicine_type">3</integer>
+    <integer name="meal_type">4</integer>
+    <integer name="sortation_type">5</integer>
+
     <integer name="permission_camera">1001</integer>
 
     <integer name="record_glucose_result_code">9001</integer>

@@ -30,13 +30,17 @@ import kotlin.coroutines.coroutineContext
 
 class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val glucoseType = 1
-    private val pressureType = 2
-    private val medicineType = 3
-    private val mealType = 4
-    private val sortationType = 5
-
     var dataSet : MutableList<RecordDatasBase> = mutableListOf()
+
+    interface OnItemClickListener {
+        fun onItemClick(data : RecordDatasBase)
+    }
+
+    var clickListener : OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener : OnItemClickListener) {
+        clickListener = listener
+    }
 
     fun addDataSet(newDataSet : MutableList<RecordDatasBase>) {
         dataSet.addAll(newDataSet)
@@ -48,11 +52,11 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return when(dataSet[position].type) {
-            "SUGAR" -> glucoseType
-            "PRESSURE" -> pressureType
-            "MEDICINE" -> medicineType
-            "MEAL" -> mealType
-            "SORTATION" -> sortationType
+            "SUGAR" -> R.integer.glucose_type
+            "PRESSURE" -> R.integer.pressure_type
+            "MEDICINE" -> R.integer.medicine_type
+            "MEAL" -> R.integer.meal_type
+            "SORTATION" -> R.integer.sortation_type
             else -> 0
         }
     }
@@ -62,35 +66,35 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         viewType: Int
     ): RecyclerView.ViewHolder {
         return when(viewType) {
-            sortationType -> SortationViewHolder(DataBindingUtil.inflate(
+            R.integer.sortation_type -> SortationViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record_sortation,
                 parent,
                 false
             ))
 
-            glucoseType -> GlucoseViewHolder(DataBindingUtil.inflate(
+            R.integer.glucose_type -> GlucoseViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record,
                 parent,
                 false
             ))
 
-            pressureType -> PressureViewHolder(DataBindingUtil.inflate(
+            R.integer.pressure_type -> PressureViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record,
                 parent,
                 false
             ))
 
-            medicineType -> MedicineViewHolder(DataBindingUtil.inflate(
+            R.integer.medicine_type -> MedicineViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record,
                 parent,
                 false
             ))
 
-            mealType -> MealViewHolder(DataBindingUtil.inflate(
+            R.integer.meal_type -> MealViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record,
                 parent,
@@ -108,27 +112,27 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(getItemViewType(position)) {
-            sortationType -> {
+            R.integer.sortation_type -> {
                 (holder as SortationViewHolder).bind(dataSet[position] as SortationDto)
                 holder.setIsRecyclable(false)
             }
 
-            glucoseType -> {
+            R.integer.glucose_type -> {
                 (holder as GlucoseViewHolder).bind(dataSet[position] as GlucoseDto)
                 holder.setIsRecyclable(false)
             }
 
-            pressureType -> {
+            R.integer.pressure_type -> {
                 (holder as PressureViewHolder).bind(dataSet[position] as PressureDto)
                 holder.setIsRecyclable(false)
             }
 
-            medicineType -> {
+            R.integer.medicine_type -> {
                 (holder as MedicineViewHolder).bind(dataSet[position] as MedicineDto)
                 holder.setIsRecyclable(false)
             }
 
-            mealType -> {
+            R.integer.meal_type -> {
                 (holder as MealViewHolder).bind(dataSet[position] as MealDto)
                 holder.setIsRecyclable(false)
             }
@@ -160,6 +164,13 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val str = "${item.record.glucose} mg/dL"
             addTextView(binding, getBoldText(str, str.length - 5))
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
+
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onItemClick(dataSet[position])
+                }
+            }
         }
     }
 
@@ -173,6 +184,13 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             addTextView(binding, getBoldText(str, str.length))
             addTextView(binding, getBoldText("최고 / 최저 / 맥박수", 0))
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
+
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onItemClick(dataSet[position])
+                }
+            }
         }
     }
 
@@ -188,6 +206,13 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 addTextView(binding, getBoldText(str, str.length - 4))
             }
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
+
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onItemClick(dataSet[position])
+                }
+            }
         }
     }
 
@@ -202,6 +227,13 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 addTextView(binding, getBoldText(str, str.length - 1))
             }
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
+
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onItemClick(dataSet[position])
+                }
+            }
         }
     }
 

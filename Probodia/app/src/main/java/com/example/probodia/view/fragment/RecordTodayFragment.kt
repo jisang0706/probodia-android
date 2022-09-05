@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,9 +20,6 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.RecordTodayViewModel
 import com.example.probodia.viewmodel.factory.RecordTodayViewModelFactory
 import com.example.probodia.widget.utils.TimeTag
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RecordTodayFragment : Fragment() {
 
@@ -66,6 +62,14 @@ class RecordTodayFragment : Fragment() {
             }
         })
         loadTodayRecord()
+
+        recordRVAdapter.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
+            override fun onItemClick(data: RecordDatasBase) {
+                val recordDetailFragment = RecordDetailFragment(data)
+                recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
+            }
+
+        })
 
         return binding.root
     }
