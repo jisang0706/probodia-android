@@ -13,9 +13,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
-import com.example.probodia.data.remote.model.RecordDatasBase
+import com.example.probodia.adapter.RecordDetailAdapter
+import com.example.probodia.data.remote.model.*
 import com.example.probodia.databinding.FragmentRecordDetailBinding
+import com.example.probodia.viewmodel.ItemRecordDetailDataViewModel
+import com.example.probodia.viewmodel.factory.ItemRecordDetailDataViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -24,6 +29,7 @@ class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragme
 
     private lateinit var binding : FragmentRecordDetailBinding
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+    private var listAdapter : RecordDetailAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +44,16 @@ class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragme
             "MEAL" -> "음식"
             else -> ""
         }
+
+        listAdapter = when(data.type) {
+            "SUGAR" -> getGlucoseListAdapter(data as GlucoseDto)
+            "PRESSURE" -> getPressureListAdapter(data as PressureDto)
+            "MEDICINE" -> getMedicineListAdapter(data as MedicineDto)
+            "MEAL" -> getMealListAdapter(data as MealDto)
+            else -> null
+        }
+        binding.recordDetailRv.adapter = listAdapter
+        binding.recordDetailRv.layoutManager = LinearLayoutManager(context)
 
         binding.cancelBtn.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
@@ -76,5 +92,67 @@ class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragme
     private fun getWindowHeight() : Int {
         return (context as Activity?)!!.getSystemService(WindowManager::class.java)
             .currentWindowMetrics.bounds.height()
+    }
+
+    private fun getGlucoseListAdapter(glucoseDto : GlucoseDto) : RecordDetailAdapter{
+        val itemDatas = listOf(
+            ItemRecordDetailDataDto(
+                glucoseDto.record.timeTag,
+                "mg/dL",
+                glucoseDto.record.glucose
+            )
+        )
+        return RecordDetailAdapter("", itemDatas)
+    }
+
+    private fun getPressureListAdapter(pressureDto : PressureDto) : RecordDetailAdapter{
+        val itemDatas = listOf(
+            ItemRecordDetailDataDto(
+                "최고 혈압",
+                "mmHg",
+                pressureDto.record.maxPressure
+            ),
+
+            ItemRecordDetailDataDto(
+                "최저 혈압",
+                "mmHg",
+                pressureDto.record.minPressure
+            ),
+
+            ItemRecordDetailDataDto(
+                "맥박",
+                "회/분",
+                pressureDto.record.heartRate
+            )
+        )
+        return RecordDetailAdapter(pressureDto.record.timeTag, itemDatas)
+    }
+
+    fun getMedicineListAdapter(medicineDto : MedicineDto) : RecordDetailAdapter {
+        val itemDatas : MutableList<ItemRecordDetailDataDto> = mutableListOf()
+        for(medicine in medicineDto.record.medicineDetails) {
+            itemDatas.add(
+                ItemRecordDetailDataDto(
+                    medicine.medicineName,
+                    "unit",
+                    medicine.medicineCnt
+                )
+            )
+        }
+        return RecordDetailAdapter(medicineDto.record.timeTag, itemDatas)
+    }
+
+    fun getMealListAdapter(mealDto : MealDto) : RecordDetailAdapter{
+        val itemDatas : MutableList<ItemRecordDetailDataDto> = mutableListOf()
+        for(meal in mealDto.record.mealDetails) {
+            itemDatas.add(
+                ItemRecordDetailDataDto(
+                    meal.foodName,
+                    "g",
+                    meal.quantity
+                )
+            )
+        }
+        return RecordDetailAdapter(mealDto.record.timeTag, itemDatas)
     }
 }

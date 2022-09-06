@@ -69,12 +69,50 @@
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/record_datetime_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_layout">
+
+            <TextView
+                android:id="@+id/record_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="22년 00월 00일 (월)"
+                android:textSize="14dp"
+                android:textColor="@color/gray_800"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="16dp"/>
+
+            <TextView
+                android:id="@+id/record_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오전 0시 00분"
+                android:textSize="14dp"
+                android:textColor="@color/gray_800"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="16dp"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/record_datetime_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_300"
+            android:layout_below="@id/record_datetime_layout"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/record_detail_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_btn_layout"
-            android:layout_below="@id/title_layout" />
+            android:layout_below="@id/record_datetime_line" />
 
     </RelativeLayout>
 </layout>
