@@ -15,11 +15,13 @@ data class MedicineDto(
         val medicineDetails : List<MedicineDetail>
     ) {
         data class MedicineDetail(
+            val medicineDetailId : Int,
+
             val medicineCnt : Int,
 
             val medicineName : String,
 
-            val medicineId : String
+            val medicineId : String,
         )
     }
 }

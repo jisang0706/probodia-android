@@ -41,6 +41,12 @@ interface ServerService {
         @Path("recordId") recordId : Int
     ) : Int
 
+    @PUT("api/record/pressure")
+    suspend fun putPressure(
+        @Header("Authorization") token : String,
+        @Body putPressure : PutPressureBody
+    ) : PressureDto.Record
+
     @POST("api/record/medicine")
     suspend fun postMedicine(
         @Header("Authorization") token : String,
@@ -53,6 +59,12 @@ interface ServerService {
         @Path("recordId") recordId : Int
     ) : Int
 
+    @PUT("api/record/medicine")
+    suspend fun putMedicine(
+        @Header("Authorization") token : String,
+        @Body putMedicine : PutMedicineBody
+    ) : MedicineDto.Record
+
     @POST("api/record/meal")
     suspend fun postMeal(
         @Header("Authorization") token : String,
@@ -64,6 +76,12 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Path("recordId") recordId : Int
     ) : Int
+
+    @PUT("api/record/meal")
+    suspend fun putMeal(
+        @Header("Authorization") token : String,
+        @Body putMeal : PutMealBody
+    ) : MealDto.Record
 
     @POST("api/record/getAllByDateAndTimeTag")
     suspend fun getRecord(
