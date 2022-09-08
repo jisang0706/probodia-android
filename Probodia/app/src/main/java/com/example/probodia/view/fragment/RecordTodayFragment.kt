@@ -65,7 +65,7 @@ class RecordTodayFragment : Fragment() {
 
         recordRVAdapter.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
             override fun onItemClick(data: RecordDatasBase) {
-                val recordDetailFragment = RecordDetailFragment(data)
+                val recordDetailFragment = RecordDetailFragment(data, ::loadTodayRecord)
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
             }
 
@@ -75,6 +75,9 @@ class RecordTodayFragment : Fragment() {
     }
 
     fun loadTodayRecord() {
+        if (recordRVAdapter == null){
+            recordRVAdapter = RecordTodayAdapter()
+        }
         recordRVAdapter.resetDataSet()
         flag = 0
         viewModel.getTodayRecord(TimeTag.timeTag[flag++])

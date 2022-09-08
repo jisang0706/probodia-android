@@ -19,15 +19,19 @@ import com.example.probodia.R
 import com.example.probodia.adapter.RecordDetailAdapter
 import com.example.probodia.data.remote.model.*
 import com.example.probodia.databinding.FragmentRecordDetailBinding
+import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.ItemRecordDetailDataViewModel
+import com.example.probodia.viewmodel.RecordDetailViewModel
 import com.example.probodia.viewmodel.factory.ItemRecordDetailDataViewModelFactory
+import com.example.probodia.viewmodel.factory.RecordDetailViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragment() {
+class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) : BottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentRecordDetailBinding
+    private lateinit var viewModel : RecordDetailViewModel
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
     private var listAdapter : RecordDetailAdapter? = null
 
@@ -37,13 +41,8 @@ class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragme
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_detail, container, false)
 
-        binding.titleText.text = when(data.type) {
-            "SUGAR" -> "혈당"
-            "PRESSURE" -> "혈압"
-            "MEDICINE" -> "투약"
-            "MEAL" -> "음식"
-            else -> ""
-        }
+        viewModel = ViewModelProvider(this, RecordDetailViewModelFactory(data.type)).get(RecordDetailViewModel::class.java)
+        binding.vm = viewModel
 
         listAdapter = when(data.type) {
             "SUGAR" -> getGlucoseListAdapter(data as GlucoseDto)
@@ -58,6 +57,22 @@ class RecordDetailFragment(var data : RecordDatasBase) : BottomSheetDialogFragme
         binding.cancelBtn.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
+
+        binding.deleteBtn.setOnClickListener {
+            val recordId : Int = when(data.type) {
+                "SUGAR" -> (data as GlucoseDto).record.recordId
+                "PRESSURE" -> (data as PressureDto).record.recordId
+                "MEDICINE" -> (data as MedicineDto).record.recordId
+                "MEAL" -> (data as MealDto).record.recordId
+                else -> 0
+            }
+            viewModel.deleteRecord(PreferenceRepository(requireContext()), recordId)
+        }
+
+        viewModel.deleteResult.observe(this, {
+            reload()
+            parentFragmentManager.beginTransaction().remove(this).commit()
+        })
 
         return binding.root
     }

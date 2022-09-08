@@ -17,11 +17,29 @@ interface ServerService {
         @Body postGlucoseBody : PostGlucoseBody
     ) : GlucoseDto
 
+    @DELETE("api/record/sugar/{recordId}")
+    suspend fun deleteGlucose(
+        @Header("Authorization") token : String,
+        @Path("recordId") recordId : Int
+    ) : Int
+
+    @PUT("api/record/sugar")
+    suspend fun putGlucose(
+        @Header("Authorization") token : String,
+        @Body putGlucose : PutGlucoseBody
+    ) : GlucoseDto.Record
+
     @POST("api/record/pressure")
     suspend fun postPressure(
         @Header("Authorization") token : String,
         @Body postPressureBody : PostPressureBody
     ) : PressureDto
+
+    @DELETE("api/record/pressure/{recordId}")
+    suspend fun deletePressure(
+        @Header("Authorization") token : String,
+        @Path("recordId") recordId : Int
+    ) : Int
 
     @POST("api/record/medicine")
     suspend fun postMedicine(
@@ -29,11 +47,23 @@ interface ServerService {
         @Body postMedicineBody : PostMedicineBody
     ) : MedicineDto
 
+    @DELETE("api/record/medicine/{recordId}")
+    suspend fun deleteMedicine(
+        @Header("Authorization") token : String,
+        @Path("recordId") recordId : Int
+    ) : Int
+
     @POST("api/record/meal")
     suspend fun postMeal(
         @Header("Authorization") token : String,
         @Body postMealBody : PostMealBody
     ) : MealDto
+
+    @DELETE("api/record/meal/{recordId}")
+    suspend fun deleteMeal(
+        @Header("Authorization") token : String,
+        @Path("recordId") recordId : Int
+    ) : Int
 
     @POST("api/record/getAllByDateAndTimeTag")
     suspend fun getRecord(

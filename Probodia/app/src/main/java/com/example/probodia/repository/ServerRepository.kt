@@ -18,8 +18,17 @@ class ServerRepository {
     suspend fun postGlucose(apiToken : String, timeTag : String, glucose : Int, recordDate : String)
         = client.postGlucose("Bearer ${apiToken}", PostGlucoseBody(timeTag, glucose, recordDate))
 
+    suspend fun deleteGlucose(apiToken : String, recordId : Int)
+        = client.deleteGlucose("Bearer $apiToken", recordId)
+
+    suspend fun putGlucose(apiToken : String, recordId : Int, timeTag : String, glucose : Int, recordDate : String)
+        = client.putGlucose("Bearer $apiToken", PutGlucoseBody(recordId, timeTag, glucose, recordDate))
+
     suspend fun postPressure(apiToken : String, timeTag: String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
         = client.postPressure("Bearer ${apiToken}", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
+
+    suspend fun deletePressure(apiToken : String, recordId : Int)
+            = client.deletePressure("Bearer $apiToken", recordId)
 
     suspend fun postMedicine(apiToken : String, timeTag : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>, recordDate : String) : MedicineDto {
         val itemList : List<PostMedicineBody.PostMedicineItem> = buildList {
@@ -37,9 +46,15 @@ class ServerRepository {
         return client.postMedicine("Bearer ${apiToken}", PostMedicineBody(timeTag, recordDate, itemList))
     }
 
+    suspend fun deleteMedicine(apiToken : String, recordId : Int)
+            = client.deleteMedicine("Bearer $apiToken", recordId)
+
     suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) : MealDto {
         return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, foodList))
     }
+
+    suspend fun deleteMeal(apiToken : String, recordId : Int)
+            = client.deleteMeal("Bearer $apiToken", recordId)
 
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>
          = client.getRecord("Bearer ${apiToken}", getRecordBody)
