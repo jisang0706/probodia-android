@@ -1,13 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.EtcFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <data>
+        <variable
+            name="vm"
+            type="com.example.probodia.viewmodel.EtcViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="etc" />
+        tools:context=".view.fragment.EtcFragment"
+        android:orientation="vertical"
+        android:background="@color/gray_50">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:text="더보기"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:background="@color/white"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="20dp"
+            android:background="@color/white">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/prifile_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_profile"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/prifile_image"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/user_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
+                    android:text="홍길동"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/user_age_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/user_name_text"
+                    android:layout_alignBottom="@id/user_name_text"
+                    android:text="00세"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/user_body_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_name_text"
+                    android:layout_alignLeft="@id/user_name_text"
+                    android:layout_marginTop="7dp"
+                    android:text="000cm / 00kg"
+                    android:textSize="16dp"/>
+            </RelativeLayout>
+
+
+
+            <Button
+                android:id="@+id/edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="수정하기"
+                android:textSize="12dp"
+                android:textColor="@color/primary_100"
+                android:background="@drawable/white_primary_100_1_background"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/rule_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:text="이용약관/개인정보처리방침"
+            android:textSize="16dp"
+            android:gravity="left"/>
+    </LinearLayout>
+</layout>

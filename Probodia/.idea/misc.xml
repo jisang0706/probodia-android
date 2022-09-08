@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.20092592592592592" />
         <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.18518518518518517" />
         <entry key="app/src/main/res/drawable/ic_rightarrow.xml" value="0.16157407407407406" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.16018518518518518" />
         <entry key="app/src/main/res/drawable/ic_trash.xml" value="0.2537037037037037" />
@@ -57,7 +58,7 @@
         <entry key="app/src/main/res/layout/activity_search_medicine.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
-        <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.2955801104972376" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.38125" />
         <entry key="app/src/main/res/layout/fragment_record_analysis.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_detail.xml" value="0.27071823204419887" />

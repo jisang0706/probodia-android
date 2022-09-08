@@ -88,4 +88,10 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Body getRecordBody : GetRecordBody
     ) : MutableList<TodayRecord.AllData>
+
+    @GET("api/users")
+    suspend fun getUserData(
+        @Header("Authorization") token : String,
+        @Header("userId") userId : String
+    ) : UserDto
 }
