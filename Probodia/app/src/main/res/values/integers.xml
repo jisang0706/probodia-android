@@ -5,6 +5,7 @@
     <integer name="medicine_type">3</integer>
     <integer name="meal_type">4</integer>
     <integer name="sortation_type">5</integer>
+    <integer name="progress_type">6</integer>
 
     <integer name="permission_camera">1001</integer>
 

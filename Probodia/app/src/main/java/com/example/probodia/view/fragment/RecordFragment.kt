@@ -48,6 +48,8 @@ class RecordFragment : Fragment() {
         binding.vm = viewModel
 
         recordPagerAdapter = RecordPagerAdapter(childFragmentManager, lifecycle)
+        recordPagerAdapter.recordTodayFragment.setReload(::reloadRecord)
+        recordPagerAdapter.recordPastFragment.setReload(::reloadRecord)
         binding.recordViewpager.adapter = recordPagerAdapter
         binding.recordViewpager.isUserInputEnabled = false
         binding.recordViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -81,7 +83,7 @@ class RecordFragment : Fragment() {
                     ).any{ it == result.resultCode}) {
                     val reload = intent!!.getBooleanExtra("RELOAD", false)
                     if (reload) {
-                        recordPagerAdapter.recordTodayFragment.loadTodayRecord()
+                        reloadRecord()
                     }
                 }
             }
@@ -124,5 +126,10 @@ class RecordFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun reloadRecord() {
+        recordPagerAdapter.recordTodayFragment.loadTodayRecord()
+        recordPagerAdapter.recordPastFragment.restartRecord()
     }
 }

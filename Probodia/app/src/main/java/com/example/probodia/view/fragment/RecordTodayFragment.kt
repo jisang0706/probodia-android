@@ -28,8 +28,7 @@ class RecordTodayFragment : Fragment() {
     private lateinit var viewModel : RecordTodayViewModel
     private lateinit var recordRVAdapter: RecordTodayAdapter
 
-    private var preLast = 0
-    private var flag = 0
+    private lateinit var reloadRecord : () -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +56,12 @@ class RecordTodayFragment : Fragment() {
             dataSet.addAll(todayRecord.getDatas())
             recordRVAdapter.addDataSet(dataSet)
             recordRVAdapter.notifyDataSetChanged()
-            if (flag < 3) {
-                viewModel.getTodayRecord(TimeTag.timeTag[flag++])
-            }
         })
         loadTodayRecord()
 
         recordRVAdapter.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
             override fun onItemClick(data: RecordDatasBase) {
-                val recordDetailFragment = RecordDetailFragment(data, ::loadTodayRecord)
+                val recordDetailFragment = RecordDetailFragment(data, reloadRecord)
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
             }
 
@@ -79,7 +75,12 @@ class RecordTodayFragment : Fragment() {
             recordRVAdapter = RecordTodayAdapter()
         }
         recordRVAdapter.resetDataSet()
-        flag = 0
-        viewModel.getTodayRecord(TimeTag.timeTag[flag++])
+        for(flag in 0..2) {
+            viewModel.getTodayRecord(TimeTag.timeTag[flag])
+        }
+    }
+
+    fun setReload(reloadFunc : () -> Unit) {
+        reloadRecord = reloadFunc
     }
 }

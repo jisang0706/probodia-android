@@ -76,7 +76,8 @@
         <entry key="app/src/main/res/layout/item_record_detail_datetime.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_record_detail_sortation.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_record_glucose.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/item_record_sortation.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_record_progress.xml" value="0.16757246376811594" />
+        <entry key="app/src/main/res/layout/item_record_sortation.xml" value="0.2242798353909465" />
         <entry key="app/src/main/res/layout/item_search.xml" value="0.16944444444444445" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/sample_my_view.xml" value="0.2640625" />

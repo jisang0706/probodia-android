@@ -43,7 +43,42 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun addDataSet(newDataSet : MutableList<RecordDatasBase>) {
-        dataSet.addAll(newDataSet)
+        dataSet.addAll(findPosition(newDataSet[0] as SortationDto), newDataSet)
+    }
+
+    fun findPosition(sortation : SortationDto) : Int {
+        val sortationPosition = buildList {
+            for(i in 0 until dataSet.size) {
+                if (dataSet[i].type == "SORTATION") {
+                    add(i)
+                }
+            }
+        }
+        for(i in sortationPosition.size - 1 downTo 0) {
+            val truePosition : () -> Int = {
+                if (i == sortationPosition.size - 1) {
+                    dataSet.size
+                } else {
+                    sortationPosition[i + 1]
+                }
+            }
+            if ((dataSet[sortationPosition[i]] as SortationDto).record.recordDate > sortation.record.recordDate) {
+                return truePosition()
+            }
+            if ((dataSet[sortationPosition[i]] as SortationDto).record.recordDate == sortation.record.recordDate) {
+                val timeTag = (dataSet[sortationPosition[i]] as SortationDto).record.timeTag
+                when (sortation.record.timeTag) {
+                    "저녁" -> if (timeTag == "점심" || timeTag == "아침") {
+                        return truePosition()
+                    }
+
+                    "점심" -> if (timeTag == "아침") {
+                        return truePosition()
+                    }
+                }
+            }
+        }
+        return 0
     }
 
     fun resetDataSet() {
@@ -148,6 +183,9 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val layoutParams = binding.recordSortationBaseLayout.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.topMargin = 0
                 binding.recordSortationBaseLayout.layoutParams = layoutParams
+                binding.datetimeText.text = item.record.recordDate
+            } else {
+                binding.datetimeText.visibility = View.GONE
             }
             if (item.record.itemCnt != 0) {
                 binding.recordNullText.visibility = View.GONE
