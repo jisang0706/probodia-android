@@ -15,7 +15,7 @@ interface ServerService {
     suspend fun postGlucose(
         @Header("Authorization") token : String,
         @Body postGlucoseBody : PostGlucoseBody
-    ) : GlucoseDto
+    ) : GlucoseDto.Record
 
     @DELETE("api/record/sugar/{recordId}")
     suspend fun deleteGlucose(

@@ -142,7 +142,7 @@ class RecordMealActivity : AppCompatActivity() {
                         else -> "아침"
                     },
                     listAdapter.getList(),
-                    baseViewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             } else {
                 Toast.makeText(applicationContext, "입력된 식단이 없습니다.", Toast.LENGTH_LONG).show()

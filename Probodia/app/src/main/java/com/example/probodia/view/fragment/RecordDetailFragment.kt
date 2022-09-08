@@ -11,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,7 @@ import com.example.probodia.adapter.RecordDetailAdapter
 import com.example.probodia.data.remote.model.*
 import com.example.probodia.databinding.FragmentRecordDetailBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.activity.RecordGlucoseActivity
 import com.example.probodia.viewmodel.ItemRecordDetailDataViewModel
 import com.example.probodia.viewmodel.RecordDetailViewModel
 import com.example.probodia.viewmodel.factory.ItemRecordDetailDataViewModelFactory
@@ -69,10 +72,40 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
             viewModel.deleteRecord(PreferenceRepository(requireContext()), recordId)
         }
 
+        binding.editBtn.setOnClickListener {
+            when(data.type) {
+                "SUGAR" -> {
+                    val intent = Intent(activity, RecordGlucoseActivity::class.java)
+                    intent.putExtra("RECORDTYPE", 1)
+                    intent.putExtra("DATA", (data as GlucoseDto).record)
+                    activityResultLauncher.launch(intent)
+                }
+            }
+        }
+
         viewModel.deleteResult.observe(this, {
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
+
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result : ActivityResult ->
+            val intent = result.data
+            if (intent != null) {
+                if (mutableListOf(
+                        R.integer.record_glucose_result_code,
+                        R.integer.record_pressure_result_code,
+                        R.integer.record_medicine_result_code,
+                        R.integer.record_meal_result_code,
+                ).any{ it == result.resultCode}) {
+                    if (intent.getBooleanExtra("RELOAD", false)) {
+                        reload()
+                        parentFragmentManager.beginTransaction().remove(this).commit()
+                    }
+                }
+            }
+        }
 
         return binding.root
     }

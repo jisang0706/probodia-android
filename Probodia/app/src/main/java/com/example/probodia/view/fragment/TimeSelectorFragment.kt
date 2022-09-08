@@ -34,9 +34,10 @@ class TimeSelectorFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(RecordAnythingViewModel::class.java)
         binding.vm = viewModel
 
-        viewModel.localDateTime = LocalDateTime.now()
-        binding.datePickerBtn.text = viewModel.localDateTime.format(DateTimeFormatter.ofPattern("yy년 MM월 dd일"))
-        binding.timePickerBtn.text = viewModel.localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        viewModel.localDateTime.observe(viewLifecycleOwner, Observer {
+            binding.datePickerBtn.text = it.format(DateTimeFormatter.ofPattern("yy년 MM월 dd일"))
+            binding.timePickerBtn.text = it.format(DateTimeFormatter.ofPattern("HH:mm"))
+        })
 
         if (viewModel.num != 1) {
             binding.secLayout.visibility = View.GONE

@@ -13,12 +13,17 @@ class RecordGlucoseViewModel(val preferenceRepository: PreferenceRepository) : V
 
     val serverRepository = ServerRepository()
 
-    private val _glucoseResult = MutableLiveData<GlucoseDto>()
-    val glucoseResult : LiveData<GlucoseDto>
+    private val _glucoseResult = MutableLiveData<GlucoseDto.Record>()
+    val glucoseResult : LiveData<GlucoseDto.Record>
         get() = _glucoseResult
 
     fun postGlucose(timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _glucoseResult.value = serverRepository.postGlucose(accessToken, timeTag, glucose, recordDate)
+    }
+
+    fun putGlucose(recordId : Int, timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch {
+        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        _glucoseResult.value = serverRepository.putGlucose(accessToken, recordId, timeTag, glucose, recordDate)
     }
 }

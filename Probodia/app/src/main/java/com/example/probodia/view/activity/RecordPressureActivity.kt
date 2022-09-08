@@ -64,7 +64,7 @@ class RecordPressureActivity : AppCompatActivity() {
                     binding.highPressureEdit.text.toString().toInt(),
                     binding.lowPressureEdit.text.toString().toInt(),
                     binding.heartRateEdit.text.toString().toInt(),
-                    baseViewModel.localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             } else {
                 when(0) {

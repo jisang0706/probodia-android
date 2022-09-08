@@ -12,7 +12,9 @@ class RecordAnythingViewModel(val num : Int) : ViewModel() {
     val selectedTimeTag : LiveData<Int>
         get() = _selectedTimeTag
 
-    var localDateTime : LocalDateTime = LocalDateTime.now()
+    val _localDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now())
+    val localDateTime : LiveData<LocalDateTime>
+            get() = _localDateTime
 
     val _buttonClickEnable = MutableLiveData(false)
     val buttonClickEnable : LiveData<Boolean>
@@ -25,5 +27,9 @@ class RecordAnythingViewModel(val num : Int) : ViewModel() {
 
     fun setButtonClickEnable(work : Boolean) {
         _buttonClickEnable.value = work
+    }
+
+    fun setLocalDateTime(localDateTime : LocalDateTime) {
+        _localDateTime.value = localDateTime
     }
 }
