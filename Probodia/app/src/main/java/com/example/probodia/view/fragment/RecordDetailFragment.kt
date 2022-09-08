@@ -23,6 +23,7 @@ import com.example.probodia.data.remote.model.*
 import com.example.probodia.databinding.FragmentRecordDetailBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.view.activity.RecordGlucoseActivity
+import com.example.probodia.view.activity.RecordPressureActivity
 import com.example.probodia.viewmodel.ItemRecordDetailDataViewModel
 import com.example.probodia.viewmodel.RecordDetailViewModel
 import com.example.probodia.viewmodel.factory.ItemRecordDetailDataViewModelFactory
@@ -78,6 +79,12 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                     val intent = Intent(activity, RecordGlucoseActivity::class.java)
                     intent.putExtra("RECORDTYPE", 1)
                     intent.putExtra("DATA", (data as GlucoseDto).record)
+                    activityResultLauncher.launch(intent)
+                }
+                "PRESSURE" -> {
+                    val intent = Intent(activity, RecordPressureActivity::class.java)
+                    intent.putExtra("RECORDTYPE", 1)
+                    intent.putExtra("DATA", (data as PressureDto).record)
                     activityResultLauncher.launch(intent)
                 }
             }

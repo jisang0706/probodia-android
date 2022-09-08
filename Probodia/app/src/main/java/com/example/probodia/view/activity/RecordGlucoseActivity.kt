@@ -137,12 +137,12 @@ class RecordGlucoseActivity : AppCompatActivity() {
     }
 
     fun getSelectedTimeTag() = when(baseViewModel.selectedTimeTag.value) {
-            1 -> "아침 식전"
-            2 -> "점심 식전"
-            3 -> "저녁 식전"
-            4 -> "아침 식후"
-            5 -> "점심 식후"
-            6 -> "저녁 식후"
-            else -> "아침 식전"
-        }
+        1 -> "아침 식전"
+        2 -> "점심 식전"
+        3 -> "저녁 식전"
+        4 -> "아침 식후"
+        5 -> "점심 식후"
+        6 -> "저녁 식후"
+        else -> "아침 식전"
+    }
 }

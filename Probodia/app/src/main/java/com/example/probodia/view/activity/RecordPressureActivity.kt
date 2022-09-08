@@ -10,14 +10,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
+import com.example.probodia.data.remote.model.PressureDto
 import com.example.probodia.databinding.ActivityRecordPressureBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.fragment.RecordDetailFragment
 import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordPressureViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.example.probodia.viewmodel.factory.RecordPressureViewModelFactory
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RecordPressureActivity : AppCompatActivity() {
@@ -30,6 +33,9 @@ class RecordPressureActivity : AppCompatActivity() {
     private lateinit var baseViewModel : RecordAnythingViewModel
     private lateinit var baseViewModelFactory: RecordAnythingViewModelFactory
 
+    private var recordType = 0
+    private lateinit var data : PressureDto.Record
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +43,8 @@ class RecordPressureActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(
             applicationContext, R.color.alpha_30
         )
+
+        recordType = intent.getIntExtra("RECORDTYPE", 0)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_pressure)
 
@@ -52,20 +60,41 @@ class RecordPressureActivity : AppCompatActivity() {
 
         initTimeSelector()
 
+        if (recordType == 1) {
+            data = intent.getParcelableExtra("DATA")!!
+            baseViewModel.setSelectedTimeTag(when(data.timeTag) {
+                "아침" -> 1
+                "점심" -> 2
+                "저녁" -> 3
+                else -> 1
+            })
+            binding.highPressureEdit.setText(data.maxPressure.toString())
+            binding.lowPressureEdit.setText(data.minPressure.toString())
+            binding.heartRateEdit.setText(data.heartRate.toString())
+            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
+        }
+
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
-                pressureViewModel.postPressure(
-                    when(baseViewModel.selectedTimeTag.value) {
-                        1 -> "아침"
-                        2 -> "점심"
-                        3 -> "저녁"
-                        else -> "아침"
-                    },
-                    binding.highPressureEdit.text.toString().toInt(),
-                    binding.lowPressureEdit.text.toString().toInt(),
-                    binding.heartRateEdit.text.toString().toInt(),
-                    baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                )
+                if (recordType == 1) {
+                    pressureViewModel.putPressure(
+                        data.recordId,
+                        getSelectedTimeTag(),
+                        binding.highPressureEdit.text.toString().toInt(),
+                        binding.lowPressureEdit.text.toString().toInt(),
+                        binding.heartRateEdit.text.toString().toInt(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                } else {
+                    pressureViewModel.postPressure(
+                        getSelectedTimeTag(),
+                        binding.highPressureEdit.text.toString().toInt(),
+                        binding.lowPressureEdit.text.toString().toInt(),
+                        binding.heartRateEdit.text.toString().toInt(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                }
             } else {
                 when(0) {
                     binding.highPressureEdit.text.length ->
@@ -93,7 +122,12 @@ class RecordPressureActivity : AppCompatActivity() {
         }
 
         pressureViewModel.pressureResult.observe(this, Observer {
-            val resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            var resultIntent: Intent
+            if (recordType == 0) {
+                resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            } else {
+                resultIntent = Intent(applicationContext, RecordDetailFragment::class.java)
+            }
             resultIntent.putExtra("RELOAD", true)
             setResult(R.integer.record_pressure_result_code, resultIntent)
             finish()
@@ -122,5 +156,12 @@ class RecordPressureActivity : AppCompatActivity() {
 
     fun examineEditTextFull() {
         baseViewModel.setButtonClickEnable(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
+    }
+
+    fun getSelectedTimeTag() = when(baseViewModel.selectedTimeTag.value) {
+        1 -> "아침"
+        2 -> "점심"
+        3 -> "저녁"
+        else -> "아침"
     }
 }

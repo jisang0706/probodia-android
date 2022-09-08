@@ -13,8 +13,8 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
 
     open val serverRepository = ServerRepository()
 
-    private val _pressureResult = MutableLiveData<PressureDto>()
-    val pressureResult : LiveData<PressureDto>
+    private val _pressureResult = MutableLiveData<PressureDto.Record>()
+    val pressureResult : LiveData<PressureDto.Record>
         get() = _pressureResult
 
     fun postPressure(
@@ -23,5 +23,14 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
         recordDate : String) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _pressureResult.value = serverRepository.postPressure(accessToken, timeTag, maxPressure, minPressure, heartRate, recordDate)
+    }
+
+    fun putPressure(
+        recordId : Int,
+        timeTag : String, maxPressure : Int,
+        minPressure : Int, heartRate : Int,
+        recordDate : String) = viewModelScope.launch {
+        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        _pressureResult.value = serverRepository.putPressure(accessToken, recordId, timeTag, maxPressure, minPressure, heartRate, recordDate)
     }
 }

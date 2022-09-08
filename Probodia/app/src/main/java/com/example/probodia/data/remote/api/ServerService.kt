@@ -33,7 +33,7 @@ interface ServerService {
     suspend fun postPressure(
         @Header("Authorization") token : String,
         @Body postPressureBody : PostPressureBody
-    ) : PressureDto
+    ) : PressureDto.Record
 
     @DELETE("api/record/pressure/{recordId}")
     suspend fun deletePressure(
