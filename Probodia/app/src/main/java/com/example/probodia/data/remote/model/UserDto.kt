@@ -1,6 +1,7 @@
 package com.example.probodia.data.remote.model
 
 data class UserDto(
+    val username : String,
     val profileImageUrl : String,
     val diabeteCode : String,
     val age : Int,

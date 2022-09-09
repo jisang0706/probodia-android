@@ -36,6 +36,7 @@ class EtcFragment : Fragment() {
         })
 
         viewModel.userData.observe(requireActivity()) {
+            binding.userNameText.text = it.username
             binding.userAgeText.text = "${it.age}세"
             binding.userBodyText.text = "${it.height}cm / ${it.weight}kg"
         }
