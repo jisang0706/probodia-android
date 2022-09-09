@@ -26,7 +26,7 @@ class RecordTodayFragment : Fragment() {
     private lateinit var binding: FragmentRecordTodayBinding
     private lateinit var viewModelFactory : RecordTodayViewModelFactory
     private lateinit var viewModel : RecordTodayViewModel
-    private lateinit var recordRVAdapter: RecordTodayAdapter
+    private var recordRVAdapter: RecordTodayAdapter? = null
 
     private lateinit var reloadRecord : () -> Unit
 
@@ -54,12 +54,12 @@ class RecordTodayFragment : Fragment() {
             val dataSet : MutableList<RecordDatasBase> =
                 mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first,  "2022-01-01", todayRecord.getDatas().size)))
             dataSet.addAll(todayRecord.getDatas())
-            recordRVAdapter.addDataSet(dataSet)
-            recordRVAdapter.notifyDataSetChanged()
+            recordRVAdapter!!.addDataSet(dataSet)
+            recordRVAdapter!!.notifyDataSetChanged()
         })
         loadTodayRecord()
 
-        recordRVAdapter.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
+        recordRVAdapter!!.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
             override fun onItemClick(data: RecordDatasBase) {
                 val recordDetailFragment = RecordDetailFragment(data, reloadRecord)
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
@@ -71,12 +71,11 @@ class RecordTodayFragment : Fragment() {
     }
 
     fun loadTodayRecord() {
-        if (recordRVAdapter == null){
-            recordRVAdapter = RecordTodayAdapter()
-        }
-        recordRVAdapter.resetDataSet()
-        for(flag in 0..2) {
-            viewModel.getTodayRecord(TimeTag.timeTag[flag])
+        if (recordRVAdapter != null) {
+            recordRVAdapter!!.resetDataSet()
+            for (flag in 0..2) {
+                viewModel.getTodayRecord(TimeTag.timeTag[flag])
+            }
         }
     }
 

@@ -15,8 +15,8 @@ class RecordMedicineViewModel : ViewModel() {
 
     val serverrepository = ServerRepository()
 
-    private val _medicineResult = MutableLiveData<MedicineDto>()
-    val medicineResult : LiveData<MedicineDto>
+    private val _medicineResult = MutableLiveData<MedicineDto.Record>()
+    val medicineResult : LiveData<MedicineDto.Record>
         get() = _medicineResult
 
     fun postMedicine(
@@ -27,5 +27,16 @@ class RecordMedicineViewModel : ViewModel() {
     ) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
         _medicineResult.value = serverrepository.postMedicine(accessToken, timeTag, medicineList, recordDate)
+    }
+
+    fun putMedicine(
+        preferenceRepository : PreferenceRepository,
+        recordId : Int,
+        timeTag : String,
+        medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>,
+        recordDate : String
+    ) = viewModelScope.launch {
+        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        _medicineResult.value = serverrepository.putMedicine(accessToken, recordId, timeTag, recordDate, medicineList)
     }
 }

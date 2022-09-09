@@ -51,7 +51,7 @@ interface ServerService {
     suspend fun postMedicine(
         @Header("Authorization") token : String,
         @Body postMedicineBody : PostMedicineBody
-    ) : MedicineDto
+    ) : MedicineDto.Record
 
     @DELETE("api/record/medicine/{recordId}")
     suspend fun deleteMedicine(
@@ -59,7 +59,7 @@ interface ServerService {
         @Path("recordId") recordId : Int
     ) : Int
 
-    @PUT("api/record/medicine")
+    @POST("api/record/medicine/update")
     suspend fun putMedicine(
         @Header("Authorization") token : String,
         @Body putMedicine : PutMedicineBody

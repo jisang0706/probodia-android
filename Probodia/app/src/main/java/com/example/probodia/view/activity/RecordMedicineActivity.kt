@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
 import com.example.probodia.adapter.MedicineAddAdapter
 import com.example.probodia.data.remote.model.ApiMedicineDto
+import com.example.probodia.data.remote.model.MedicineDto
 import com.example.probodia.databinding.ActivityRecordMedicineBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.fragment.RecordDetailFragment
 import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
@@ -26,6 +28,7 @@ import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RecordMedicineActivity : AppCompatActivity() {
@@ -41,6 +44,9 @@ class RecordMedicineActivity : AppCompatActivity() {
 
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
+    private var recordType = 0
+    private lateinit var data : MedicineDto.Record
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,6 +54,8 @@ class RecordMedicineActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(
             applicationContext, R.color.alpha_30
         )
+
+        recordType = intent.getIntExtra("RECORDTYPE", 0)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_medicine)
 
@@ -94,6 +102,31 @@ class RecordMedicineActivity : AppCompatActivity() {
             }
         })
 
+        if (recordType == 1) {
+            data = intent.getParcelableExtra("DATA")!!
+            baseViewModel.setSelectedTimeTag(when(data.timeTag) {
+                "아침" -> 1
+                "점심" -> 2
+                "저녁" -> 3
+                else -> 1
+            })
+            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
+            for(i in 0 until data.medicineDetails.size) {
+                listAdapter.addItem(ApiMedicineDto.Body.MedicineItem(
+                    data.medicineDetails[i].medicineId,
+                    data.medicineDetails[i].medicineName,
+                    "",
+                    "",
+                    "",
+                    ""
+                ))
+                listAdapter.setItemUnit(i, data.medicineDetails[i].medicineCnt)
+            }
+            listAdapter.notifyDataSetChanged()
+            baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
+        }
+
         binding.cancelBtn.setOnClickListener {
             finish()
         }
@@ -101,7 +134,6 @@ class RecordMedicineActivity : AppCompatActivity() {
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
-            Log.e("MEDICINE", "RESULT")
             val intent = result.data
             if (intent != null) {
                 if (result.resultCode == R.integer.record_medicine_set_code) {
@@ -109,7 +141,6 @@ class RecordMedicineActivity : AppCompatActivity() {
                     val position : Int = intent.getIntExtra("POSITION", -1)
                     if (position != -1) {
                         listAdapter.setItem(position, item)
-                        Log.e("MEDICINE", item.toString())
                         listAdapter.notifyDataSetChanged()
                         baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
                     }
@@ -119,18 +150,23 @@ class RecordMedicineActivity : AppCompatActivity() {
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
-                Log.e("MEDICINEPOST", "${listAdapter.getList()}")
-                medicineViewModel.postMedicine(
-                    PreferenceRepository(applicationContext),
-                    when(baseViewModel.selectedTimeTag.value) {
-                        1 -> "아침"
-                        2 -> "점심"
-                        3 -> "저녁"
-                        else -> "아침"
-                    },
-                    listAdapter.getList(),
-                    baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                )
+                if (recordType == 1) {
+                    Log.e("MEDICINEEDIT", "${data.recordId} ${data.recordDate} ${data.timeTag} ${data.medicineDetails}")
+                    medicineViewModel.putMedicine(
+                        PreferenceRepository(applicationContext),
+                        data.recordId,
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                } else {
+                    medicineViewModel.postMedicine(
+                        PreferenceRepository(applicationContext),
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                }
             } else {
                 Toast.makeText(applicationContext, "입력된 투약 기록이 없습니다.", Toast.LENGTH_LONG).show()
             }
@@ -145,7 +181,12 @@ class RecordMedicineActivity : AppCompatActivity() {
         })
 
         medicineViewModel.medicineResult.observe(this, Observer {
-            val resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            var resultIntent : Intent
+            if (recordType == 0) {
+                resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            } else {
+                resultIntent = Intent(applicationContext, RecordDetailFragment::class.java)
+            }
             resultIntent.putExtra("RELOAD", true)
             setResult(R.integer.record_medicine_result_code, resultIntent)
             finish()
@@ -158,5 +199,14 @@ class RecordMedicineActivity : AppCompatActivity() {
         val fragment = TimeSelectorFragment()
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.commit()
+    }
+
+    fun getSelectedTimeTag(): String {
+        return when(baseViewModel.selectedTimeTag.value) {
+            1 -> "아침"
+            2 -> "점심"
+            3 -> "저녁"
+            else -> "아침"
+        }
     }
 }

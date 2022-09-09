@@ -33,7 +33,7 @@ class ServerRepository {
     suspend fun putPressure(apiToken : String, recordId : Int, timeTag : String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
             = client.putPressure("Bearer $apiToken", PutPressureBody(recordId, timeTag, maxPressure, minPressure, heartRate, recordDate))
 
-    suspend fun postMedicine(apiToken : String, timeTag : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>, recordDate : String) : MedicineDto {
+    suspend fun postMedicine(apiToken : String, timeTag : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>, recordDate : String) : MedicineDto.Record {
         val itemList : List<PostMedicineBody.PostMedicineItem> = buildList {
             for (medicine in medicineList) {
                 add(

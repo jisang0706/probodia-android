@@ -30,7 +30,7 @@ class RecordPastFragment : Fragment() {
 
     private lateinit var binding : FragmentRecordPastBinding
     private lateinit var viewModel : RecordPastViewModel
-    private lateinit var recordRVAdapter : RecordTodayAdapter
+    private var recordRVAdapter : RecordTodayAdapter? = null
 
     private var dateTime = LocalDateTime.now()
     private var loadCnt = 0
@@ -56,11 +56,11 @@ class RecordPastFragment : Fragment() {
             val dataSet : MutableList<RecordDatasBase> =
                 mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first.second, it.first.first.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), record.getDatas().size)))
             dataSet.addAll(record.getDatas())
-            recordRVAdapter.addDataSet(dataSet)
-            recordRVAdapter.notifyDataSetChanged()
+            recordRVAdapter!!.addDataSet(dataSet)
+            recordRVAdapter!!.notifyDataSetChanged()
         })
 
-        recordRVAdapter.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
+        recordRVAdapter!!.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
             override fun onItemClick(data: RecordDatasBase) {
                 val recordDetailFragment = RecordDetailFragment(data, reloadRecord)
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
@@ -93,14 +93,13 @@ class RecordPastFragment : Fragment() {
     }
 
     fun restartRecord() {
-        if (recordRVAdapter == null) {
-            recordRVAdapter = RecordTodayAdapter()
+        if (recordRVAdapter != null) {
+            recordRVAdapter!!.resetDataSet()
+            dateTime = LocalDateTime.now()
+            loadPastRecord(dateTime)
+            dateTime = dateTime.minusDays(1)
+            loadPastRecord(dateTime)
         }
-        recordRVAdapter.resetDataSet()
-        dateTime = LocalDateTime.now()
-        loadPastRecord(dateTime)
-        dateTime = dateTime.minusDays(1)
-        loadPastRecord(dateTime)
     }
 
     fun setReload(reloadFunc : () -> Unit) {

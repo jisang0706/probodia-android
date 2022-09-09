@@ -7,7 +7,7 @@ data class PutMedicineBody(
     var medicineDetails : List<MedicineDetail>
 ) {
     data class MedicineDetail(
-        var medicineCtn : Int,
+        var medicineCnt : Int,
         var medicineName : String,
         var medicineId : String
     )
