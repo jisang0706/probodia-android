@@ -1,19 +1,31 @@
 package com.example.probodia.repository
 
 import android.content.Context
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.probodia.data.remote.model.ApiToken
 
 class PreferenceRepository(private val context: Context) {
 
-    val pref = context.getSharedPreferences("probodia", Context.MODE_PRIVATE)
+    val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    val preference = EncryptedSharedPreferences.create(
+        context,
+        "probodia",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     fun saveApiToken(apiToken : ApiToken) {
-        pref.edit().putString("apiAccessToken", apiToken.apiAccessToken).apply()
-        pref.edit().putString("apiRefreshToken", apiToken.apiRefreshToken).apply()
+        preference.edit().putString("apiAccessToken", apiToken.apiAccessToken).apply()
+        preference.edit().putString("apiRefreshToken", apiToken.apiRefreshToken).apply()
     }
 
     fun getApiToken() : ApiToken = ApiToken (
-        pref.getString("apiAccessToken", "").toString(),
-        pref.getString("apiRefreshToken", "").toString()
-            )
+        preference.getString("apiAccessToken", "").toString(),
+        preference.getString("apiRefreshToken", "").toString()
+    )
 }
