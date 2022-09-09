@@ -1,10 +1,15 @@
 package com.example.probodia.data.remote.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class MealDto(
     override val type : String,
 
     val record : Record
 ) : RecordDatasBase {
+
+    @Parcelize
     data class Record(
         val timeTag : String,
 
@@ -13,8 +18,9 @@ data class MealDto(
         val recordId : Int,
 
         val recordDate : String
-    )
+    ) : Parcelable
 
+    @Parcelize
     data class MealDetail(
         val mealDetailId : Int,
 
@@ -27,5 +33,5 @@ data class MealDto(
         val foodName : String,
 
         val quantity : Int
-    )
+    ) : Parcelable
 }

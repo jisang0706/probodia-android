@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.body.PostMealBody
+import com.example.probodia.data.remote.body.PutMealBody
+import com.example.probodia.data.remote.model.FoodDetailDto
 import com.example.probodia.data.remote.model.FoodNamesDto
 import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.repository.AIServerRepository
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.repository.ServerFoodRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -24,8 +27,8 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
     val serverRepository = ServerRepository()
     val aiServerRepository = AIServerRepository()
 
-    private val _mealResult = MutableLiveData<MealDto>()
-    val mealResult : LiveData<MealDto>
+    private val _mealResult = MutableLiveData<MealDto.Record>()
+    val mealResult : LiveData<MealDto.Record>
         get() = _mealResult
 
     private val _foodNamesResult = MutableLiveData<FoodNamesDto>()
@@ -35,6 +38,7 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
     private val _foodImage = MutableLiveData<Bitmap>()
     val foodImage : LiveData<Bitmap>
         get() = _foodImage
+
 
     fun postMeal(timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch {
         val accessToken = preferenceRepository.getApiToken().apiAccessToken
@@ -47,5 +51,10 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Vie
 
     fun setFoodImage(bitmap : Bitmap) {
         _foodImage.value = bitmap
+    }
+
+    fun putMeal(recordId : Int, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch {
+        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        _mealResult.value = serverRepository.putMeal(accessToken, recordId, timeTag, recordDate, foodList)
     }
 }

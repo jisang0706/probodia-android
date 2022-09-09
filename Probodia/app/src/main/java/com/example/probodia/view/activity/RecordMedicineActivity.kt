@@ -151,7 +151,6 @@ class RecordMedicineActivity : AppCompatActivity() {
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
                 if (recordType == 1) {
-                    Log.e("MEDICINEEDIT", "${data.recordId} ${data.recordDate} ${data.timeTag} ${data.medicineDetails}")
                     medicineViewModel.putMedicine(
                         PreferenceRepository(applicationContext),
                         data.recordId,

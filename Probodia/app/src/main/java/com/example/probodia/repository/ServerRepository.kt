@@ -68,14 +68,14 @@ class ServerRepository {
         return client.putMedicine("Bearer $apiToken", PutMedicineBody(recordId, timeTag, recordDate, itemList))
     }
 
-    suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) : MealDto {
+    suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) : MealDto.Record {
         return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, foodList))
     }
 
     suspend fun deleteMeal(apiToken : String, recordId : Int)
             = client.deleteMeal("Bearer $apiToken", recordId)
 
-    suspend fun putMeal(apiToken : String, recordId : Int, timeTag : String, recordDate : String, foodList : MutableList<PutMealBody.MealDetail>) : MealDto.Record {
+    suspend fun putMeal(apiToken : String, recordId : Int, timeTag : String, recordDate : String, foodList : MutableList<PostMealBody.PostMealItem>) : MealDto.Record {
         return client.putMeal("Bearer $apiToken", PutMealBody(recordId, timeTag, recordDate, foodList))
     }
 

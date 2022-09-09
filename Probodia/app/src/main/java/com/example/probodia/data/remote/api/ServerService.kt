@@ -69,7 +69,7 @@ interface ServerService {
     suspend fun postMeal(
         @Header("Authorization") token : String,
         @Body postMealBody : PostMealBody
-    ) : MealDto
+    ) : MealDto.Record
 
     @DELETE("api/record/meal/{recordId}")
     suspend fun deleteMeal(
@@ -77,7 +77,7 @@ interface ServerService {
         @Path("recordId") recordId : Int
     ) : Int
 
-    @PUT("api/record/meal")
+    @POST("api/record/meal/update")
     suspend fun putMeal(
         @Header("Authorization") token : String,
         @Body putMeal : PutMealBody

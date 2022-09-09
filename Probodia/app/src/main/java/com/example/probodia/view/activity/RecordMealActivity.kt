@@ -32,8 +32,12 @@ import com.example.probodia.BuildConfig
 import com.example.probodia.R
 import com.example.probodia.adapter.FoodAddAdapter
 import com.example.probodia.data.remote.body.PostMealBody
+import com.example.probodia.data.remote.body.PutMealBody
+import com.example.probodia.data.remote.model.FoodDetailDto
+import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.databinding.ActivityRecordMealBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.fragment.RecordDetailFragment
 import com.example.probodia.view.fragment.RecordFragment
 import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
@@ -46,6 +50,7 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.lang.Exception
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
@@ -63,6 +68,9 @@ class RecordMealActivity : AppCompatActivity() {
 
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
+    private var recordType = 0
+    private lateinit var data : MealDto.Record
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,6 +78,8 @@ class RecordMealActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(
             applicationContext, R.color.alpha_30
         )
+
+        recordType = intent.getIntExtra("RECORDTYPE", 0)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_meal)
 
@@ -82,6 +92,8 @@ class RecordMealActivity : AppCompatActivity() {
         binding.baseVm = baseViewModel
 
         binding.lifecycleOwner = this
+
+        initTimeSelector()
 
         listAdapter = FoodAddAdapter()
         binding.foodAddRv.adapter = listAdapter
@@ -99,6 +111,30 @@ class RecordMealActivity : AppCompatActivity() {
             }
 
         })
+
+        if (recordType == 1) {
+            data = intent.getParcelableExtra("DATA")!!
+            baseViewModel.setSelectedTimeTag(when(data.timeTag) {
+                "아침" -> 1
+                "점심" -> 2
+                "저녁" -> 3
+                else -> 1
+            })
+            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
+            for(i in 0 until data.mealDetails.size) {
+                listAdapter.addItem(PostMealBody.PostMealItem(
+                    data.mealDetails[i].foodName,
+                    "",
+                    data.mealDetails[i].quantity,
+                    data.mealDetails[i].calories,
+                    data.mealDetails[i].bloodSugar,
+                    data.mealDetails[i].imageUrl
+                ))
+            }
+            listAdapter.notifyDataSetChanged()
+            baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+        }
 
         binding.searchBtn.setOnClickListener {
             val intent = Intent(applicationContext, SearchFoodActivity::class.java)
@@ -130,27 +166,34 @@ class RecordMealActivity : AppCompatActivity() {
             }
         }
 
-        initTimeSelector()
-
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
-                mealViewModel.postMeal(
-                    when(baseViewModel.selectedTimeTag.value) {
-                        1 -> "아침"
-                        2 -> "점심"
-                        3 -> "저녁"
-                        else -> "아침"
-                    },
-                    listAdapter.getList(),
-                    baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                )
+                if (recordType == 1) {
+                    mealViewModel.putMeal(
+                        data.recordId,
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                } else {
+                    mealViewModel.postMeal(
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                }
             } else {
                 Toast.makeText(applicationContext, "입력된 식단이 없습니다.", Toast.LENGTH_LONG).show()
             }
         }
 
         mealViewModel.mealResult.observe(this, Observer {
-            val resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            var resultIntent : Intent
+            if (recordType == 0) {
+                resultIntent = Intent(applicationContext, RecordFragment::class.java)
+            } else {
+                resultIntent = Intent(applicationContext, RecordDetailFragment::class.java)
+            }
             resultIntent.putExtra("RELOAD", true)
             setResult(R.integer.record_meal_result_code, resultIntent)
             finish()
@@ -264,6 +307,15 @@ class RecordMealActivity : AppCompatActivity() {
             cursor!!.getString(column_index)
         } finally {
             cursor?.close()
+        }
+    }
+
+    fun getSelectedTimeTag() : String {
+        return when(baseViewModel.selectedTimeTag.value) {
+            1 -> "아침"
+            2 -> "점심"
+            3 -> "저녁"
+            else -> "아침"
         }
     }
 }
