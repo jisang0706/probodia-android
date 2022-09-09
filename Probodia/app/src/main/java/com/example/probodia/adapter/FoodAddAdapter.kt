@@ -60,7 +60,7 @@ class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
         }
 
         fun bind(item : PostMealBody.PostMealItem) {
-            binding.foodNameText.text = item.foodName
+            binding.foodNameText.text = "${item.foodName} ${item.quantity}g"
         }
     }
 

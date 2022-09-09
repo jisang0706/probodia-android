@@ -51,14 +51,16 @@ class SearchFoodDetailActivity : AppCompatActivity() {
 
         binding.enterBtn.setOnClickListener {
             val resultIntent = Intent(applicationContext, SearchFoodActivity::class.java)
-            resultIntent.putExtra("ADDFOOD", PostMealBody.PostMealItem(
+            if ("${binding.quantityEdit.text}" == "")    binding.quantityEdit.setText("1")
+            val postMealItem = PostMealBody.PostMealItem(
                 viewModel.foodInfo.value!!.name,
                 foodId,
-                viewModel.foodInfo.value!!.quantityByOne,
+                viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toInt(),
                 viewModel.foodInfo.value!!.calories.roundToInt(),
-                100,
+                0,
                 ""
-            ))
+            )
+            resultIntent.putExtra("ADDFOOD", postMealItem)
             setResult(R.integer.record_meal_add_code, resultIntent)
             finish()
         }
