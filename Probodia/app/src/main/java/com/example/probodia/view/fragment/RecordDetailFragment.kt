@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -126,6 +127,10 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                     }
                 }
             }
+        }
+
+        viewModel.isError.observe(requireActivity()) {
+            Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root

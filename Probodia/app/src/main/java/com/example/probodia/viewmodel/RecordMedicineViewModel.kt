@@ -11,9 +11,7 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordMedicineViewModel : ViewModel() {
-
-    val serverrepository = ServerRepository()
+class RecordMedicineViewModel : TokenViewModel() {
 
     private val _medicineResult = MutableLiveData<MedicineDto.Record>()
     val medicineResult : LiveData<MedicineDto.Record>
@@ -24,9 +22,19 @@ class RecordMedicineViewModel : ViewModel() {
         timeTag : String,
         medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>,
         recordDate : String
-    ) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
-        _medicineResult.value = serverrepository.postMedicine(accessToken, timeTag, medicineList, recordDate)
+    ) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _postMedicine(accessToken, timeTag, medicineList, recordDate)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _postMedicine(accessToken, timeTag, medicineList, recordDate)
+        }
+    }
+
+    suspend fun _postMedicine(accessToken : String, timeTag : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>, recordDate : String) {
+        _medicineResult.value = serverRepository.postMedicine(accessToken, timeTag, medicineList, recordDate)
     }
 
     fun putMedicine(
@@ -35,8 +43,30 @@ class RecordMedicineViewModel : ViewModel() {
         timeTag : String,
         medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>,
         recordDate : String
-    ) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
-        _medicineResult.value = serverrepository.putMedicine(accessToken, recordId, timeTag, recordDate, medicineList)
+    ) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _putMedicine(
+                accessToken,
+                recordId,
+                timeTag,
+                recordDate,
+                medicineList
+            )
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _putMedicine(
+                accessToken,
+                recordId,
+                timeTag,
+                recordDate,
+                medicineList
+            )
+        }
+    }
+
+    suspend fun _putMedicine(accessToken : String, recordId : Int, timeTag : String, recordDate : String, medicineList : MutableList<ApiMedicineDto.Body.MedicineItem>) {
+        _medicineResult.value = serverRepository.putMedicine(accessToken, recordId, timeTag, recordDate, medicineList)
     }
 }

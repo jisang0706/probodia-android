@@ -9,15 +9,13 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordDetailViewModel(val recordType : String) : ViewModel() {
-
-    val serverRepository = ServerRepository()
+class RecordDetailViewModel(val recordType : String) : TokenViewModel() {
 
     private val _deleteResult = MutableLiveData<Int>()
     val deleteResult : LiveData<Int>
         get() = _deleteResult
 
-    private val _titleText = MutableLiveData<String>(when(recordType) {
+    private val _titleText = MutableLiveData(when(recordType) {
         "SUGAR" -> "혈당"
         "PRESSURE" -> "혈압"
         "MEDICINE" -> "투약"
@@ -27,9 +25,19 @@ class RecordDetailViewModel(val recordType : String) : ViewModel() {
     val titleText : LiveData<String>
         get() = _titleText
 
-    fun deleteRecord(preferenceRepository : PreferenceRepository, recordId : Int) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
-        _deleteResult.value = when(recordType) {
+    fun deleteRecord(preferenceRepository : PreferenceRepository, recordId : Int) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _deleteRecord(accessToken, recordId)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _deleteRecord(accessToken, recordId)
+        }
+    }
+
+    suspend fun _deleteRecord(accessToken : String, recordId : Int) {
+        _deleteResult.value = when (recordType) {
             "SUGAR" -> serverRepository.deleteGlucose(accessToken, recordId)
             "PRESSURE" -> serverRepository.deletePressure(accessToken, recordId)
             "MEDICINE" -> serverRepository.deleteMedicine(accessToken, recordId)

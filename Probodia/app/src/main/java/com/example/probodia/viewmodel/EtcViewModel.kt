@@ -1,18 +1,14 @@
 package com.example.probodia.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.probodia.data.remote.model.UserDto
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
-class EtcViewModel : ViewModel() {
-
-    val serverRepository = ServerRepository()
+class EtcViewModel : TokenViewModel() {
 
     val _userId = MutableLiveData<String>()
     val userId : LiveData<String>
@@ -32,8 +28,18 @@ class EtcViewModel : ViewModel() {
         }
     }
 
-    fun getUserProfile(preferenceRepository : PreferenceRepository, userId : String) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+    fun getUserProfile(preferenceRepository : PreferenceRepository, userId : String) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _getUserProfile("$accessToken", userId)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _getUserProfile(accessToken, userId)
+        }
+    }
+
+    suspend fun _getUserProfile(accessToken : String, userId : String) {
         _userData.value = serverRepository.getUserData(accessToken, userId)
     }
 }

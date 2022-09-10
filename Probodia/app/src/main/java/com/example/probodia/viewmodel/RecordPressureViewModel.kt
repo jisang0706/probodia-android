@@ -9,9 +9,7 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : ViewModel() {
-
-    open val serverRepository = ServerRepository()
+class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : TokenViewModel() {
 
     private val _pressureResult = MutableLiveData<PressureDto.Record>()
     val pressureResult : LiveData<PressureDto.Record>
@@ -20,8 +18,32 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
     fun postPressure(
         timeTag : String, maxPressure : Int,
         minPressure : Int, heartRate : Int,
-        recordDate : String) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _postPressure(
+                accessToken,
+                timeTag,
+                maxPressure,
+                minPressure,
+                heartRate,
+                recordDate
+            )
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _postPressure(
+                accessToken,
+                timeTag,
+                maxPressure,
+                minPressure,
+                heartRate,
+                recordDate
+            )
+        }
+    }
+
+    suspend fun _postPressure(accessToken : String, timeTag : String, maxPressure : Int, minPressure: Int, heartRate: Int, recordDate: String) {
         _pressureResult.value = serverRepository.postPressure(accessToken, timeTag, maxPressure, minPressure, heartRate, recordDate)
     }
 
@@ -29,8 +51,34 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
         recordId : Int,
         timeTag : String, maxPressure : Int,
         minPressure : Int, heartRate : Int,
-        recordDate : String) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+        recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _putPressure(
+                accessToken,
+                recordId,
+                timeTag,
+                maxPressure,
+                minPressure,
+                heartRate,
+                recordDate
+            )
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _putPressure(
+                accessToken,
+                recordId,
+                timeTag,
+                maxPressure,
+                minPressure,
+                heartRate,
+                recordDate
+            )
+        }
+    }
+
+    suspend fun _putPressure(accessToken : String, recordId : Int, timeTag : String, maxPressure: Int, minPressure: Int, heartRate: Int, recordDate: String) {
         _pressureResult.value = serverRepository.putPressure(accessToken, recordId, timeTag, maxPressure, minPressure, heartRate, recordDate)
     }
 }

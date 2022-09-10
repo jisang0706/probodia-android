@@ -11,16 +11,24 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordTodayViewModel(private val preferenceRepository : PreferenceRepository) : ViewModel() {
-
-    private val serverRepository = ServerRepository()
+class RecordTodayViewModel(private val preferenceRepository : PreferenceRepository) : TokenViewModel() {
 
     private val _result = MutableLiveData<Pair<String, MutableList<TodayRecord.AllData>>>()
     val result: LiveData<Pair<String, MutableList<TodayRecord.AllData>>>
         get() = _result
 
-    fun getTodayRecord(timeTag : String) = viewModelScope.launch {
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
+    fun getTodayRecord(timeTag : String) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _getTodayRecord(accessToken, timeTag)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _getTodayRecord(accessToken, timeTag)
+        }
+    }
+
+    suspend fun _getTodayRecord(accessToken : String, timeTag : String) {
         val startDate = "${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
         val tomorrow = LocalDateTime.now().plusDays(1)
         val endDate = "${tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"

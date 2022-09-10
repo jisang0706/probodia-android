@@ -190,6 +190,14 @@ class RecordMedicineActivity : AppCompatActivity() {
             setResult(R.integer.record_medicine_result_code, resultIntent)
             finish()
         })
+
+        binding.cancelBtn.setOnClickListener {
+            finish()
+        }
+
+        medicineViewModel.isError.observe(this) {
+            Toast.makeText(applicationContext, "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun initTimeSelector() {

@@ -24,6 +24,10 @@ class PreferenceRepository(private val context: Context) {
         preference.edit().putString("apiRefreshToken", apiToken.apiRefreshToken).apply()
     }
 
+    fun saveAccessToken(accessToken : String) {
+        preference.edit().putString("apiAccessToken", accessToken).apply()
+    }
+
     fun getApiToken() : ApiToken = ApiToken (
         preference.getString("apiAccessToken", "").toString(),
         preference.getString("apiRefreshToken", "").toString()

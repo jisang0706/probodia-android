@@ -11,6 +11,11 @@ interface ServerService {
         @Body getApiTokenBody : GetApiTokenBody
     ) : ApiToken
 
+    @GET("auth/refresh")
+    suspend fun refreshApiToken(
+        @Header("RefreshToken") refreshToken : String
+    ) : String
+
     @POST("api/record/sugar")
     suspend fun postGlucose(
         @Header("Authorization") token : String,

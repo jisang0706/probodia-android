@@ -144,6 +144,10 @@ class RecordPressureActivity : AppCompatActivity() {
         binding.cancelBtn.setOnClickListener {
             finish()
         }
+
+        pressureViewModel.isError.observe(this) {
+            Toast.makeText(applicationContext, "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun initTimeSelector() {
