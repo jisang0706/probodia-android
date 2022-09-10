@@ -19,12 +19,12 @@ class PreferenceRepository(private val context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun saveApiToken(apiToken : ApiToken) {
+    suspend fun saveApiToken(apiToken : ApiToken) {
         preference.edit().putString("apiAccessToken", apiToken.apiAccessToken).apply()
         preference.edit().putString("apiRefreshToken", apiToken.apiRefreshToken).apply()
     }
 
-    fun saveAccessToken(accessToken : String) {
+    suspend fun saveAccessToken(accessToken : String) {
         preference.edit().putString("apiAccessToken", accessToken).apply()
     }
 

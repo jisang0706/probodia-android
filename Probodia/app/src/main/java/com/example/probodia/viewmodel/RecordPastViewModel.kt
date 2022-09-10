@@ -1,5 +1,6 @@
 package com.example.probodia.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,11 +24,9 @@ class RecordPastViewModel : TokenViewModel() {
         val nextDay = dateTime.plusDays(1)
         val endDate = "${nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
         val filterType = mutableListOf("SUGAR", "PRESSURE", "MEDICINE", "MEAL")
-        val accessToken = preferenceRepository.getApiToken().apiAccessToken
 
         for(i in listOf("아침", "점심", "저녁")) {
             val getRecordBody = GetRecordBody(startDate, endDate, filterType, mutableListOf(i))
-            _getPastRecord(startDate, i, accessToken, getRecordBody)
             try {
                 val accessToken = preferenceRepository.getApiToken().apiAccessToken
                 _getPastRecord(startDate, i, accessToken, getRecordBody)

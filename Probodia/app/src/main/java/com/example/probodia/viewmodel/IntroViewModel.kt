@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.probodia.BuildConfig
 import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.repository.PreferenceRepository
@@ -14,6 +15,7 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.launch
 
 class IntroViewModel : TokenViewModel() {
 
@@ -74,7 +76,7 @@ class IntroViewModel : TokenViewModel() {
     suspend fun getApiToken() : ApiToken
         =  serverRepository.getApiToken(liveKakaoUserId.value!!, liveKakaoAccessToken.value!!)
 
-    fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) {
+    fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) = viewModelScope.launch {
         preferenceRepository.saveApiToken(apiToken)
     }
 }
