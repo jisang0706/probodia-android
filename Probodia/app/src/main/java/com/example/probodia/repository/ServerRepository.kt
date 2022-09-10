@@ -12,11 +12,11 @@ class ServerRepository {
     suspend fun getApiToken(userId : Long, accessToken: String)
         = client.getApiToken(GetApiTokenBody(userId, accessToken))
 
-    suspend fun refreshApiToken(refreshApiToken : String) =
-        client.refreshApiToken(refreshApiToken)
+    suspend fun refreshApiToken(apiToken : String, refreshApiToken : String) =
+        client.refreshApiToken("Bearer $apiToken", refreshApiToken)
 
     suspend fun postGlucose(apiToken : String, timeTag : String, glucose : Int, recordDate : String)
-        = client.postGlucose("Bearer ${apiToken}", PostGlucoseBody(timeTag, glucose, recordDate))
+        = client.postGlucose("Bearer $apiToken", PostGlucoseBody(timeTag, glucose, recordDate))
 
     suspend fun deleteGlucose(apiToken : String, recordId : Int)
         = client.deleteGlucose("Bearer $apiToken", recordId)
@@ -25,7 +25,7 @@ class ServerRepository {
         = client.putGlucose("Bearer $apiToken", PutGlucoseBody(recordId, timeTag, glucose, recordDate))
 
     suspend fun postPressure(apiToken : String, timeTag: String, maxPressure : Int, minPressure : Int, heartRate : Int, recordDate : String)
-        = client.postPressure("Bearer ${apiToken}", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
+        = client.postPressure("Bearer $apiToken", PostPressureBody(timeTag, maxPressure, minPressure, heartRate, recordDate))
 
     suspend fun deletePressure(apiToken : String, recordId : Int)
             = client.deletePressure("Bearer $apiToken", recordId)
@@ -46,7 +46,7 @@ class ServerRepository {
             }
         }
 
-        return client.postMedicine("Bearer ${apiToken}", PostMedicineBody(timeTag, recordDate, itemList))
+        return client.postMedicine("Bearer $apiToken", PostMedicineBody(timeTag, recordDate, itemList))
     }
 
     suspend fun deleteMedicine(apiToken : String, recordId : Int)
@@ -69,7 +69,7 @@ class ServerRepository {
     }
 
     suspend fun postMeal(apiToken : String, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) : MealDto.Record {
-        return client.postMeal("Bearer ${apiToken}", PostMealBody(timeTag, recordDate, foodList))
+        return client.postMeal("Bearer $apiToken", PostMealBody(timeTag, recordDate, foodList))
     }
 
     suspend fun deleteMeal(apiToken : String, recordId : Int)
@@ -80,7 +80,7 @@ class ServerRepository {
     }
 
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>
-         = client.getRecord("Bearer ${apiToken}", getRecordBody)
+         = client.getRecord("Bearer $apiToken", getRecordBody)
 
     suspend fun getUserData(apiToken : String, userId : String) =
         client.getUserData("Bearer $apiToken", userId)

@@ -7,12 +7,15 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.probodia.BuildConfig
 import com.example.probodia.R
 import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.databinding.ActivityIntroBinding
+import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.IntroViewModel
 import com.kakao.auth.Session
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -31,18 +34,16 @@ class IntroActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
+        KakaoSdk.init(applicationContext, BuildConfig.KAKAO_NATIVE_APP_KEY)
         viewModel = ViewModelProvider(this).get(IntroViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
         viewModel.autoLogin()
 
-        viewModel.liveKakaoLogin.observe(this, Observer {
-            if (it) {
-                kakaoLogin()
-                viewModel.setKakaoLoginFalse()
-            }
-        })
+        viewModel.liveKakaoLogin.observe(this) {
+            kakaoLogin()
+        }
 
         viewModel.liveKakaoUserId.observe(this, Observer {
             if (it != 0.toLong()) {
@@ -105,14 +106,13 @@ class IntroActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val apiToken = viewModel.getApiToken()
             Log.e("TOKEN", "${apiToken}")
-            viewModel.saveApiToken(apiToken)
+            viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
             goMain()
         }
     }
 
     fun goMain() {
         val intent = Intent(applicationContext, MainActivity::class.java)
-//        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         startActivity(intent)
         finish()
     }

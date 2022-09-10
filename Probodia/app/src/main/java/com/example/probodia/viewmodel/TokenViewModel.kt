@@ -22,11 +22,11 @@ open class TokenViewModel : ViewModel() {
         _isError.call()
     }
 
-    fun refreshApiToken(preferenceRepository : PreferenceRepository) = viewModelScope.launch {
+    suspend fun refreshApiToken(preferenceRepository : PreferenceRepository) {
         try {
-            val token =
-                serverRepository.refreshApiToken(preferenceRepository.getApiToken().apiRefreshToken)
-            preferenceRepository.saveAccessToken(token)
+            val token = preferenceRepository.getApiToken()
+            val accessToken = serverRepository.refreshApiToken(token.apiAccessToken, token.apiRefreshToken)
+            preferenceRepository.saveAccessToken(accessToken)
         } finally { }
     }
 }

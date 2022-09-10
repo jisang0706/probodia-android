@@ -13,6 +13,7 @@ interface ServerService {
 
     @GET("auth/refresh")
     suspend fun refreshApiToken(
+        @Header("Authorization") token : String,
         @Header("RefreshToken") refreshToken : String
     ) : String
 

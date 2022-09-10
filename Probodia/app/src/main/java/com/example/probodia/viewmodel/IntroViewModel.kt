@@ -9,19 +9,15 @@ import com.example.probodia.BuildConfig
 import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
+import com.example.probodia.widget.utils.SingleLiveEvent
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 
-class IntroViewModel(application: Application) : AndroidViewModel(application) {
+class IntroViewModel : TokenViewModel() {
 
-    private val applicationContext = getApplication<Application>().applicationContext
-
-    private val serverRepository = ServerRepository()
-    private val preferenceRepository = PreferenceRepository(applicationContext)
-
-    private var _kakaoLoginMutableLiveData = MutableLiveData(false)
+    private var _kakaoLoginMutableLiveData = SingleLiveEvent<Boolean>()
     val liveKakaoLogin : LiveData<Boolean>
         get() = _kakaoLoginMutableLiveData
 
@@ -32,10 +28,6 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
     private var _kakaoAccessToken = MutableLiveData("")
     val liveKakaoAccessToken : LiveData<String>
         get() = _kakaoAccessToken
-
-    init {
-        KakaoSdk.init(applicationContext, BuildConfig.KAKAO_NATIVE_APP_KEY)
-    }
 
     fun autoLogin() {
         if (AuthApiClient.instance.hasToken()) {
@@ -58,16 +50,8 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun kakaoLogin() {
-        _kakaoLoginMutableLiveData.value = !_kakaoLoginMutableLiveData.value!!
+        _kakaoLoginMutableLiveData.call()
     }
-
-    fun setKakaoLoginFalse() {
-        _kakaoLoginMutableLiveData.value = false
-    }
-
-//    fun getAllData() {
-//        serverRepository.getAllData()
-//    }
 
     fun getKakaoAccessToken() {
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
@@ -90,7 +74,7 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun getApiToken() : ApiToken
         =  serverRepository.getApiToken(liveKakaoUserId.value!!, liveKakaoAccessToken.value!!)
 
-    fun saveApiToken(apiToken: ApiToken) {
+    fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) {
         preferenceRepository.saveApiToken(apiToken)
     }
 }

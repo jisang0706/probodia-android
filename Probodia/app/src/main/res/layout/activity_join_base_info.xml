@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.probodia.viewmodel.JoinBaseInfoViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            tools:context=".view.activity.JoinBaseInfoActivity"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="40dp"
+                android:text="기본 정보를 입력해주세요"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:textColor="@color/gray_900"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="생년월일"
+                android:textSize="16dp"
+                android:textColor="@color/gray_900"/>
+
+            <EditText
+                android:id="@+id/birth_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="32dp"
+                android:hint="생년월일 8자 입력 (ex. 19910627)"
+                android:textSize="16dp"
+                android:inputType="number"
+                android:digits="0987654321"
+                android:singleLine="true"
+                android:maxLength="8"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/gray_100_2_background"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="성별"
+                android:textSize="16dp"
+                android:textColor="@color/gray_900"/>
+
+            <include
+                layout="@layout/layout_select_button"
+                android:id="@+id/gender_select_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/gray_300_2_background"
+            android:textColor="@color/white"
+            android:text="다음"
+            android:layout_marginVertical="12dp"/>
+    </RelativeLayout>
+</layout>
