@@ -30,6 +30,7 @@ class PreferenceRepository(private val context: Context) {
 
     fun getApiToken() : ApiToken = ApiToken (
         preference.getString("apiAccessToken", "").toString(),
-        preference.getString("apiRefreshToken", "").toString()
+        preference.getString("apiRefreshToken", "").toString(),
+        false
     )
 }

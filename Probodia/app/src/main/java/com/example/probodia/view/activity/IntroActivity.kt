@@ -107,12 +107,22 @@ class IntroActivity : AppCompatActivity() {
             val apiToken = viewModel.getApiToken()
             Log.e("TOKEN", "${apiToken}")
             viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
-            goMain()
+            if (apiToken.isSignUp) {
+                goJoin()
+            } else {
+                goMain()
+            }
         }
     }
 
     fun goMain() {
         val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    fun goJoin() {
+        val intent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
         startActivity(intent)
         finish()
     }
