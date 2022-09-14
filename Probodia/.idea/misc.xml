@@ -67,6 +67,7 @@
         <entry key="app/src/main/res/layout/fragment_record_detail.xml" value="0.27071823204419887" />
         <entry key="app/src/main/res/layout/fragment_record_glucose.xml" value="0.1550925925925926" />
         <entry key="app/src/main/res/layout/fragment_record_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_record_medicine.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/fragment_record_past.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_record_pressure.xml" value="0.1425925925925926" />
         <entry key="app/src/main/res/layout/fragment_record_today.xml" value="0.1671195652173913" />

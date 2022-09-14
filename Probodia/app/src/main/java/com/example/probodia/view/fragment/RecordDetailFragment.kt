@@ -87,10 +87,8 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                     fragment.show(childFragmentManager, fragment.tag)
                 }
                 "MEDICINE" -> {
-                    val intent = Intent(activity, RecordMedicineActivity::class.java)
-                    intent.putExtra("RECORDTYPE", 1)
-                    intent.putExtra("DATA", (data as MedicineDto).record)
-                    activityResultLauncher.launch(intent)
+                    val fragment = RecordMedicineFragment(::finishAndReload, 1, (data as MedicineDto).record)
+                    fragment.show(childFragmentManager, fragment.tag)
                 }
                 "MEAL" -> {
                     val intent = Intent(activity, RecordMealActivity::class.java)

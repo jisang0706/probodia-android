@@ -1,39 +1,30 @@
-package com.example.probodia.view.activity
+package com.example.probodia.view.fragment
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.probodia.R
 import com.example.probodia.adapter.MedicineAddAdapter
 import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.data.remote.model.MedicineDto
-import com.example.probodia.databinding.ActivityRecordMedicineBinding
+import com.example.probodia.databinding.FragmentRecordMedicineBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.fragment.RecordDetailFragment
-import com.example.probodia.view.fragment.RecordFragment
-import com.example.probodia.view.fragment.TimeSelectorFragment
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMedicineViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordMedicineActivity : AppCompatActivity() {
+class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val data : MedicineDto.Record?) : BaseBottomSheetDialogFragment() {
 
-    private lateinit var binding : ActivityRecordMedicineBinding
+    private lateinit var binding : FragmentRecordMedicineBinding
 
     private lateinit var medicineViewModel : RecordMedicineViewModel
 
@@ -42,22 +33,17 @@ class RecordMedicineActivity : AppCompatActivity() {
 
     private lateinit var listAdapter : MedicineAddAdapter
 
-    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
-
-    private var recordType = 0
-    private lateinit var data : MedicineDto.Record
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.hide()
-        window.statusBarColor = ContextCompat.getColor(
-            applicationContext, R.color.alpha_30
-        )
+        initTimeSelector()
+    }
 
-        recordType = intent.getIntExtra("RECORDTYPE", 0)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_record_medicine)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_medicine, container, false)
 
         medicineViewModel = ViewModelProvider(this).get(RecordMedicineViewModel::class.java)
         binding.medicineVm = medicineViewModel
@@ -68,13 +54,11 @@ class RecordMedicineActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
 
-        initTimeSelector()
-
         listAdapter = MedicineAddAdapter()
         binding.medicineAddRv.adapter = listAdapter
-        binding.medicineAddRv.layoutManager = LinearLayoutManager(applicationContext)
+        binding.medicineAddRv.layoutManager = LinearLayoutManager(requireContext())
 
-        listAdapter.setOnItemButtonClickListener(object : MedicineAddAdapter.OnItemButtonClickListener {
+        listAdapter.setOnItemButtonClickListener(object  : MedicineAddAdapter.OnItemButtonClickListener {
             override fun onItemDeleteClick(position: Int) {
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
@@ -82,16 +66,15 @@ class RecordMedicineActivity : AppCompatActivity() {
             }
 
             override fun onItemSearchClick(position: Int) {
-                val intent = Intent(applicationContext, SearchMedicineActivity::class.java)
-                intent.putExtra("POSITION", position)
-                activityResultLauncher.launch(intent)
+
             }
 
             override fun onItemPlusClick() {
-                listAdapter.addItem(ApiMedicineDto.Body.MedicineItem(
+                listAdapter.addItem(
+                    ApiMedicineDto.Body.MedicineItem(
                     "",
                     "약 선택하기",
-                "",
+                    "",
                     "",
                     "",
                     ""
@@ -103,8 +86,7 @@ class RecordMedicineActivity : AppCompatActivity() {
         })
 
         if (recordType == 1) {
-            data = intent.getParcelableExtra("DATA")!!
-            baseViewModel.setSelectedTimeTag(when(data.timeTag) {
+            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
                 "아침" -> 1
                 "점심" -> 2
                 "저녁" -> 3
@@ -127,47 +109,30 @@ class RecordMedicineActivity : AppCompatActivity() {
             baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
         }
 
-        activityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result : ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
-                if (result.resultCode == R.integer.record_medicine_set_code) {
-                    val item : ApiMedicineDto.Body.MedicineItem = intent.getParcelableExtra("SETMEDICINE")!!
-                    val position : Int = intent.getIntExtra("POSITION", -1)
-                    if (position != -1) {
-                        listAdapter.setItem(position, item)
-                        listAdapter.notifyDataSetChanged()
-                        baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
-                    }
-                }
-            }
-        }
-
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
                 if (recordType == 1) {
                     medicineViewModel.putMedicine(
-                        PreferenceRepository(applicationContext),
-                        data.recordId,
+                        PreferenceRepository(requireContext()),
+                        data!!.recordId,
                         getSelectedTimeTag(),
                         listAdapter.getList(),
                         baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
                 } else {
                     medicineViewModel.postMedicine(
-                        PreferenceRepository(applicationContext),
+                        PreferenceRepository(requireContext()),
                         getSelectedTimeTag(),
                         listAdapter.getList(),
                         baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
                 }
             } else {
-                Toast.makeText(applicationContext, "입력된 투약 기록이 없습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "입력된 투약 기록이 없습니다.", Toast.LENGTH_LONG).show()
             }
         }
 
-        baseViewModel.buttonClickEnable.observe(this, Observer {
+        baseViewModel.buttonClickEnable.observe(this, {
             if (it) {
                 binding.enterBtn.setBackgroundResource(R.drawable.primary_100_2_background)
             } else {
@@ -175,32 +140,37 @@ class RecordMedicineActivity : AppCompatActivity() {
             }
         })
 
-        medicineViewModel.medicineResult.observe(this, Observer {
-            var resultIntent : Intent
-            if (recordType == 0) {
-                resultIntent = Intent(applicationContext, RecordFragment::class.java)
-            } else {
-                resultIntent = Intent(applicationContext, RecordDetailFragment::class.java)
-            }
-            resultIntent.putExtra("RELOAD", true)
-            setResult(R.integer.record_medicine_result_code, resultIntent)
-            finish()
+        medicineViewModel.medicineResult.observe(this, {
+            reload()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         })
 
         binding.cancelBtn.setOnClickListener {
-            finish()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
         medicineViewModel.isError.observe(this) {
-            Toast.makeText(applicationContext, "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
+
+        return binding.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog : Dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            setUpRatio(bottomSheetDialog, 80)
+        }
+        return dialog
     }
 
     fun initTimeSelector() {
-        val manager = supportFragmentManager
+        val manager = childFragmentManager
         val transaction = manager.beginTransaction()
         val fragment = TimeSelectorFragment()
         transaction.replace(R.id.time_selector_frame, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 

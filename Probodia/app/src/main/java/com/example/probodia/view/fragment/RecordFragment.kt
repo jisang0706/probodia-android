@@ -113,8 +113,8 @@ class RecordFragment : Fragment() {
         }
 
         binding.recordMedicineBtn.setOnClickListener {
-            val intent = Intent(activity, RecordMedicineActivity::class.java)
-            activityResultLauncher.launch(intent)
+            val fragment = RecordMedicineFragment(::reloadRecord, 0, null)
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.recordMealLayout.setOnClickListener {
