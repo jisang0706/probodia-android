@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun addItem(item : ApiMedicineDto.Body.MedicineItem) {
         dataSet.add(item)
+        setItemUnit(dataSet.size - 1, 1)
     }
 
     fun deleteItem(position : Int) {
@@ -40,7 +42,9 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun setItem(position : Int, item : ApiMedicineDto.Body.MedicineItem) {
+        val unit = dataSet[position].unit
         dataSet[position] = item
+        setItemUnit(position, unit)
     }
 
     fun setItemUnit(position : Int, unit : Int) {
@@ -48,15 +52,12 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun checkItemComplete() : Boolean {
-        Log.e("MEDICINECOMPLETE", dataSet.size.toString())
         if (dataSet.size == 0)  return false
         for(data in dataSet) {
-            Log.e("MEDICINECOMPLETE", "${data.item_seq} ${data.unit}")
             if (data.item_seq == "" || data.unit == 0) {
                 return false
             }
         }
-        Log.e("MEDICINECOMPLETE", "COMPLETE")
         return true
     }
 
@@ -131,8 +132,9 @@ class MedicineAddAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             binding.unitEdit.addTextChangedListener {
                 val position = bindingAdapterPosition
-                if (binding.unitEdit.text.toString() != "") {
-                    dataSet[position].unit = binding.unitEdit.text.toString().toInt()
+                if (it.toString() != "") {
+                    dataSet[position].unit = it.toString().toInt()
+                    Log.e("MEDICINECOMPLETE", dataSet[position].unit.toString())
                 } else {
                     dataSet[position].unit = 0
                 }

@@ -135,11 +135,7 @@ class RecordMedicineActivity : AppCompatActivity() {
                 if (result.resultCode == R.integer.record_medicine_set_code) {
                     val item : ApiMedicineDto.Body.MedicineItem = intent.getParcelableExtra("SETMEDICINE")!!
                     val position : Int = intent.getIntExtra("POSITION", -1)
-                    if (position != -1) {
-                        listAdapter.setItem(position, item)
-                        listAdapter.notifyDataSetChanged()
-                        baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
-                    }
+                    setMedicine(item, position)
                 }
             }
         }
@@ -210,6 +206,14 @@ class RecordMedicineActivity : AppCompatActivity() {
             2 -> "점심"
             3 -> "저녁"
             else -> "아침"
+        }
+    }
+
+    fun setMedicine(item : ApiMedicineDto.Body.MedicineItem, position : Int) {
+        if (position != -1) {
+            listAdapter.setItem(position, item)
+            listAdapter.notifyDataSetChanged()
+            baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
         }
     }
 }

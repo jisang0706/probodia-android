@@ -8,20 +8,19 @@ import java.time.LocalDateTime
 
 class RecordAnythingViewModel(val num : Int) : ViewModel() {
 
-    val _selectedTimeTag = MutableLiveData<Int>()
+    private val _selectedTimeTag = MutableLiveData<Int>()
     val selectedTimeTag : LiveData<Int>
         get() = _selectedTimeTag
 
-    val _localDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now())
+    private val _localDateTime = MutableLiveData(LocalDateTime.now())
     val localDateTime : LiveData<LocalDateTime>
             get() = _localDateTime
 
-    val _buttonClickEnable = MutableLiveData(false)
+    private val _buttonClickEnable = MutableLiveData(false)
     val buttonClickEnable : LiveData<Boolean>
         get() = _buttonClickEnable
 
     fun setSelectedTimeTag(kind : Int) {
-        Log.e("SELECTED", kind.toString())
         _selectedTimeTag.value = kind
     }
 

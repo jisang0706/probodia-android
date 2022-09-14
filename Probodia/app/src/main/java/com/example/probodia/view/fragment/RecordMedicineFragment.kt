@@ -2,6 +2,7 @@ package com.example.probodia.view.fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +67,8 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
             }
 
             override fun onItemSearchClick(position: Int) {
-
+                val fragment = SearchMedicineFragment(::setMedicine, position)
+                fragment.show(childFragmentManager, fragment.tag)
             }
 
             override fun onItemPlusClick() {
@@ -180,6 +182,14 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
             2 -> "점심"
             3 -> "저녁"
             else -> "아침"
+        }
+    }
+
+    fun setMedicine(item : ApiMedicineDto.Body.MedicineItem, position : Int) {
+        if (position != -1) {
+            listAdapter.setItem(position, item)
+            listAdapter.notifyDataSetChanged()
+            baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
         }
     }
 }
