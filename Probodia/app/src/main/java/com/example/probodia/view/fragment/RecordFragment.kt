@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.probodia.R
 import com.example.probodia.adapter.RecordPagerAdapter
+import com.example.probodia.data.remote.model.PressureDto
 import com.example.probodia.databinding.FragmentRecordBinding
 import com.example.probodia.view.activity.RecordGlucoseActivity
 import com.example.probodia.view.activity.RecordMealActivity
@@ -94,8 +95,6 @@ class RecordFragment : Fragment() {
         }
 
         binding.recordGlucoseBtn.setOnClickListener {
-//            val intent = Intent(activity, RecordGlucoseActivity::class.java)
-//            activityResultLauncher.launch(intent)
             val fragment = RecordGlucoseFragment(::reloadRecord, 0, null)
             fragment.show(childFragmentManager, fragment.tag)
         }
@@ -105,8 +104,8 @@ class RecordFragment : Fragment() {
         }
 
         binding.recordPressureBtn.setOnClickListener {
-            val intent = Intent(activity, RecordPressureActivity::class.java)
-            activityResultLauncher.launch(intent)
+            val fragment = RecordPressureFragment(::reloadRecord, 0, null)
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.recordMedicineLayout.setOnClickListener {

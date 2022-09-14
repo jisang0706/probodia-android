@@ -10,6 +10,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+    companion object {
+        const val TAG = "BottomSheetFragment"
+    }
+
     protected fun setUpRatio(bottomSheetDialog : BottomSheetDialog, height : Int) {
         val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
         val behavior = BottomSheetBehavior.from<View>(bottomSheet)

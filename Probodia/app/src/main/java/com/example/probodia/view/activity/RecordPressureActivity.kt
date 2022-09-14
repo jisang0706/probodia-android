@@ -75,39 +75,39 @@ class RecordPressureActivity : AppCompatActivity() {
             baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
         }
 
-        binding.enterBtn.setOnClickListener {
-            if (baseViewModel.buttonClickEnable.value!!) {
-                if (recordType == 1) {
-                    pressureViewModel.putPressure(
-                        data.recordId,
-                        getSelectedTimeTag(),
-                        binding.highPressureEdit.text.toString().toInt(),
-                        binding.lowPressureEdit.text.toString().toInt(),
-                        binding.heartRateEdit.text.toString().toInt(),
-                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    )
-                } else {
-                    pressureViewModel.postPressure(
-                        getSelectedTimeTag(),
-                        binding.highPressureEdit.text.toString().toInt(),
-                        binding.lowPressureEdit.text.toString().toInt(),
-                        binding.heartRateEdit.text.toString().toInt(),
-                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    )
-                }
-            } else {
-                when(0) {
-                    binding.highPressureEdit.text.length ->
-                        Toast.makeText(applicationContext, "입력된 최고 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
-
-                    binding.lowPressureEdit.text.length ->
-                        Toast.makeText(applicationContext, "입력된 최저 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
-
-                    binding.heartRateEdit.text.length ->
-                        Toast.makeText(applicationContext, "입력된 맥박 수치가 없습니다.", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
+//        binding.enterBtn.setOnClickListener {
+//            if (baseViewModel.buttonClickEnable.value!!) {
+//                if (recordType == 1) {
+//                    pressureViewModel.putPressure(
+//                        data.recordId,
+//                        getSelectedTimeTag(),
+//                        binding.highPressureEdit.text.toString().toInt(),
+//                        binding.lowPressureEdit.text.toString().toInt(),
+//                        binding.heartRateEdit.text.toString().toInt(),
+//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                    )
+//                } else {
+//                    pressureViewModel.postPressure(
+//                        getSelectedTimeTag(),
+//                        binding.highPressureEdit.text.toString().toInt(),
+//                        binding.lowPressureEdit.text.toString().toInt(),
+//                        binding.heartRateEdit.text.toString().toInt(),
+//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                    )
+//                }
+//            } else {
+//                when(0) {
+//                    binding.highPressureEdit.text.length ->
+//                        Toast.makeText(applicationContext, "입력된 최고 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
+//
+//                    binding.lowPressureEdit.text.length ->
+//                        Toast.makeText(applicationContext, "입력된 최저 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
+//
+//                    binding.heartRateEdit.text.length ->
+//                        Toast.makeText(applicationContext, "입력된 맥박 수치가 없습니다.", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//        }
 
         binding.highPressureEdit.addTextChangedListener {
             examineEditTextFull()

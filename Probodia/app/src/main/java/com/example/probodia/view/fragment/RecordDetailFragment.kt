@@ -79,18 +79,12 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
         binding.editBtn.setOnClickListener {
             when(data.type) {
                 "SUGAR" -> {
-//                    val intent = Intent(activity, RecordGlucoseActivity::class.java)
-//                    intent.putExtra("RECORDTYPE", 1)
-//                    intent.putExtra("DATA", (data as GlucoseDto).record)
-//                    activityResultLauncher.launch(intent)
                     val fragment = RecordGlucoseFragment(::finishAndReload, 1, (data as GlucoseDto).record)
                     fragment.show(childFragmentManager, fragment.tag)
                 }
                 "PRESSURE" -> {
-                    val intent = Intent(activity, RecordPressureActivity::class.java)
-                    intent.putExtra("RECORDTYPE", 1)
-                    intent.putExtra("DATA", (data as PressureDto).record)
-                    activityResultLauncher.launch(intent)
+                    val fragment = RecordPressureFragment(::finishAndReload, 1, (data as PressureDto).record)
+                    fragment.show(childFragmentManager, fragment.tag)
                 }
                 "MEDICINE" -> {
                     val intent = Intent(activity, RecordMedicineActivity::class.java)

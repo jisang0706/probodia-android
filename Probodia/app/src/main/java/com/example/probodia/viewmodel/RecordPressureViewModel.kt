@@ -9,18 +9,19 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : TokenViewModel() {
+class RecordPressureViewModel() : TokenViewModel() {
 
     private val _pressureResult = MutableLiveData<PressureDto.Record>()
     val pressureResult : LiveData<PressureDto.Record>
         get() = _pressureResult
 
     fun postPressure(
+        preferenceRepo : PreferenceRepository,
         timeTag : String, maxPressure : Int,
         minPressure : Int, heartRate : Int,
         recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postPressure(
                 accessToken,
                 timeTag,
@@ -30,8 +31,8 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
                 recordDate
             )
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postPressure(
                 accessToken,
                 timeTag,
@@ -48,12 +49,13 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
     }
 
     fun putPressure(
+        preferenceRepo : PreferenceRepository,
         recordId : Int,
         timeTag : String, maxPressure : Int,
         minPressure : Int, heartRate : Int,
         recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putPressure(
                 accessToken,
                 recordId,
@@ -64,8 +66,8 @@ class RecordPressureViewModel(val preferenceRepository: PreferenceRepository) : 
                 recordDate
             )
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putPressure(
                 accessToken,
                 recordId,

@@ -12,22 +12,21 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
-import com.example.probodia.data.remote.model.GlucoseDto
-import com.example.probodia.databinding.FragmentRecordGlucoseBinding
+import com.example.probodia.data.remote.model.PressureDto
+import com.example.probodia.databinding.FragmentRecordPressureBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.RecordAnythingViewModel
-import com.example.probodia.viewmodel.RecordGlucoseViewModel
+import com.example.probodia.viewmodel.RecordPressureViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val data : GlucoseDto.Record?) : BaseBottomSheetDialogFragment() {
+class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val data : PressureDto.Record?) : BaseBottomSheetDialogFragment() {
 
-    private lateinit var binding : FragmentRecordGlucoseBinding
+    private lateinit var binding : FragmentRecordPressureBinding
 
-    private lateinit var glucoseViewModel : RecordGlucoseViewModel
+    private lateinit var pressureViewModel : RecordPressureViewModel
 
     private lateinit var baseViewModel : RecordAnythingViewModel
     private lateinit var baseViewModelFactory : RecordAnythingViewModelFactory
@@ -42,12 +41,12 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_glucose, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_pressure, container, false)
 
-        glucoseViewModel = ViewModelProvider(this).get(RecordGlucoseViewModel::class.java)
-        binding.glucoseVm = glucoseViewModel
+        pressureViewModel = ViewModelProvider(this).get(RecordPressureViewModel::class.java)
+        binding.pressureVm = pressureViewModel
 
-        baseViewModelFactory = RecordAnythingViewModelFactory(1)
+        baseViewModelFactory = RecordAnythingViewModelFactory(2)
         baseViewModel = ViewModelProvider(this, baseViewModelFactory).get(RecordAnythingViewModel::class.java)
         binding.baseVm = baseViewModel
 
@@ -55,48 +54,67 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
 
         if (recordType == 1) {
             baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
-                "아침 식전" -> 1
-                "점심 식전" -> 2
-                "저녁 식전" -> 3
-                "아침 식후" -> 4
-                "점심 식후" -> 5
-                "저녁 식후" -> 6
+                "아침" -> 1
+                "점심" -> 2
+                "저녁" -> 3
                 else -> 1
             })
-            binding.glucoseEdit.setText(data!!.glucose.toString())
-            baseViewModel.setButtonClickEnable(binding.glucoseEdit.text.length!! > 0)
+            binding.highPressureEdit.setText(data!!.maxPressure.toString())
+            binding.lowPressureEdit.setText(data!!.minPressure.toString())
+            binding.heartRateEdit.setText(data!!.heartRate.toString())
+            examineEditTextFull()
             val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            baseViewModel.setLocalDateTime(LocalDateTime.parse(data!!.recordDate, localDateTimeFormatter))
+            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
         }
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
                 if (recordType == 1) {
-                    glucoseViewModel.putGlucose(
+                    pressureViewModel.putPressure(
                         PreferenceRepository(requireContext()),
                         data!!.recordId,
                         getSelectedTimeTag(),
-                        binding.glucoseEdit.text.toString().toInt(),
+                        binding.highPressureEdit.text.toString().toInt(),
+                        binding.lowPressureEdit.text.toString().toInt(),
+                        binding.heartRateEdit.text.toString().toInt(),
                         baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
                 } else {
-                    glucoseViewModel.postGlucose(
+                    pressureViewModel.postPressure(
                         PreferenceRepository(requireContext()),
                         getSelectedTimeTag(),
-                        binding.glucoseEdit.text.toString().toInt(),
+                        binding.highPressureEdit.text.toString().toInt(),
+                        binding.lowPressureEdit.text.toString().toInt(),
+                        binding.heartRateEdit.text.toString().toInt(),
                         baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
                 }
             } else {
-                Toast.makeText(requireContext(), "입력된 혈당 수치가 없습니다.", Toast.LENGTH_LONG).show()
+                when(0) {
+                    binding.highPressureEdit.text.length ->
+                        Toast.makeText(requireContext(), "입력된 최고 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
+
+                    binding.lowPressureEdit.text.length ->
+                        Toast.makeText(requireContext(), "입력된 최저 혈압 수치가 없습니다.", Toast.LENGTH_LONG).show()
+
+                    binding.heartRateEdit.text.length ->
+                        Toast.makeText(requireContext(), "입력된 맥박 수치가 없습니다.", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
-        binding.glucoseEdit.addTextChangedListener {
-            baseViewModel.setButtonClickEnable(it?.length!! > 0)
+        binding.highPressureEdit.addTextChangedListener {
+            examineEditTextFull()
         }
 
-        glucoseViewModel.glucoseResult.observe(this, {
+        binding.lowPressureEdit.addTextChangedListener {
+            examineEditTextFull()
+        }
+
+        binding.heartRateEdit.addTextChangedListener {
+            examineEditTextFull()
+        }
+        pressureViewModel.pressureResult.observe(this, {
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
@@ -113,7 +131,7 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
-        glucoseViewModel.isError.observe(this) {
+        pressureViewModel.isError.observe(this) {
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -138,13 +156,14 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
         transaction.commit()
     }
 
+    fun examineEditTextFull() {
+        baseViewModel.setButtonClickEnable(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
+    }
+
     fun getSelectedTimeTag() = when(baseViewModel.selectedTimeTag.value) {
-        1 -> "아침 식전"
-        2 -> "점심 식전"
-        3 -> "저녁 식전"
-        4 -> "아침 식후"
-        5 -> "점심 식후"
-        6 -> "저녁 식후"
-        else -> "아침 식전"
+        1 -> "아침"
+        2 -> "점심"
+        3 -> "저녁"
+        else -> "아침"
     }
 }
