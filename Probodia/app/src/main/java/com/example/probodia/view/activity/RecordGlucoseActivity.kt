@@ -78,26 +78,26 @@ class RecordGlucoseActivity : AppCompatActivity() {
             baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
         }
 
-        binding.enterBtn.setOnClickListener {
-            if (baseViewModel.buttonClickEnable.value!!) {
-                if (recordType == 1) {
-                    glucoseViewModel.putGlucose(
-                        data.recordId,
-                        getSelectedTimeTag(),
-                        binding.glucoseEdit.text.toString().toInt(),
-                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    )
-                } else {
-                    glucoseViewModel.postGlucose(
-                        getSelectedTimeTag(),
-                        binding.glucoseEdit.text.toString().toInt(),
-                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    )
-                }
-            } else {
-                Toast.makeText(applicationContext, "입력된 혈당 수치가 없습니다.", Toast.LENGTH_LONG).show()
-            }
-        }
+//        binding.enterBtn.setOnClickListener {
+//            if (baseViewModel.buttonClickEnable.value!!) {
+//                if (recordType == 1) {
+//                    glucoseViewModel.putGlucose(
+//                        data.recordId,
+//                        getSelectedTimeTag(),
+//                        binding.glucoseEdit.text.toString().toInt(),
+//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                    )
+//                } else {
+//                    glucoseViewModel.postGlucose(
+//                        getSelectedTimeTag(),
+//                        binding.glucoseEdit.text.toString().toInt(),
+//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                    )
+//                }
+//            } else {
+//                Toast.makeText(applicationContext, "입력된 혈당 수치가 없습니다.", Toast.LENGTH_LONG).show()
+//            }
+//        }
 
         binding.glucoseEdit.addTextChangedListener {
             baseViewModel.setButtonClickEnable(it?.length!! > 0)

@@ -31,7 +31,13 @@ class TimeSelectorFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_time_selector, container, false)
 
-        viewModel = ViewModelProvider(requireActivity()).get(RecordAnythingViewModel::class.java)
+        try {
+            viewModel =
+                ViewModelProvider(requireParentFragment()).get(RecordAnythingViewModel::class.java)
+        } catch (e : Exception) {
+            viewModel =
+                ViewModelProvider(requireActivity()).get(RecordAnythingViewModel::class.java)
+        }
         binding.vm = viewModel
 
         viewModel.localDateTime.observe(viewLifecycleOwner, Observer {

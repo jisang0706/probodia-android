@@ -35,7 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) : BottomSheetDialogFragment() {
+class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) : BaseBottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentRecordDetailBinding
     private lateinit var viewModel : RecordDetailViewModel
@@ -79,10 +79,12 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
         binding.editBtn.setOnClickListener {
             when(data.type) {
                 "SUGAR" -> {
-                    val intent = Intent(activity, RecordGlucoseActivity::class.java)
-                    intent.putExtra("RECORDTYPE", 1)
-                    intent.putExtra("DATA", (data as GlucoseDto).record)
-                    activityResultLauncher.launch(intent)
+//                    val intent = Intent(activity, RecordGlucoseActivity::class.java)
+//                    intent.putExtra("RECORDTYPE", 1)
+//                    intent.putExtra("DATA", (data as GlucoseDto).record)
+//                    activityResultLauncher.launch(intent)
+                    val fragment = RecordGlucoseFragment(::finishAndReload, 1, (data as GlucoseDto).record)
+                    fragment.show(childFragmentManager, fragment.tag)
                 }
                 "PRESSURE" -> {
                     val intent = Intent(activity, RecordPressureActivity::class.java)
@@ -122,8 +124,7 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                         R.integer.record_meal_result_code,
                 ).any{ it == result.resultCode}) {
                     if (intent.getBooleanExtra("RELOAD", false)) {
-                        reload()
-                        parentFragmentManager.beginTransaction().remove(this).commit()
+                        finishAndReload()
                     }
                 }
             }
@@ -144,28 +145,9 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
         val dialog : Dialog = super.onCreateDialog(savedInstanceState)
         dialog.setOnShowListener {
             val bottomSheetDialog = it as BottomSheetDialog
-            setUpRatio(bottomSheetDialog)
+            setUpRatio(bottomSheetDialog, 50)
         }
         return dialog
-    }
-
-    private fun setUpRatio(bottomSheetDialog : BottomSheetDialog) {
-        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
-        val behavior = BottomSheetBehavior.from<View>(bottomSheet)
-        val layoutParams = bottomSheet!!.layoutParams
-        layoutParams.height = getBottomSheeetDialogDefaultHeight()
-        bottomSheet.layoutParams = layoutParams
-        bottomSheet.setBackgroundResource(R.drawable.white_top_3_background)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    private fun getBottomSheeetDialogDefaultHeight() : Int {
-        return getWindowHeight() * 50 / 100
-    }
-
-    private fun getWindowHeight() : Int {
-        return (context as Activity?)!!.getSystemService(WindowManager::class.java)
-            .currentWindowMetrics.bounds.height()
     }
 
     private fun getGlucoseListAdapter(glucoseDto : GlucoseDto) : RecordDetailAdapter{
@@ -228,5 +210,10 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
             )
         }
         return RecordDetailAdapter(mealDto.record.timeTag, itemDatas)
+    }
+
+    fun finishAndReload() {
+        reload()
+        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 }

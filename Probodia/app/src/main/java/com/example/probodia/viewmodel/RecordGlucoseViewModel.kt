@@ -9,19 +9,19 @@ import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordGlucoseViewModel(val preferenceRepository: PreferenceRepository) : TokenViewModel() {
+class RecordGlucoseViewModel() : TokenViewModel() {
 
     private val _glucoseResult = MutableLiveData<GlucoseDto.Record>()
     val glucoseResult : LiveData<GlucoseDto.Record>
         get() = _glucoseResult
 
-    fun postGlucose(timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun postGlucose(preferenceRepo : PreferenceRepository, timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postGlucose(accessToken, timeTag, glucose, recordDate)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postGlucose(accessToken, timeTag, glucose, recordDate)
         }
     }
@@ -30,13 +30,13 @@ class RecordGlucoseViewModel(val preferenceRepository: PreferenceRepository) : T
         _glucoseResult.value = serverRepository.postGlucose(accessToken, timeTag, glucose, recordDate)
     }
 
-    fun putGlucose(recordId : Int, timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun putGlucose(preferenceRepo : PreferenceRepository, recordId : Int, timeTag : String, glucose : Int, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putGlucose(accessToken, recordId, timeTag, glucose, recordDate)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putGlucose(accessToken, recordId, timeTag, glucose, recordDate)
         }
     }

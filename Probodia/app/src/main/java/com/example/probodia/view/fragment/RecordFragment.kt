@@ -94,8 +94,10 @@ class RecordFragment : Fragment() {
         }
 
         binding.recordGlucoseBtn.setOnClickListener {
-            val intent = Intent(activity, RecordGlucoseActivity::class.java)
-            activityResultLauncher.launch(intent)
+//            val intent = Intent(activity, RecordGlucoseActivity::class.java)
+//            activityResultLauncher.launch(intent)
+            val fragment = RecordGlucoseFragment(::reloadRecord, 0, null)
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.recordPressureLayout.setOnClickListener {

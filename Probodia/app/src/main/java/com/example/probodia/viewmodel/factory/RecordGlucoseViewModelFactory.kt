@@ -8,7 +8,7 @@ import com.example.probodia.viewmodel.RecordGlucoseViewModel
 class RecordGlucoseViewModelFactory(private val preferenceRepository: PreferenceRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RecordGlucoseViewModel::class.java)) {
-            return RecordGlucoseViewModel(preferenceRepository) as T
+            return RecordGlucoseViewModel() as T
         }
         throw IllegalArgumentException("Unknown Viewmodel class")
     }
