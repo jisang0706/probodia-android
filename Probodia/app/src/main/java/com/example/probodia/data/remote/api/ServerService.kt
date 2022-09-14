@@ -100,4 +100,10 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Header("userId") userId : String
     ) : UserDto
+
+    @PUT("api/users")
+    suspend fun putUserData(
+        @Header("Authorization") token : String,
+        @Body userData : PutUserData
+    ) : UserDto
 }

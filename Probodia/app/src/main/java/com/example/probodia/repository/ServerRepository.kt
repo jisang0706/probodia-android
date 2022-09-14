@@ -82,6 +82,9 @@ class ServerRepository {
     suspend fun getRecords(apiToken: String, getRecordBody: GetRecordBody) : MutableList<TodayRecord.AllData>
          = client.getRecord("Bearer $apiToken", getRecordBody)
 
-    suspend fun getUserData(apiToken : String, userId : String) =
-        client.getUserData("Bearer $apiToken", userId)
+    suspend fun getUserData(apiToken : String, userId : String)
+        = client.getUserData("Bearer $apiToken", userId)
+
+    suspend fun putUserData(apiToken : String, userData : PutUserData)
+        = client.putUserData("Bearer $apiToken", userData)
 }

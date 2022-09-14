@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Probodia">
         <activity
+            android:name=".view.activity.JoinLastInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.JoinBaseInfoActivity"
             android:exported="false" />
         <activity
