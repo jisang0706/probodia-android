@@ -30,6 +30,10 @@ import com.example.probodia.viewmodel.factory.RecordDetailViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.TextStyle
+import java.util.*
 
 class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) : BaseBottomSheetDialogFragment() {
 
@@ -46,6 +50,40 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
 
         viewModel = ViewModelProvider(this, RecordDetailViewModelFactory(data.type)).get(RecordDetailViewModel::class.java)
         binding.vm = viewModel
+
+        val datetime : List<String> = when(data.type) {
+            "SUGAR" -> (data as GlucoseDto).record.recordDate.split(" ")
+            "PRESSURE" -> (data as PressureDto).record.recordDate.split(" ")
+            "MEDICINE" -> (data as MedicineDto).record.recordDate.split(" ")
+            "MEAL" -> (data as MealDto).record.recordDate.split(" ")
+            else -> listOf("", "")
+        }
+
+        val YMD : List<String> = datetime[0].split("-")
+        val date : LocalDate = LocalDate.of(YMD[0].toInt(), YMD[1].toInt(), YMD[2].toInt())
+        val dayOfWeek : String = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)
+
+        val time = buildList {
+            add("오전")
+            for(obj in datetime[1].split(":")) {
+                add(obj)
+            }
+        }.toMutableList()
+
+        if (time[1].toInt() > 12) {
+            time[0] = "오후"
+            time[1] = "${time[1].toInt() - 12}"
+        } else {
+            time[1] = "${time[1].toInt()}"
+        }
+        if (time[1].toInt() == 0) {
+            time[1] = "12"
+        }
+
+        time[2] = "${time[2].toInt()}"
+
+        binding.recordDateText.text = "${YMD[0].substring(2)}년 ${YMD[1]}월 ${YMD[2]}일 ($dayOfWeek)"
+        binding.recordTimeText.text = "${time[0]} ${time[1]}시 ${time[2]}분"
 
         listAdapter = when(data.type) {
             "SUGAR" -> getGlucoseListAdapter(data as GlucoseDto)
