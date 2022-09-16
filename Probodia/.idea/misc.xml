@@ -74,6 +74,7 @@
         <entry key="app/src/main/res/layout/fragment_record_pressure.xml" value="0.1425925925925926" />
         <entry key="app/src/main/res/layout/fragment_record_today.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_search_food_detail.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/fragment_search_medicine.xml" value="0.1425925925925926" />
         <entry key="app/src/main/res/layout/fragment_time_selector.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_food.xml" value="0.15476190476190477" />

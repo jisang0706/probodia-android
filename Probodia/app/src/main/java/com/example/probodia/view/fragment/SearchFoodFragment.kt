@@ -38,8 +38,6 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
 
     private lateinit var listAdapter : SearchAdapter
 
-    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,18 +56,6 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
         if (foodName != "") {
             binding.foodEdittext.setText(foodName, TextView.BufferType.EDITABLE)
             viewModel.getFood(true, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), 1)
-        }
-
-        activityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result : ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
-                if (result.resultCode == R.integer.record_meal_add_code) {
-                    val item : PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
-                    applyItem(item)
-                }
-            }
         }
 
         binding.foodEdittext.addTextChangedListener(object : TextWatcher {
@@ -99,9 +85,8 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
             override fun onItemClick(v: View, position: Int) {
                 val item = listAdapter.dataSet[position] as FoodDto.FoodItem
                 if (item != null) {
-                    val intent = Intent(requireContext(), SearchFoodDetailActivity::class.java)
-                    intent.putExtra("FOODID", item.foodId)
-                    activityResultLauncher.launch(intent)
+                    val fragment = SearchFoodDetailFragment(::applyItem, item.foodId)
+                    fragment.show(childFragmentManager, fragment.tag)
                 } else {
                     Toast.makeText(requireContext(), "음식 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
