@@ -10,9 +10,6 @@ class AIServerRepository {
 
     private val client = RetrofitAIServerInstance.getInstance().create(AIServerService::class.java)
 
-    suspend fun getImageFood(filename : String): FoodNamesDto {
-        val img_path = "food/${filename}"
-        Log.e("IMG_PATH", img_path)
-        return client.getImageFood(GetImageFoodBody(img_path))
-    }
+    suspend fun getImageFood(apiToken : String, filename : String): FoodNamesDto =
+        client.getImageFood("Bearer $apiToken", GetImageFoodBody("food/${filename}"))
 }

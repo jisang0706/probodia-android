@@ -56,7 +56,14 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Tok
     }
 
     fun getImageFood(filename : String) = viewModelScope.launch(coroutineExceptionHandler) {
-        _foodNamesResult.value = aiServerRepository.getImageFood(filename)
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodNamesResult.value = aiServerRepository.getImageFood(accessToken, filename)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodNamesResult.value = aiServerRepository.getImageFood(accessToken, filename)
+        }
     }
 
     fun setFoodImage(bitmap : Bitmap) {
