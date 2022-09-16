@@ -122,8 +122,8 @@ class RecordFragment : Fragment() {
         }
 
         binding.recordMealBtn.setOnClickListener {
-            val intent = Intent(activity, RecordMealActivity::class.java)
-            activityResultLauncher.launch(intent)
+            val fragment = RecordMealFragment(::reloadRecord, 0, null)
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         return binding.root

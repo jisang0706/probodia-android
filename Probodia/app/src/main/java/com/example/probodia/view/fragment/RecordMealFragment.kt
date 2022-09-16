@@ -1,23 +1,26 @@
-package com.example.probodia.view.activity
+package com.example.probodia.view.fragment
 
-import android.content.DialogInterface
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amazonaws.auth.BasicAWSCredentials
@@ -32,18 +35,15 @@ import com.example.probodia.BuildConfig
 import com.example.probodia.R
 import com.example.probodia.adapter.FoodAddAdapter
 import com.example.probodia.data.remote.body.PostMealBody
-import com.example.probodia.data.remote.body.PutMealBody
-import com.example.probodia.data.remote.model.FoodDetailDto
 import com.example.probodia.data.remote.model.MealDto
-import com.example.probodia.databinding.ActivityRecordMealBinding
+import com.example.probodia.databinding.FragmentRecordMealBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.fragment.RecordDetailFragment
-import com.example.probodia.view.fragment.RecordFragment
-import com.example.probodia.view.fragment.TimeSelectorFragment
+import com.example.probodia.view.activity.RecognitionFoodActivity
+import com.example.probodia.view.activity.SearchFoodActivity
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMealViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
-import com.example.probodia.viewmodel.factory.RecordMealViewModelFactory
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,12 +54,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
-class RecordMealActivity : AppCompatActivity() {
+class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data : MealDto.Record?) : BaseBottomSheetDialogFragment() {
 
-    private lateinit var binding : ActivityRecordMealBinding
+    private lateinit var binding : FragmentRecordMealBinding
 
     private lateinit var mealViewModel : RecordMealViewModel
-    private lateinit var mealViewModelFactory : RecordMealViewModelFactory
 
     private lateinit var baseViewModel : RecordAnythingViewModel
     private lateinit var baseViewModelFactory : RecordAnythingViewModelFactory
@@ -68,23 +67,19 @@ class RecordMealActivity : AppCompatActivity() {
 
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
-    private var recordType = 0
-    private lateinit var data : MealDto.Record
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.hide()
-        window.statusBarColor = ContextCompat.getColor(
-            applicationContext, R.color.alpha_30
-        )
+        initTimeSelector()
+    }
 
-        recordType = intent.getIntExtra("RECORDTYPE", 0)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_meal, container, false)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_record_meal)
-
-        mealViewModelFactory = RecordMealViewModelFactory(PreferenceRepository(applicationContext))
-        mealViewModel = ViewModelProvider(this, mealViewModelFactory).get(RecordMealViewModel::class.java)
+        mealViewModel = ViewModelProvider(this).get(RecordMealViewModel::class.java)
         binding.mealVm = mealViewModel
 
         baseViewModelFactory = RecordAnythingViewModelFactory(4)
@@ -93,13 +88,11 @@ class RecordMealActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
 
-        initTimeSelector()
-
         listAdapter = FoodAddAdapter()
         binding.foodAddRv.adapter = listAdapter
-        binding.foodAddRv.layoutManager = LinearLayoutManager(applicationContext)
+        binding.foodAddRv.layoutManager = LinearLayoutManager(requireContext())
 
-        listAdapter.setOnItemButtonClickListener(object : FoodAddAdapter.OnItemButtonClickListener {
+        listAdapter.setOnItemButtonClickListener(object  : FoodAddAdapter.OnItemButtonClickListener {
             override fun onItemDeleteClick(position: Int) {
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
@@ -113,8 +106,7 @@ class RecordMealActivity : AppCompatActivity() {
         })
 
         if (recordType == 1) {
-            data = intent.getParcelableExtra("DATA")!!
-            baseViewModel.setSelectedTimeTag(when(data.timeTag) {
+            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
                 "아침" -> 1
                 "점심" -> 2
                 "저녁" -> 3
@@ -123,7 +115,8 @@ class RecordMealActivity : AppCompatActivity() {
             val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
             for(i in 0 until data.mealDetails.size) {
-                listAdapter.addItem(PostMealBody.PostMealItem(
+                listAdapter.addItem(
+                    PostMealBody.PostMealItem(
                     data.mealDetails[i].foodName,
                     "",
                     data.mealDetails[i].quantity,
@@ -137,7 +130,7 @@ class RecordMealActivity : AppCompatActivity() {
         }
 
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(applicationContext, SearchFoodActivity::class.java)
+            val intent = Intent(requireContext(), SearchFoodActivity::class.java)
             activityResultLauncher.launch(intent)
         }
 
@@ -158,7 +151,8 @@ class RecordMealActivity : AppCompatActivity() {
                         baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
                     }
                 }
-                RESULT_OK -> {
+
+                AppCompatActivity.RESULT_OK -> {
                     val bitmap = result.data?.extras?.get("data") as Bitmap
                     mealViewModel.setFoodImage(bitmap)
                     uploadImage(bitmap)
@@ -166,40 +160,35 @@ class RecordMealActivity : AppCompatActivity() {
             }
         }
 
-//        binding.enterBtn.setOnClickListener {
-//            if (baseViewModel.buttonClickEnable.value!!) {
-//                if (recordType == 1) {
-//                    mealViewModel.putMeal(
-//                        data.recordId,
-//                        getSelectedTimeTag(),
-//                        listAdapter.getList(),
-//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-//                    )
-//                } else {
-//                    mealViewModel.postMeal(
-//                        getSelectedTimeTag(),
-//                        listAdapter.getList(),
-//                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-//                    )
-//                }
-//            } else {
-//                Toast.makeText(applicationContext, "입력된 식단이 없습니다.", Toast.LENGTH_LONG).show()
-//            }
-//        }
-
-        mealViewModel.mealResult.observe(this, Observer {
-            var resultIntent : Intent
-            if (recordType == 0) {
-                resultIntent = Intent(applicationContext, RecordFragment::class.java)
+        binding.enterBtn.setOnClickListener {
+            if (baseViewModel.buttonClickEnable.value!!) {
+                if (recordType == 1) {
+                    mealViewModel.putMeal(
+                        PreferenceRepository(requireContext()),
+                        data!!.recordId,
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                } else {
+                    mealViewModel.postMeal(
+                        PreferenceRepository(requireContext()),
+                        getSelectedTimeTag(),
+                        listAdapter.getList(),
+                        baseViewModel.localDateTime.value!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    )
+                }
             } else {
-                resultIntent = Intent(applicationContext, RecordDetailFragment::class.java)
+                Toast.makeText(requireContext(), "입력된 식단이 없습니다.", Toast.LENGTH_LONG).show()
             }
-            resultIntent.putExtra("RELOAD", true)
-            setResult(R.integer.record_meal_result_code, resultIntent)
-            finish()
+        }
+
+        mealViewModel.mealResult.observe(this, {
+            reload()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         })
 
-        baseViewModel.buttonClickEnable.observe(this, Observer {
+        baseViewModel.buttonClickEnable.observe(this, {
             if (it) {
                 binding.enterBtn.setBackgroundResource(R.drawable.primary_100_2_background)
             } else {
@@ -207,33 +196,45 @@ class RecordMealActivity : AppCompatActivity() {
             }
         })
 
-        mealViewModel.foodNamesResult.observe(this, Observer {
-            val intent = Intent(applicationContext, RecognitionFoodActivity::class.java)
+        mealViewModel.foodNamesResult.observe(this, {
+            val intent = Intent(requireContext(), RecognitionFoodActivity::class.java)
             intent.putExtra("foodNames", it.foodList.toTypedArray())
             intent.putExtra("foodImage", mealViewModel.foodImage.value)
             activityResultLauncher.launch(intent)
         })
 
         binding.cancelBtn.setOnClickListener {
-            finish()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
         mealViewModel.isError.observe(this) {
-            Toast.makeText(applicationContext, "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
+
+        return binding.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog : Dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            setUpRatio(bottomSheetDialog, 80)
+        }
+        return dialog
     }
 
     fun initTimeSelector() {
-        val manager = supportFragmentManager
+        val manager = childFragmentManager
         val transaction = manager.beginTransaction()
         val fragment = TimeSelectorFragment()
         transaction.replace(R.id.time_selector_frame, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
     fun checkCameraPermission() {
         val cameraPermission = ContextCompat.checkSelfPermission(
-            applicationContext,
+            requireContext(),
             android.Manifest.permission.CAMERA
         )
 
@@ -241,7 +242,7 @@ class RecordMealActivity : AppCompatActivity() {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncher.launch(intent)
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), R.integer.permission_camera)
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA), R.integer.permission_camera)
         }
     }
 
@@ -266,38 +267,38 @@ class RecordMealActivity : AppCompatActivity() {
         val awsCredentials = BasicAWSCredentials(BuildConfig.AWS_S3_ACCESS_KEY, BuildConfig.AWS_S3_SECRET_KEY)
         val s3Client = AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2))
 
-        val transferUtility = TransferUtility.builder().s3Client(s3Client).context(applicationContext).build()
-        TransferNetworkLossHandler.getInstance(applicationContext)
+        val transferUtility = TransferUtility.builder().s3Client(s3Client).context(requireContext()).build()
+        TransferNetworkLossHandler.getInstance(requireContext())
 
         val uploadObserver = transferUtility.upload("probodia-food-s3-bucket/food", file.name, file)
 
-//        uploadObserver.setTransferListener(object : TransferListener {
-//            override fun onStateChanged(id: Int, state: TransferState?) {
-//                if (state == TransferState.COMPLETED) {
-//                    CoroutineScope(Dispatchers.IO).launch {
-//                        mealViewModel.getImageFood(file.name)
-//                        contentResolver.delete(uri, null, null)
-//                    }
-//
-//                }
-//            }
-//
-//            override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-//                val done = (bytesCurrent.toDouble() / bytesTotal * 100.0).toInt()
-//                Log.e("AWS", "UPLOAD - - ID: $id, percent done = $done")
-//            }
-//
-//            override fun onError(id: Int, ex: Exception?) {
-//                Log.e("AWS", "UPLOAD ERROR - - ID: $id - - EX:$ex")
-//            }
-//
-//        })
+        uploadObserver.setTransferListener(object : TransferListener {
+            override fun onStateChanged(id: Int, state: TransferState?) {
+                if (state == TransferState.COMPLETED) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        mealViewModel.getImageFood(PreferenceRepository(requireContext()), file.name)
+                        requireActivity().contentResolver.delete(uri, null, null)
+                    }
+
+                }
+            }
+
+            override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+                val done = (bytesCurrent.toDouble() / bytesTotal * 100.0).toInt()
+                Log.e("AWS", "UPLOAD - - ID: $id, percent done = $done")
+            }
+
+            override fun onError(id: Int, ex: Exception?) {
+                Log.e("AWS", "UPLOAD ERROR - - ID: $id - - EX:$ex")
+            }
+
+        })
     }
 
     fun bitmapToUri(fileName : String, bitmap : Bitmap) : Uri {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, fileName, null)
+        val path = MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, fileName, null)
         return Uri.parse(path)
     }
 
@@ -305,7 +306,7 @@ class RecordMealActivity : AppCompatActivity() {
         var cursor : Cursor? = null
         return try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = contentResolver.query(contentUri, proj, null, null, null)
+            cursor = requireActivity().contentResolver.query(contentUri, proj, null, null, null)
             val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor!!.moveToFirst()
             cursor!!.getString(column_index)

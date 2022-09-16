@@ -22,7 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
-class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : TokenViewModel() {
+class RecordMealViewModel() : TokenViewModel() {
 
     val aiServerRepository = AIServerRepository()
 
@@ -39,13 +39,13 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Tok
         get() = _foodImage
 
 
-    fun postMeal(timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun postMeal(preferenceRepo : PreferenceRepository, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postMeal(accessToken, timeTag, foodList, recordDate)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _postMeal(accessToken, timeTag, foodList, recordDate)
         }
     }
@@ -55,13 +55,13 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Tok
             serverRepository.postMeal(accessToken, timeTag, foodList, recordDate)
     }
 
-    fun getImageFood(filename : String) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun getImageFood(preferenceRepo : PreferenceRepository, filename : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _foodNamesResult.value = aiServerRepository.getImageFood(accessToken, filename)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _foodNamesResult.value = aiServerRepository.getImageFood(accessToken, filename)
         }
     }
@@ -70,13 +70,13 @@ class RecordMealViewModel(val preferenceRepository : PreferenceRepository) : Tok
         _foodImage.value = bitmap
     }
 
-    fun putMeal(recordId : Int, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun putMeal(preferenceRepo : PreferenceRepository, recordId : Int, timeTag : String, foodList : MutableList<PostMealBody.PostMealItem>, recordDate : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putMeal(accessToken, recordId, timeTag, recordDate, foodList)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
             _putMeal(accessToken, recordId, timeTag, recordDate, foodList)
         }
     }

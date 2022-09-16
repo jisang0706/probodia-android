@@ -9,7 +9,7 @@ import java.lang.IllegalArgumentException
 class RecordMealViewModelFactory(private val preferenceRepository : PreferenceRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RecordMealViewModel::class.java)) {
-            return RecordMealViewModel(preferenceRepository) as T
+            return RecordMealViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
