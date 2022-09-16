@@ -15,7 +15,6 @@ import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.data.remote.model.FoodDetailDto
 import com.example.probodia.databinding.FragmentSearchFoodDetailBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.activity.SearchFoodActivity
 import com.example.probodia.viewmodel.SearchFoodDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.math.roundToInt

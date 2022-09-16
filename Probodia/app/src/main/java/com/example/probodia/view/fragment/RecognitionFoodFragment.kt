@@ -18,8 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
 import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.databinding.FragmentRecognitionFoodBinding
-import com.example.probodia.view.activity.RecordMealActivity
-import com.example.probodia.view.activity.SearchFoodActivity
 import com.example.probodia.viewmodel.RecognitionFoodViewModel
 import com.example.probodia.viewmodel.factory.RecognitionFoodViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialog

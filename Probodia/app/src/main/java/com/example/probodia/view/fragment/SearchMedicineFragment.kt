@@ -18,9 +18,7 @@ import com.example.probodia.R
 import com.example.probodia.adapter.SearchAdapter
 import com.example.probodia.data.remote.model.ApiItemName
 import com.example.probodia.data.remote.model.ApiMedicineDto
-import com.example.probodia.databinding.ActivitySearchMedicineBinding
 import com.example.probodia.databinding.FragmentSearchMedicineBinding
-import com.example.probodia.view.activity.RecordMedicineActivity
 import com.example.probodia.viewmodel.SearchMedicineViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 

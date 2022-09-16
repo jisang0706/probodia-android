@@ -21,30 +21,6 @@
             android:name=".view.activity.JoinBaseInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".view.activity.SearchMedicineActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.RecordMedicineActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.RecognitionFoodActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.SearchFoodDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.SearchFoodActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.RecordMealActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.RecordPressureActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.RecordGlucoseActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.activity.IntroActivity"
             android:exported="true">
             <intent-filter>

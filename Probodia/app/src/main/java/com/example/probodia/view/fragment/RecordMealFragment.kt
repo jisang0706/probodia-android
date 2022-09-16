@@ -38,7 +38,6 @@ import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.databinding.FragmentRecordMealBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.activity.SearchFoodActivity
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMealViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory

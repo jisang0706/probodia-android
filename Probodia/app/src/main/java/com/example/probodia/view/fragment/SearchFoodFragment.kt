@@ -24,9 +24,6 @@ import com.example.probodia.data.remote.model.ApiItemName
 import com.example.probodia.data.remote.model.FoodDto
 import com.example.probodia.databinding.FragmentSearchFoodBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.activity.RecognitionFoodActivity
-import com.example.probodia.view.activity.RecordMealActivity
-import com.example.probodia.view.activity.SearchFoodDetailActivity
 import com.example.probodia.viewmodel.SearchFoodViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 

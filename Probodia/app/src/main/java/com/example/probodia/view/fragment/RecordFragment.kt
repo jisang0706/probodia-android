@@ -20,10 +20,6 @@ import com.example.probodia.R
 import com.example.probodia.adapter.RecordPagerAdapter
 import com.example.probodia.data.remote.model.PressureDto
 import com.example.probodia.databinding.FragmentRecordBinding
-import com.example.probodia.view.activity.RecordGlucoseActivity
-import com.example.probodia.view.activity.RecordMealActivity
-import com.example.probodia.view.activity.RecordMedicineActivity
-import com.example.probodia.view.activity.RecordPressureActivity
 import com.example.probodia.viewmodel.RecordViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
