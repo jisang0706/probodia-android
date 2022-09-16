@@ -31,8 +31,6 @@ class RecognitionFoodFragment(val addMealItem : (item : PostMealBody.PostMealIte
     private lateinit var viewModel : RecognitionFoodViewModel
     private lateinit var viewModelFactory : RecognitionFoodViewModelFactory
 
-    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -75,29 +73,14 @@ class RecognitionFoodFragment(val addMealItem : (item : PostMealBody.PostMealIte
             }
         })
 
-        activityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result : ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
-                if (result.resultCode == R.integer.record_meal_add_code) {
-                    val item : PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
-                    applyItem(item)
-                }
-            }
-        }
-
         binding.enterBtn.setOnClickListener {
-            val intent = Intent(requireContext(), SearchFoodActivity::class.java)
-            intent.putExtra("foodName", viewModel.foodNameResult.value!![viewModel.selectedFood.value!!])
-            intent.putExtra("imageSearch", true)
-            activityResultLauncher.launch(intent)
+            val fragment = SearchFoodFragment(::applyItem, viewModel.foodNameResult.value!![viewModel.selectedFood.value!!])
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(requireContext(), SearchFoodActivity::class.java)
-            intent.putExtra("imageSearch", true)
-            activityResultLauncher.launch(intent)
+            val fragment = SearchFoodFragment(::applyItem, "")
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         return binding.root

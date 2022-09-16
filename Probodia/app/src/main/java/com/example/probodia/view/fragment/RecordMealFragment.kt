@@ -129,8 +129,8 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         }
 
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(requireContext(), SearchFoodActivity::class.java)
-            activityResultLauncher.launch(intent)
+            val fragment = SearchFoodFragment(::addMealItem, "")
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.cameraBtn.setOnClickListener {
@@ -141,14 +141,6 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
             when (result.resultCode) {
-                R.integer.record_meal_add_code -> {
-                    val intent = result.data
-                    if (intent != null) {
-                        val addFood: PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
-                        addMealItem(addFood)
-                    }
-                }
-
                 AppCompatActivity.RESULT_OK -> {
                     val bitmap = result.data?.extras?.get("data") as Bitmap
                     mealViewModel.setFoodImage(bitmap)
