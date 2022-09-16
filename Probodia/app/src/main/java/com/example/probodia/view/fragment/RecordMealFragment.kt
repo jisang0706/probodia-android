@@ -38,7 +38,6 @@ import com.example.probodia.data.remote.body.PostMealBody
 import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.databinding.FragmentRecordMealBinding
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.view.activity.RecognitionFoodActivity
 import com.example.probodia.view.activity.SearchFoodActivity
 import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordMealViewModel
@@ -146,9 +145,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
                     val intent = result.data
                     if (intent != null) {
                         val addFood: PostMealBody.PostMealItem = intent!!.getParcelableExtra("ADDFOOD")!!
-                        listAdapter.addItem(addFood)
-                        listAdapter.notifyDataSetChanged()
-                        baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+                        addMealItem(addFood)
                     }
                 }
 
@@ -197,10 +194,8 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         })
 
         mealViewModel.foodNamesResult.observe(this, {
-            val intent = Intent(requireContext(), RecognitionFoodActivity::class.java)
-            intent.putExtra("foodNames", it.foodList.toTypedArray())
-            intent.putExtra("foodImage", mealViewModel.foodImage.value)
-            activityResultLauncher.launch(intent)
+            val fragment = RecognitionFoodFragment(::addMealItem, mealViewModel.foodImage.value, it.foodList)
+            fragment.show(childFragmentManager, fragment.tag)
         })
 
         binding.cancelBtn.setOnClickListener {
@@ -322,5 +317,11 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
             3 -> "저녁"
             else -> "아침"
         }
+    }
+
+    fun addMealItem(meal : PostMealBody.PostMealItem) {
+        listAdapter.addItem(meal)
+        listAdapter.notifyDataSetChanged()
+        baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
     }
 }
