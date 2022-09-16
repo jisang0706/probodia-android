@@ -72,6 +72,7 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
         viewModel.result.observe(this, {
             if (it.first) {
                 listAdapter.resetDataSet()
+                listAdapter.notifyDataSetChanged()
             }
 
             listAdapter.addDataSet(it.second.data as MutableList<ApiItemName>)

@@ -50,6 +50,7 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
         viewModel.result.observe(this, {
             if (it.first) {
                 listAdapter.resetDataSet()
+                listAdapter.notifyDataSetChanged()
             }
 
             if (it.second.body.items != null) {
