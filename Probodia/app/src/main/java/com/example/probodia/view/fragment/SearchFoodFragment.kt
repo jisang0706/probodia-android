@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
 import com.example.probodia.adapter.SearchAdapter
 import com.example.probodia.data.remote.body.PostMealBody
@@ -34,6 +35,8 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
     private lateinit var viewModel : SearchFoodViewModel
 
     private lateinit var listAdapter : SearchAdapter
+
+    private var pageNo = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +68,8 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
             }
 
             override fun afterTextChanged(s: Editable?) {
-                viewModel.getFood(true, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), 1)
+                pageNo = 1
+                viewModel.getFood(true, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), pageNo)
             }
         })
 
@@ -90,6 +94,20 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
                 }
             }
 
+        })
+
+        binding.foodRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager : LinearLayoutManager = binding.foodRv.layoutManager as LinearLayoutManager
+                val totalCount = layoutManager.itemCount
+                val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+
+                if (lastVisible >= totalCount - 1) {
+                    viewModel.getFood(false, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), ++pageNo)
+                }
+            }
         })
 
         binding.cancelBtn.setOnClickListener {
