@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.probodia.R
 import com.example.probodia.adapter.SearchAdapter
 import com.example.probodia.data.remote.model.ApiItemName
@@ -27,6 +28,8 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
     private lateinit var binding : FragmentSearchMedicineBinding
     private lateinit var viewModel : SearchMedicineViewModel
     private lateinit var listAdapter : SearchAdapter
+
+    private var pageNo = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +72,8 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
             }
 
             override fun afterTextChanged(s: Editable?) {
-                viewModel.getMedicine(true, binding.medicineEdittext.text.toString(), 1)
+                pageNo = 1
+                viewModel.getMedicine(true, binding.medicineEdittext.text.toString(), pageNo)
             }
 
         })
@@ -82,6 +86,20 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
                     binding.cancelBtn.callOnClick()
                 } else {
                     Toast.makeText(requireContext(), "약 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
+        binding.medicineRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager : LinearLayoutManager = binding.medicineRv.layoutManager as LinearLayoutManager
+                val totalCount = layoutManager.itemCount
+                val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+
+                if (lastVisible >= totalCount - 1) {
+                    viewModel.getMedicine(false, binding.medicineEdittext.text.toString(), ++pageNo)
                 }
             }
         })
