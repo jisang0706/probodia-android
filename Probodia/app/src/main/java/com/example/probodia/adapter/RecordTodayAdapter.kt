@@ -28,7 +28,7 @@ import com.example.probodia.databinding.ItemRecordSortationBinding
 import com.example.probodia.widget.utils.Convert
 import kotlin.coroutines.coroutineContext
 
-class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var dataSet : MutableList<RecordDatasBase> = mutableListOf()
 
@@ -178,6 +178,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class SortationViewHolder(val binding : ItemRecordSortationBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : SortationDto) {
+            val position = bindingAdapterPosition
             binding.sortationText.text = item.record.timeTag
             if (item.record.timeTag == "아침") {
                 val layoutParams = binding.recordSortationBaseLayout.layoutParams as ViewGroup.MarginLayoutParams
@@ -190,12 +191,18 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             if (item.record.itemCnt != 0) {
                 binding.recordNullText.visibility = View.GONE
             }
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
+            }
         }
     }
 
     inner class GlucoseViewHolder(val binding : ItemRecordBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : GlucoseDto) {
+            val position = bindingAdapterPosition
             binding.kindText.text = item.record.timeTag.slice(IntRange(3, 4)) + " 혈당"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.orange_800))
             binding.kindText.setBackgroundResource(R.drawable.orange_1_background)
@@ -204,10 +211,15 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
 
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION && clickListener != null) {
                     clickListener!!.onItemClick(dataSet[position])
                 }
+            }
+
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
         }
     }
@@ -215,6 +227,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class PressureViewHolder(val binding : ItemRecordBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : PressureDto) {
+            val position = bindingAdapterPosition
             binding.kindText.text = "혈압"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.red_800))
             binding.kindText.setBackgroundResource(R.drawable.red_1_background)
@@ -224,10 +237,15 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
 
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION && clickListener != null) {
                     clickListener!!.onItemClick(dataSet[position])
                 }
+            }
+
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
         }
     }
@@ -235,6 +253,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class MedicineViewHolder(val binding : ItemRecordBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : MedicineDto) {
+            val position = bindingAdapterPosition
             binding.kindText.text = "투약"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.blue_800))
             binding.kindText.setBackgroundResource(R.drawable.blue_1_background)
@@ -246,10 +265,15 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
 
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION && clickListener != null) {
                     clickListener!!.onItemClick(dataSet[position])
                 }
+            }
+
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
         }
     }
@@ -257,6 +281,7 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class MealViewHolder(val binding : ItemRecordBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : MealDto) {
+            val position = bindingAdapterPosition
             binding.kindText.text = "음식"
             binding.kindText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_800))
             binding.kindText.setBackgroundResource(R.drawable.green_1_background)
@@ -267,10 +292,15 @@ class RecordTodayAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.timeText.text = getDisplayTime(item.record.recordDate.split(" ")[1])
 
             binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION && clickListener != null) {
                     clickListener!!.onItemClick(dataSet[position])
                 }
+            }
+
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
         }
     }

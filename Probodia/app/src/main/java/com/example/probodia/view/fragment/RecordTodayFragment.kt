@@ -46,7 +46,7 @@ class RecordTodayFragment : Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        recordRVAdapter = RecordTodayAdapter()
+        recordRVAdapter = RecordTodayAdapter(false)
         binding.recordRv.adapter = recordRVAdapter
         binding.recordRv.layoutManager = LinearLayoutManager(context)
 
