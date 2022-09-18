@@ -2,16 +2,13 @@ package com.example.probodia.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.data.remote.model.MedicineDto
-import com.example.probodia.repository.OpenApiMedicineRepository
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordMedicineViewModel : TokenViewModel() {
+class RecordMedicineViewModel : BaseViewModel() {
 
     private val _medicineResult = MutableLiveData<MedicineDto.Record>()
     val medicineResult : LiveData<MedicineDto.Record>

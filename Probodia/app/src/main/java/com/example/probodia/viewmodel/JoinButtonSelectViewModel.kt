@@ -2,9 +2,8 @@ package com.example.probodia.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 
-open class JoinButtonSelectViewModel : TokenViewModel() {
+open class JoinButtonSelectViewModel : BaseViewModel() {
 
     private val _titleText = MutableLiveData<String>()
     val titleText : LiveData<String>

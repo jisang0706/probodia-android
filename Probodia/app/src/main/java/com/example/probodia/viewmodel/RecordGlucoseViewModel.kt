@@ -2,14 +2,12 @@ package com.example.probodia.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.model.GlucoseDto
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordGlucoseViewModel() : TokenViewModel() {
+class RecordGlucoseViewModel() : BaseViewModel() {
 
     private val _glucoseResult = MutableLiveData<GlucoseDto.Record>()
     val glucoseResult : LiveData<GlucoseDto.Record>

@@ -1,14 +1,12 @@
 package com.example.probodia.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.probodia.data.remote.model.UserDto
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
-class EtcViewModel : TokenViewModel() {
+class EtcViewModel : BaseViewModel() {
 
     val _userId = MutableLiveData<String>()
     val userId : LiveData<String>

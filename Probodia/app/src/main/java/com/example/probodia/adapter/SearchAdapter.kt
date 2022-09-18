@@ -39,6 +39,14 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
         }
     }
 
+    fun getLastItem() : ApiItemName? {
+        if (dataSet.size > 0) {
+            return dataSet.last()
+        } else {
+            return null
+        }
+    }
+
     inner class ViewHolder(val binding : ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {

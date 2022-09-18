@@ -1,28 +1,17 @@
 package com.example.probodia.viewmodel
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.body.PostMealBody
-import com.example.probodia.data.remote.body.PutMealBody
-import com.example.probodia.data.remote.model.FoodDetailDto
 import com.example.probodia.data.remote.model.FoodNamesDto
 import com.example.probodia.data.remote.model.MealDto
 import com.example.probodia.repository.AIServerRepository
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerFoodRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.ByteArrayOutputStream
 
-class RecordMealViewModel() : TokenViewModel() {
+class RecordMealViewModel() : BaseViewModel() {
 
     val aiServerRepository = AIServerRepository()
 

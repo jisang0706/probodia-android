@@ -22,6 +22,7 @@ import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.databinding.FragmentSearchMedicineBinding
 import com.example.probodia.viewmodel.SearchMedicineViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.regex.Pattern
 
 class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.MedicineItem, position : Int) -> Unit, val basePosition : Int) : BaseBottomSheetDialogFragment() {
 
@@ -30,6 +31,7 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
     private lateinit var listAdapter : SearchAdapter
 
     private var pageNo = 1
+    private var lastItemId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +53,13 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
         binding.medicineRv.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.result.observe(this, {
+            Log.e("MEDICINE", "SEARCH")
             if (it.first) {
                 listAdapter.resetDataSet()
                 listAdapter.notifyDataSetChanged()
             }
 
-            if (it.second.body.items != null) {
+            if (it.second.body.items != null && it.second.body.items.isNotEmpty()) {
                 listAdapter.addDataSet(it.second.body.items as MutableList<ApiItemName>)
                 listAdapter.notifyDataSetChanged()
             }
@@ -72,10 +75,17 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
             }
 
             override fun afterTextChanged(s: Editable?) {
-                pageNo = 1
-                viewModel.getMedicine(true, binding.medicineEdittext.text.toString(), pageNo)
+                val name = "${binding.medicineEdittext.text}"
+                if (Pattern.matches("^[a-zA-Z0-9가-힣]+$", name)) {
+                    viewModel.setMedicineName(name)
+                }
             }
+        })
 
+        viewModel.medicineName.observe(this, {
+            pageNo = 1
+            lastItemId = ""
+            viewModel.getMedicine(true, binding.medicineEdittext.text.toString(), pageNo)
         })
 
         listAdapter.setOnItemClickListener(object : SearchAdapter.OnItemClickListener {
@@ -98,8 +108,13 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
                 val totalCount = layoutManager.itemCount
                 val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (lastVisible >= totalCount - 1) {
-                    viewModel.getMedicine(false, binding.medicineEdittext.text.toString(), ++pageNo)
+                val listLastItem : ApiMedicineDto.Body.MedicineItem? =
+                    listAdapter.getLastItem() as ApiMedicineDto.Body.MedicineItem?
+
+                if (listLastItem != null && lastVisible >= totalCount - 1 &&
+                    lastItemId != listLastItem.item_seq) {
+                    lastItemId = listLastItem.item_seq
+                    viewModel.medicineName.value?.let { viewModel.getMedicine(false, it, ++pageNo) }
                 }
             }
         })

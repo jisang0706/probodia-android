@@ -1,23 +1,18 @@
 package com.example.probodia.viewmodel
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.probodia.BuildConfig
 import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import com.example.probodia.widget.utils.SingleLiveEvent
 import com.kakao.sdk.auth.AuthApiClient
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
-class IntroViewModel : TokenViewModel() {
+class IntroViewModel : BaseViewModel() {
 
     private var _kakaoLoginMutableLiveData = SingleLiveEvent<Boolean>()
     val liveKakaoLogin : LiveData<Boolean>

@@ -1,15 +1,12 @@
 package com.example.probodia.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 
-class RecordDetailViewModel(val recordType : String) : TokenViewModel() {
+class RecordDetailViewModel(val recordType : String) : BaseViewModel() {
 
     private val _deleteResult = MutableLiveData<Int>()
     val deleteResult : LiveData<Int>

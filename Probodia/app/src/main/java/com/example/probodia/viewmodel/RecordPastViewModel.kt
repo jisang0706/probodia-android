@@ -1,19 +1,16 @@
 package com.example.probodia.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.body.GetRecordBody
 import com.example.probodia.data.remote.model.TodayRecord
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordPastViewModel : TokenViewModel() {
+class RecordPastViewModel : BaseViewModel() {
 
     private val _result = MutableLiveData<Pair<Pair<LocalDateTime, String>, MutableList<TodayRecord.AllData>>>()
     val result : LiveData<Pair<Pair<LocalDateTime, String>, MutableList<TodayRecord.AllData>>>

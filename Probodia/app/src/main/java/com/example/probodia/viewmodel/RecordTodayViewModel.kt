@@ -1,17 +1,14 @@
 package com.example.probodia.viewmodel
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.probodia.data.remote.body.GetRecordBody
 import com.example.probodia.data.remote.model.TodayRecord
 import com.example.probodia.repository.PreferenceRepository
-import com.example.probodia.repository.ServerRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordTodayViewModel(private val preferenceRepository : PreferenceRepository) : TokenViewModel() {
+class RecordTodayViewModel(private val preferenceRepository : PreferenceRepository) : BaseViewModel() {
 
     private val _result = MutableLiveData<Pair<String, MutableList<TodayRecord.AllData>>>()
     val result: LiveData<Pair<String, MutableList<TodayRecord.AllData>>>

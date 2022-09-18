@@ -10,7 +10,7 @@ import com.example.probodia.widget.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
-open class TokenViewModel : ViewModel() {
+open class BaseViewModel : ViewModel() {
 
     val serverRepository = ServerRepository()
 
