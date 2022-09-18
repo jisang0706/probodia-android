@@ -41,7 +41,7 @@
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
 
-        <EditText
+        <com.mindorks.editdrawabletext.EditDrawableText
             android:id="@+id/medicine_edittext"
             android:layout_width="match_parent"
             android:layout_height="48dp"

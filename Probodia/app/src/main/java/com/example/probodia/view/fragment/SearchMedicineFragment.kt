@@ -22,6 +22,8 @@ import com.example.probodia.data.remote.model.ApiMedicineDto
 import com.example.probodia.databinding.FragmentSearchMedicineBinding
 import com.example.probodia.viewmodel.SearchMedicineViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mindorks.editdrawabletext.DrawablePosition
+import com.mindorks.editdrawabletext.onDrawableClickListener
 import java.util.regex.Pattern
 
 class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.MedicineItem, position : Int) -> Unit, val basePosition : Int) : BaseBottomSheetDialogFragment() {
@@ -80,6 +82,17 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
                     viewModel.setMedicineName(name)
                 }
             }
+        })
+
+        binding.medicineEdittext.setDrawableClickListener(object : onDrawableClickListener {
+            override fun onClick(target: DrawablePosition) {
+                when (target) {
+                    DrawablePosition.LEFT -> {
+                        viewModel.setMedicineName("${binding.medicineEdittext.text}")
+                    }
+                }
+            }
+
         })
 
         viewModel.medicineName.observe(this, {
