@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -13,6 +14,9 @@ import com.example.probodia.R
 import com.example.probodia.databinding.ActivityJoinLastInfoBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.JoinLastInfoViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class JoinLastInfoActivity : AppCompatActivity() {
 
@@ -76,7 +80,13 @@ class JoinLastInfoActivity : AppCompatActivity() {
 
         binding.enterBtn.setOnClickListener {
             if (viewModel.buttonClickEnable.value!!) {
-                viewModel.getUserId()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val userId = intent.getLongExtra("USERID", 0)
+                    val apiToken = viewModel.getApiToken(userId, intent.getStringExtra("KAKAOACCESS")!!)
+                    Log.e("TOKEN", "${apiToken}")
+                    viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
+                    setUserInfo(userId)
+                }
             } else {
                 Toast.makeText(applicationContext, "키와 몸무게를 입력해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -86,23 +96,6 @@ class JoinLastInfoActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.userId.observe(this) {
-            viewModel.putUserData(
-                PreferenceRepository(applicationContext),
-                it,
-                intent.getIntExtra("AGE", 0),
-                intent.getStringExtra("SEX")!!,
-                binding.heightLayout.edit.text.toString().toInt(),
-                binding.weightLayout.edit.text.toString().toInt(),
-                when(viewModel.selectedButton.value) {
-                    1 -> "1형 당뇨"
-                    2 -> "2형 당뇨"
-                    3 -> "임신성 당뇨"
-                    else -> "2형 당뇨"
-                }
-            )
-        }
-
         viewModel.joinResult.observe(this) {
             val resultIntent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
             setResult(R.integer.join_success, resultIntent)
@@ -110,5 +103,22 @@ class JoinLastInfoActivity : AppCompatActivity() {
             startActivity(goIntent)
             finish()
         }
+    }
+
+    fun setUserInfo(userId : Long) {
+        viewModel.putUserData(
+            PreferenceRepository(applicationContext),
+            userId.toString(),
+            intent.getIntExtra("AGE", 0),
+            intent.getStringExtra("SEX")!!,
+            binding.heightLayout.edit.text.toString().toInt(),
+            binding.weightLayout.edit.text.toString().toInt(),
+            when(viewModel.selectedButton.value) {
+                1 -> "1형 당뇨"
+                2 -> "2형 당뇨"
+                3 -> "임신성 당뇨"
+                else -> "2형 당뇨"
+            }
+        )
     }
 }

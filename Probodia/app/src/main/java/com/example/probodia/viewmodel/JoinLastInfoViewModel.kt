@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.probodia.data.remote.body.PutUserData
+import com.example.probodia.data.remote.model.ApiToken
 import com.example.probodia.data.remote.model.UserDto
 import com.example.probodia.repository.PreferenceRepository
 import com.kakao.sdk.user.UserApiClient
@@ -15,10 +16,6 @@ class JoinLastInfoViewModel : JoinButtonSelectViewModel() {
     private val _joinResult = MutableLiveData<UserDto>()
     val joinResult : LiveData<UserDto>
         get() = _joinResult
-
-    private val _userId = MutableLiveData<String>()
-    val userId : LiveData<String>
-        get() = _userId
 
     fun putUserData(preferenceRepository : PreferenceRepository, userId : String, age : Int, gender : String, height : Int, weight : Int, diabete : String) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
@@ -35,13 +32,10 @@ class JoinLastInfoViewModel : JoinButtonSelectViewModel() {
         }
     }
 
-    fun getUserId() {
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
+    suspend fun getApiToken(userId : Long, kakaoAccessToken : String) =
+        serverRepository.getApiToken(userId, kakaoAccessToken)
 
-            } else if (tokenInfo != null) {
-                _userId.value = "${tokenInfo.id}"
-            }
-        }
+    fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken : ApiToken) = viewModelScope.launch {
+        preferenceRepository.saveApiToken(apiToken)
     }
 }

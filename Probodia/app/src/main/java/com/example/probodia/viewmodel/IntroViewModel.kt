@@ -76,6 +76,9 @@ class IntroViewModel : TokenViewModel() {
     suspend fun getApiToken() : ApiToken
         =  serverRepository.getApiToken(liveKakaoUserId.value!!, liveKakaoAccessToken.value!!)
 
+    suspend fun getUserJoined() : Boolean =
+        serverRepository.getUserJoined(liveKakaoUserId.value!!)
+
     fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) = viewModelScope.launch {
         preferenceRepository.saveApiToken(apiToken)
     }

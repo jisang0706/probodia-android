@@ -104,13 +104,13 @@ class IntroActivity : AppCompatActivity() {
 
     fun ApiLogin() {
         CoroutineScope(Dispatchers.IO).launch {
-            val apiToken = viewModel.getApiToken()
-            Log.e("TOKEN", "${apiToken}")
-            viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
-            if (apiToken.isSignUp) {
-                goJoin()
-            } else {
+            if (viewModel.getUserJoined()) {
+                val apiToken = viewModel.getApiToken()
+                Log.e("TOKEN", "${apiToken}")
+                viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
                 goMain()
+            } else {
+                goJoin()
             }
         }
     }
@@ -123,6 +123,8 @@ class IntroActivity : AppCompatActivity() {
 
     fun goJoin() {
         val intent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
+        intent.putExtra("USERID", viewModel.liveKakaoUserId.value)
+        intent.putExtra("KAKAOACCESS", viewModel.liveKakaoAccessToken.value)
         startActivity(intent)
         finish()
     }

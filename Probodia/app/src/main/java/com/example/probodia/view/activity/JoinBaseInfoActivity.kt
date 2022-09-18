@@ -69,11 +69,13 @@ class JoinBaseInfoActivity : AppCompatActivity() {
 
         binding.enterBtn.setOnClickListener {
             if (viewModel.buttonClickEnable.value!!) {
-                val intent = Intent(applicationContext, JoinLastInfoActivity::class.java)
-                intent.putExtra("AGE", binding.layoutBirthEdit.edit.text.toString().toInt())
+                val goIntent = Intent(applicationContext, JoinLastInfoActivity::class.java)
+                goIntent.putExtra("AGE", binding.layoutBirthEdit.edit.text.toString().toInt())
                 val sex : () -> String = { if (viewModel.selectedButton.value == 1) {"W"} else {"M"} }
-                intent.putExtra("SEX", sex())
-                activityResultLauncher.launch(intent)
+                goIntent.putExtra("SEX", sex())
+                goIntent.putExtra("USERID", intent.getLongExtra("USERID", 0))
+                goIntent.putExtra("KAKAOACCESS", intent.getStringExtra("KAKAOACCESS"))
+                activityResultLauncher.launch(goIntent)
             } else {
                 Toast.makeText(applicationContext, "나이를 입력해주세요", Toast.LENGTH_SHORT).show()
             }

@@ -12,6 +12,9 @@ class ServerRepository {
     suspend fun getApiToken(userId : Long, accessToken: String)
         = client.getApiToken(GetApiTokenBody(userId, accessToken))
 
+    suspend fun getUserJoined(userId : Long) =
+        client.getUserJoined(userId)
+
     suspend fun refreshApiToken(apiToken : String, refreshApiToken : String) =
         client.refreshApiToken("Bearer $apiToken", refreshApiToken)
 

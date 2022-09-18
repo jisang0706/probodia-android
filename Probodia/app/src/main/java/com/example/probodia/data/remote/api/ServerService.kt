@@ -11,6 +11,11 @@ interface ServerService {
         @Body getApiTokenBody : GetApiTokenBody
     ) : ApiToken
 
+    @GET("isCreated")
+    suspend fun getUserJoined(
+        @Header("userId") userId : Long
+    ) : Boolean
+
     @GET("auth/refresh")
     suspend fun refreshApiToken(
         @Header("Authorization") token : String,
