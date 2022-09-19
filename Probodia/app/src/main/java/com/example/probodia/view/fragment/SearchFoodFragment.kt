@@ -27,6 +27,8 @@ import com.example.probodia.databinding.FragmentSearchFoodBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.SearchFoodViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mindorks.editdrawabletext.DrawablePosition
+import com.mindorks.editdrawabletext.onDrawableClickListener
 import java.util.regex.Pattern
 
 class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Unit, val foodName : String) : BaseBottomSheetDialogFragment() {
@@ -75,6 +77,17 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
                     viewModel.setFoodName(name)
                 }
             }
+        })
+
+        binding.foodEdittext.setDrawableClickListener(object : onDrawableClickListener {
+            override fun onClick(target: DrawablePosition) {
+                when (target) {
+                    DrawablePosition.LEFT -> {
+                        viewModel.setFoodName("${binding.foodEdittext.text}")
+                    }
+                }
+            }
+
         })
 
         viewModel.result.observe(this, {
