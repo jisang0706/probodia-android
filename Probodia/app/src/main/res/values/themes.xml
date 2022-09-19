@@ -20,4 +20,9 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/font</item>
     </style>
+
+    <style name="numberPickerCustom">
+        <item name="android:textSize">20dp</item>
+        <item name="android:editTextColor">@color/black</item>
+    </style>
 </resources>

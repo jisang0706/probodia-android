@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.fragment.TimePickerDialogFragment"
+        android:layout_marginHorizontal="31dp"
+        android:background="@drawable/white_pure_2_background">
+
+        <LinearLayout
+            android:id="@+id/time_picker_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp">
+
+                <NumberPicker
+                    android:id="@+id/hour_picker"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/numberPickerCustom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시"
+                    android:textSize="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp">
+
+                <NumberPicker
+                    android:id="@+id/minute_picker"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/numberPickerCustom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="분"
+                    android:textSize="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_100_2_background"
+            android:layout_below="@id/time_picker_layout"
+            android:layout_margin="24dp"/>
+    </RelativeLayout>
+</layout>

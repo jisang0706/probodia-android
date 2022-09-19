@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/drawable/white_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/white_button_background.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/drawable/white_primary_100_1_background.xml" value="0.16342592592592592" />
+        <entry key="app/src/main/res/drawable/white_pure_2_background.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/white_top_3_background.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/font/font.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.165" />
@@ -76,6 +77,7 @@
         <entry key="app/src/main/res/layout/fragment_search_food.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_search_food_detail.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/fragment_search_medicine.xml" value="0.1425925925925926" />
+        <entry key="app/src/main/res/layout/fragment_time_picker_dialog.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_time_selector.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_food.xml" value="0.15476190476190477" />
         <entry key="app/src/main/res/layout/item_food_add.xml" value="0.1" />
@@ -92,6 +94,7 @@
         <entry key="app/src/main/res/layout/item_search.xml" value="0.16944444444444445" />
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/layout_join_edittext.xml" value="0.1793478260869565" />
+        <entry key="app/src/main/res/layout/layout_number_picker.xml" value="0.45" />
         <entry key="app/src/main/res/layout/layout_select_button.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/sample_my_view.xml" value="0.2640625" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />

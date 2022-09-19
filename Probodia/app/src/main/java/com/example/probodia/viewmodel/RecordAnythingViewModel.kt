@@ -28,7 +28,14 @@ class RecordAnythingViewModel(val num : Int) : ViewModel() {
         _buttonClickEnable.value = work
     }
 
-    fun setLocalDateTime(localDateTime : LocalDateTime) {
-        _localDateTime.value = localDateTime
+    fun setLocalDateTime(newLocalDateTime : LocalDateTime) {
+        _localDateTime.value = newLocalDateTime
+    }
+
+    fun setTime(hour : Int, minute : Int) {
+        var newLocalDateTime = _localDateTime.value as LocalDateTime
+        newLocalDateTime = newLocalDateTime.withHour(hour)
+        newLocalDateTime = newLocalDateTime.withMinute(minute)
+        _localDateTime.value = newLocalDateTime
     }
 }

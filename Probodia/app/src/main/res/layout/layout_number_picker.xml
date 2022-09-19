@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <NumberPicker
+            android:id="@+id/number_picker"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/numberPickerCustom"/>
+
+        <TextView
+            android:id="@+id/number_picker_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시"
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
+</layout>
