@@ -13,6 +13,10 @@ class SearchFoodViewModel : ViewModel() {
 
     private val serverFoodRepository = ServerFoodRepository()
 
+    private val _foodName = MutableLiveData<String>()
+    val foodname : LiveData<String>
+        get() = _foodName
+
     private val _result = MutableLiveData<Pair<Boolean, FoodDto>>()
     val result : LiveData<Pair<Boolean, FoodDto>>
         get() = _result
@@ -20,5 +24,9 @@ class SearchFoodViewModel : ViewModel() {
     fun getFood(isNewData : Boolean, preferenceRepository : PreferenceRepository, name : String, pageNo : Int) = viewModelScope.launch {
         val apiToken = preferenceRepository.getApiToken().apiAccessToken
         _result.value = Pair(isNewData, serverFoodRepository.getFoodList(apiToken, name, pageNo))
+    }
+
+    fun setFoodName(name : String) {
+        _foodName.value = name
     }
 }

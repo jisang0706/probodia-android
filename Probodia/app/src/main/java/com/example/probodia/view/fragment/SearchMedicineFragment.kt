@@ -98,7 +98,7 @@ class SearchMedicineFragment(val setMedicine : (item : ApiMedicineDto.Body.Medic
         viewModel.medicineName.observe(this, {
             pageNo = 1
             lastItemId = ""
-            viewModel.getMedicine(true, binding.medicineEdittext.text.toString(), pageNo)
+            viewModel.getMedicine(true, it, pageNo)
         })
 
         listAdapter.setOnItemClickListener(object : SearchAdapter.OnItemClickListener {

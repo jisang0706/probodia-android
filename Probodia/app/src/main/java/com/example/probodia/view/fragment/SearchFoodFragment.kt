@@ -27,6 +27,7 @@ import com.example.probodia.databinding.FragmentSearchFoodBinding
 import com.example.probodia.repository.PreferenceRepository
 import com.example.probodia.viewmodel.SearchFoodViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.regex.Pattern
 
 class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Unit, val foodName : String) : BaseBottomSheetDialogFragment() {
 
@@ -37,6 +38,7 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
     private lateinit var listAdapter : SearchAdapter
 
     private var pageNo = 1
+    private var lastItemId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,8 +70,10 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
             }
 
             override fun afterTextChanged(s: Editable?) {
-                pageNo = 1
-                viewModel.getFood(true, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), pageNo)
+                val name = "${binding.foodEdittext.text}"
+                if (Pattern.matches("^[a-zA-Z0-9가-힣]+$", name)) {
+                    viewModel.setFoodName(name)
+                }
             }
         })
 
@@ -79,8 +83,10 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
                 listAdapter.notifyDataSetChanged()
             }
 
-            listAdapter.addDataSet(it.second.data as MutableList<ApiItemName>)
-            listAdapter.notifyDataSetChanged()
+            if (it.second.data != null && it.second.data.isNotEmpty()) {
+                listAdapter.addDataSet(it.second.data as MutableList<ApiItemName>)
+                listAdapter.notifyDataSetChanged()
+            }
         })
 
         listAdapter.setOnItemClickListener(object : SearchAdapter.OnItemClickListener {
@@ -93,8 +99,18 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
                     Toast.makeText(requireContext(), "음식 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
-
         })
+
+        viewModel.foodname.observe(this) {
+            pageNo = 1
+            lastItemId = ""
+            viewModel.getFood(
+                true,
+                PreferenceRepository(requireContext()),
+                it,
+                pageNo
+            )
+        }
 
         binding.foodRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -104,8 +120,16 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
                 val totalCount = layoutManager.itemCount
                 val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (lastVisible >= totalCount - 1) {
-                    viewModel.getFood(false, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), ++pageNo)
+                val listLastItem : FoodDto.FoodItem? =
+                    listAdapter.getLastItem() as FoodDto.FoodItem?
+
+                if (listLastItem != null && lastVisible >= totalCount - 1 &&
+                    lastItemId != listLastItem.foodId) {
+                    lastItemId = listLastItem.foodId
+                    viewModel.foodname.value?.let {
+                        viewModel.getFood(false, PreferenceRepository(requireContext()),
+                            it, ++pageNo)
+                    }
                 }
             }
         })
