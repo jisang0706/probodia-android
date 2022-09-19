@@ -12,8 +12,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.probodia.R
 import com.example.probodia.databinding.FragmentTimePickerDialogBinding
+import java.time.LocalDateTime
 
-class TimePickerDialogFragment(val setTime : (hour : Int, minute : Int) -> Unit, val hour : Int, val minute : Int) : DialogFragment() {
+class TimePickerDialogFragment(val setTime : (hour : Int, minute : Int) -> Unit, val localDateTime : LocalDateTime) : DialogFragment() {
 
     private lateinit var binding : FragmentTimePickerDialogBinding
 
@@ -38,12 +39,12 @@ class TimePickerDialogFragment(val setTime : (hour : Int, minute : Int) -> Unit,
         binding.hourPicker.minValue = 0
         binding.hourPicker.maxValue = 23
         binding.hourPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        binding.hourPicker.value = hour
+        binding.hourPicker.value = localDateTime.hour
 
         binding.minutePicker.minValue = 0
         binding.minutePicker.maxValue = 59
         binding.minutePicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        binding.minutePicker.value = minute
+        binding.minutePicker.value = localDateTime.minute
 
         binding.enterBtn.setOnClickListener {
             setTime(

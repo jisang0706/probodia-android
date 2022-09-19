@@ -79,9 +79,7 @@ class TimeSelectorFragment : Fragment() {
         }
 
         binding.timePickerBtn.setOnClickListener {
-            val hour = viewModel.localDateTime.value!!.hour
-            val minute = viewModel.localDateTime.value!!.minute
-            val timePickerFragment = TimePickerDialogFragment(::setTime, hour, minute)
+            val timePickerFragment = TimePickerDialogFragment(::setTime, viewModel.localDateTime.value!!)
             timePickerFragment.show(parentFragmentManager, timePickerFragment.tag)
         }
 
