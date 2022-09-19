@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".view.fragment.DatePickerDialogFragment"
+        android:padding="24dp">
+
+        <CalendarView
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/datePickerCustom"/>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:textColor="@color/primary_100"
+            android:background="@drawable/orange_1_background"
+            android:layout_below="@id/date_picker"
+            android:layout_alignRight="@id/date_picker"/>
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textColor="@color/primary_100"
+            android:background="@android:color/transparent"
+            android:layout_toLeftOf="@id/enter_btn"
+            android:layout_below="@id/date_picker" />
+    </RelativeLayout>
+</layout>

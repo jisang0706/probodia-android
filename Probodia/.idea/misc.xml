@@ -19,6 +19,7 @@
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_homeselected.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/ic_leftarrow.xml" value="0.1787037037037037" />
+        <entry key="app/src/main/res/drawable/ic_leftgray.xml" value="0.34629629629629627" />
         <entry key="app/src/main/res/drawable/ic_meal.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.20092592592592592" />
@@ -62,6 +63,7 @@
         <entry key="app/src/main/res/layout/activity_search_medicine.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_date_picker_dialog.xml" value="0.33194444444444443" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.2955801104972376" />
         <entry key="app/src/main/res/layout/fragment_recognition_food.xml" value="0.1361111111111111" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.38125" />

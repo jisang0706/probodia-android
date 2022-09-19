@@ -38,4 +38,12 @@ class RecordAnythingViewModel(val num : Int) : ViewModel() {
         newLocalDateTime = newLocalDateTime.withMinute(minute)
         _localDateTime.value = newLocalDateTime
     }
+
+    fun setDate(year : Int, month : Int, day : Int) {
+        var newLocalDateTime = _localDateTime.value as LocalDateTime
+        newLocalDateTime = newLocalDateTime.withYear(year)
+        newLocalDateTime = newLocalDateTime.withMonth(month)
+        newLocalDateTime = newLocalDateTime.withDayOfMonth(day)
+        _localDateTime.value = newLocalDateTime
+    }
 }

@@ -73,6 +73,11 @@ class TimeSelectorFragment : Fragment() {
             }
         })
 
+        binding.datePickerBtn.setOnClickListener {
+            val datePickerFragment = DatePickerDialogFragment(::setDate, viewModel.localDateTime.value!!)
+            datePickerFragment.show(parentFragmentManager, datePickerFragment.tag)
+        }
+
         binding.timePickerBtn.setOnClickListener {
             val hour = viewModel.localDateTime.value!!.hour
             val minute = viewModel.localDateTime.value!!.minute
@@ -85,5 +90,9 @@ class TimeSelectorFragment : Fragment() {
 
     fun setTime(hour : Int, minute : Int) {
         viewModel.setTime(hour, minute)
+    }
+
+    fun setDate(year : Int, month : Int, day : Int) {
+        viewModel.setDate(year, month, day)
     }
 }
