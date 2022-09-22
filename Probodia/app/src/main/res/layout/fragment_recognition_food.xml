@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.RecognitionFoodViewModel" />
+            type="com.piri.probodia.viewmodel.RecognitionFoodViewModel" />
     </data>
 
     <RelativeLayout

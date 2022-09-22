@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.IntroViewModel" />
+            type="com.piri.probodia.viewmodel.IntroViewModel" />
     </data>
 
     <RelativeLayout

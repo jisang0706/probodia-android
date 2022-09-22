@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.RecordDetailViewModel" />
+            type="com.piri.probodia.viewmodel.RecordDetailViewModel" />
     </data>
 
     <RelativeLayout

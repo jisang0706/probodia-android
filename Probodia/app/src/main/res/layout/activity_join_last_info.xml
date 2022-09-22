@@ -7,7 +7,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.JoinLastInfoViewModel" />
+            type="com.piri.probodia.viewmodel.JoinLastInfoViewModel" />
     </data>
 
     <RelativeLayout

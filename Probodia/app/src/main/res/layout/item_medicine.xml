@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp">
 
-            <com.example.probodia.layout.SquareFrameLayout
+            <com.piri.probodia.layout.SquareFrameLayout
                 android:id="@+id/delete_medicine_layout"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -38,7 +38,7 @@
                     android:src="@drawable/ic_trash"
                     android:background="@android:color/transparent"
                     android:layout_gravity="center"/>
-            </com.example.probodia.layout.SquareFrameLayout>
+            </com.piri.probodia.layout.SquareFrameLayout>
 
             <Button
                 android:id="@+id/medicine_btn"

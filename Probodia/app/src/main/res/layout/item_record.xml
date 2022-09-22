@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.probodia.data.remote.model.GlucoseDto" />
+            type="com.piri.probodia.data.remote.model.GlucoseDto" />
     </data>
 
     <LinearLayout

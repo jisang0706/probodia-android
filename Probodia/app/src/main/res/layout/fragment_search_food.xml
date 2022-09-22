@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.SearchFoodViewModel" />
+            type="com.piri.probodia.viewmodel.SearchFoodViewModel" />
     </data>
 
     <LinearLayout

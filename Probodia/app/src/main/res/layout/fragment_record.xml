@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.RecordViewModel" />
+            type="com.piri.probodia.viewmodel.RecordViewModel" />
     </data>
 
     <FrameLayout
@@ -39,7 +39,7 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp">
 
-                <com.example.probodia.layout.SquareFrameLayout
+                <com.piri.probodia.layout.SquareFrameLayout
                     android:id="@+id/record_glucose_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,9 +58,9 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"/>
 
-                </com.example.probodia.layout.SquareFrameLayout>
+                </com.piri.probodia.layout.SquareFrameLayout>
 
-                <com.example.probodia.layout.SquareFrameLayout
+                <com.piri.probodia.layout.SquareFrameLayout
                     android:id="@+id/record_pressure_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,9 +79,9 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"/>
 
-                </com.example.probodia.layout.SquareFrameLayout>
+                </com.piri.probodia.layout.SquareFrameLayout>
 
-                <com.example.probodia.layout.SquareFrameLayout
+                <com.piri.probodia.layout.SquareFrameLayout
                     android:id="@+id/record_medicine_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,9 +100,9 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"/>
 
-                </com.example.probodia.layout.SquareFrameLayout>
+                </com.piri.probodia.layout.SquareFrameLayout>
 
-                <com.example.probodia.layout.SquareFrameLayout
+                <com.piri.probodia.layout.SquareFrameLayout
                     android:id="@+id/record_meal_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"/>
 
-                </com.example.probodia.layout.SquareFrameLayout>
+                </com.piri.probodia.layout.SquareFrameLayout>
 
             </LinearLayout>
 

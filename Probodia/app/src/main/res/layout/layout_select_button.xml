@@ -4,7 +4,7 @@
     <data class=".databinding.LiveDataBinding">
         <variable
             name="vm"
-            type="com.example.probodia.viewmodel.JoinButtonSelectViewModel"/>
+            type="com.piri.probodia.viewmodel.JoinButtonSelectViewModel"/>
     </data>
 
     <LinearLayout

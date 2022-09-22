@@ -5,11 +5,11 @@
     <data>
         <variable
             name="pressure_vm"
-            type="com.example.probodia.viewmodel.RecordPressureViewModel" />
+            type="com.piri.probodia.viewmodel.RecordPressureViewModel" />
 
         <variable
             name="base_vm"
-            type="com.example.probodia.viewmodel.RecordAnythingViewModel" />
+            type="com.piri.probodia.viewmodel.RecordAnythingViewModel" />
     </data>
 
     <RelativeLayout

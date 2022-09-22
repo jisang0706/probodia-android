@@ -14,7 +14,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.probodia"
+        applicationId "com.piri.probodia"
         minSdk 31
         targetSdk 31
         versionCode 1

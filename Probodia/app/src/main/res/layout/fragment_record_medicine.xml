@@ -5,11 +5,11 @@
     <data>
         <variable
             name="medicineVm"
-            type="com.example.probodia.viewmodel.RecordMedicineViewModel" />
+            type="com.piri.probodia.viewmodel.RecordMedicineViewModel" />
 
         <variable
             name="baseVm"
-            type="com.example.probodia.viewmodel.RecordAnythingViewModel" />
+            type="com.piri.probodia.viewmodel.RecordAnythingViewModel" />
     </data>
 
     <RelativeLayout
