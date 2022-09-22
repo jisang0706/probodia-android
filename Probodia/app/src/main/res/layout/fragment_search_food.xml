@@ -53,8 +53,7 @@
             android:paddingHorizontal="20dp"
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="10dp"
-            android:background="@drawable/gray_50_2_background"
-            android:cursorVisible="false"/>
+            android:background="@drawable/gray_50_2_background"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/food_rv"

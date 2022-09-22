@@ -80,7 +80,6 @@
                 android:textStyle="bold"
                 android:textColor="@color/primary_100"
                 android:gravity="center"
-                android:cursorVisible="false"
                 android:imeOptions="actionDone"/>
 
             <Button
