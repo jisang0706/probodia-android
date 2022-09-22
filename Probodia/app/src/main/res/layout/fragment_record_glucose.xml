@@ -78,6 +78,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
+                android:id="@+id/glucose_edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -103,8 +104,7 @@
                         android:textStyle="bold"
                         android:background="@android:color/transparent"
                         android:layout_marginHorizontal="8dp"
-                        android:gravity="center"
-                        android:cursorVisible="false"/>
+                        android:gravity="center"/>
 
                     <TextView
                         android:layout_width="wrap_content"

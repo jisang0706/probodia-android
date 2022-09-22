@@ -108,4 +108,7 @@ dependencies {
 
     // Edittext Drawable clickable
     implementation 'com.github.MindorksOpenSource:EditDrawableText:1.1.0'
+
+    // Keyboard Visibility listener
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC1'
 }
