@@ -101,6 +101,7 @@
                         android:maxLength="3"
                         android:hint="120"
                         android:textSize="24dp"
+                        android:textColor="@color/primary_100"
                         android:textStyle="bold"
                         android:background="@android:color/transparent"
                         android:layout_marginHorizontal="8dp"

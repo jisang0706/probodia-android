@@ -1,12 +1,14 @@
 package com.example.probodia.view.fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -19,6 +21,8 @@ import com.example.probodia.viewmodel.RecordAnythingViewModel
 import com.example.probodia.viewmodel.RecordPressureViewModel
 import com.example.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -134,6 +138,41 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
         pressureViewModel.isError.observe(this) {
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
+
+        binding.highPressureEditLayout.setOnClickListener {
+            binding.highPressureEdit.isFocusableInTouchMode = true
+            binding.highPressureEdit.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.highPressureEdit, 0)
+        }
+
+        binding.lowPressureEditLayout.setOnClickListener {
+            binding.lowPressureEdit.isFocusableInTouchMode = true
+            binding.lowPressureEdit.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.lowPressureEdit, 0)
+        }
+
+        binding.heartRateEditLayout.setOnClickListener {
+            binding.heartRateEdit.isFocusableInTouchMode = true
+            binding.heartRateEdit.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.heartRateEdit, 0)
+        }
+
+        KeyboardVisibilityEvent.setEventListener(
+            requireActivity(),
+            object : KeyboardVisibilityEventListener {
+                override fun onVisibilityChanged(isOpen: Boolean) {
+                    if (isOpen) {
+                        binding.timeSelectorFrame.visibility = View.GONE
+                    } else {
+                        binding.timeSelectorFrame.visibility = View.VISIBLE
+                    }
+                }
+
+            }
+        )
 
         return binding.root
     }
