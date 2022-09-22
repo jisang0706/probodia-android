@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.probodia.R
 import com.example.probodia.databinding.FragmentEtcBinding
 import com.example.probodia.repository.PreferenceRepository
+import com.example.probodia.view.activity.PersonalInformationActivity
 import com.example.probodia.viewmodel.EtcViewModel
 
 class EtcFragment : Fragment() {
@@ -45,6 +46,11 @@ class EtcFragment : Fragment() {
 
         viewModel.isError.observe(requireActivity()) {
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.ruleBtn.setOnClickListener {
+            val intent = Intent(requireContext(), PersonalInformationActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root

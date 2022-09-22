@@ -54,6 +54,7 @@
         <entry key="app/src/main/res/layout/activity_join_base_info.xml" value="0.2717391304347826" />
         <entry key="app/src/main/res/layout/activity_join_last_info.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_personal_information.xml" value="0.146948003014318" />
         <entry key="app/src/main/res/layout/activity_recognition_food.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_record_glucose.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_record_meal.xml" value="0.45" />
