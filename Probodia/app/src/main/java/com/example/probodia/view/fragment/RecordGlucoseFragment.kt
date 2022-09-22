@@ -130,6 +130,7 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
 
         KeyboardVisibilityEvent.setEventListener(
             requireActivity(),
+            this,
             object : KeyboardVisibilityEventListener {
                 override fun onVisibilityChanged(isOpen: Boolean) {
                     if (isOpen) {
@@ -138,7 +139,6 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
                         binding.timeSelectorFrame.visibility = View.VISIBLE
                     }
                 }
-
             }
         )
 

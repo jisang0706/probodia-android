@@ -162,6 +162,7 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
 
         KeyboardVisibilityEvent.setEventListener(
             requireActivity(),
+            this,
             object : KeyboardVisibilityEventListener {
                 override fun onVisibilityChanged(isOpen: Boolean) {
                     if (isOpen) {
@@ -170,7 +171,6 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
                         binding.timeSelectorFrame.visibility = View.VISIBLE
                     }
                 }
-
             }
         )
 
