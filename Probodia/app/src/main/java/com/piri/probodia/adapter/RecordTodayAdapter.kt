@@ -177,7 +177,7 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
         fun bind(item : SortationDto) {
             val position = bindingAdapterPosition
             binding.sortationText.text = item.record.timeTag
-            if (item.record.timeTag == "아침") {
+            if (item.record.timeTag == "아침" && past) {
                 val layoutParams = binding.recordSortationBaseLayout.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.topMargin = 0
                 binding.recordSortationBaseLayout.layoutParams = layoutParams
