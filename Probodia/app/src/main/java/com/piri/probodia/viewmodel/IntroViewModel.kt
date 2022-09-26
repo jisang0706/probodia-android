@@ -26,6 +26,10 @@ class IntroViewModel : BaseViewModel() {
     val liveKakaoAccessToken : LiveData<String>
         get() = _kakaoAccessToken
 
+    private var _buttonLogin = SingleLiveEvent<Boolean>()
+    val buttonLogin : LiveData<Boolean>
+        get() = _buttonLogin
+
     fun autoLogin() {
         if (AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
@@ -34,30 +38,19 @@ class IntroViewModel : BaseViewModel() {
                         // 로그인 필요
                     } else {
                         // 기타 에러
-                        Log.e("KAKAOLOGIN", "Auto Login : ${error.message}")
                     }
+                    _buttonLogin.call()
                 } else if (tokenInfo != null) {
-                    // 로그인 성공
-                    Log.e("KAKAOLOGIN", "LOGIN SUCCESS")
-                    Log.e("KAKAOLOGIN", "Token info : ${tokenInfo}")
                     setKakaoUserId(tokenInfo.id!!)
                 }
             }
+        } else {
+            _buttonLogin.call()
         }
     }
 
     fun kakaoLogin() {
         _kakaoLoginMutableLiveData.call()
-    }
-
-    fun getKakaoAccessToken() {
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                Log.e("KAKAOLOGIN", "토큰 정보 보기 실패 ${error.message}")
-            } else if (tokenInfo != null) {
-                Log.e("KAKAOLOGIN", "토큰 정보 : ${tokenInfo}")
-            }
-        }
     }
 
     fun setKakaoUserId(userId: Long) {
