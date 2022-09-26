@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
@@ -250,11 +251,19 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         val uri = bitmapToUri("${Random.nextInt(0, 999999)}_${System.currentTimeMillis()}", bitmap)
         val file = File(getRealPathFromURI(uri))
 
-        val awsCredentials = BasicAWSCredentials(BuildConfig.AWS_S3_ACCESS_KEY, BuildConfig.AWS_S3_SECRET_KEY)
-        val s3Client = AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2))
+        val credentialProvider = CognitoCachingCredentialsProvider(
+            requireContext(),
+            BuildConfig.AWS_COGNITO_POOL_ID,
+            Regions.AP_NORTHEAST_2
+        )
+        val s3Client = AmazonS3Client(credentialProvider, Region.getRegion(Regions.AP_NORTHEAST_2))
 
-        val transferUtility = TransferUtility.builder().s3Client(s3Client).context(requireContext()).build()
         TransferNetworkLossHandler.getInstance(requireContext())
+
+        val transferUtility = TransferUtility.builder()
+            .context(requireContext())
+            .s3Client(s3Client)
+            .build()
 
         val uploadObserver = transferUtility.upload("probodia-food-s3-bucket/food", file.name, file)
 
