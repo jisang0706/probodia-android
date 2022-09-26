@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -16,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.databinding.ActivityJoinBaseInfoBinding
+import com.piri.probodia.view.fragment.EtcFragment
 import com.piri.probodia.viewmodel.JoinBaseInfoViewModel
 
 class JoinBaseInfoActivity : AppCompatActivity() {
@@ -23,6 +25,8 @@ class JoinBaseInfoActivity : AppCompatActivity() {
     private lateinit var binding : ActivityJoinBaseInfoBinding
     private lateinit var viewModel : JoinBaseInfoViewModel
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+
+    private var isEdit : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,8 @@ class JoinBaseInfoActivity : AppCompatActivity() {
         binding.genderSelectLayout.firBtn.text = "여성"
         binding.genderSelectLayout.secBtn.text = "남성"
         binding.genderSelectLayout.thrBtn.visibility = View.GONE
+
+        isEdit = intent.getBooleanExtra("ISEDIT", false)
 
         binding.layoutBirthEdit.edit.addTextChangedListener {
             viewModel.setButtonClickEnable(it?.length!! > 0)
@@ -75,18 +81,36 @@ class JoinBaseInfoActivity : AppCompatActivity() {
                 goIntent.putExtra("SEX", sex())
                 goIntent.putExtra("USERID", intent.getLongExtra("USERID", 0))
                 goIntent.putExtra("KAKAOACCESS", intent.getStringExtra("KAKAOACCESS"))
+                goIntent.putExtra("ISEDIT", isEdit)
+                if (isEdit) {
+                    goIntent.putExtra("HEIGHT", intent.getIntExtra("HEIGHT", 0))
+                    goIntent.putExtra("WEIGHT", intent.getIntExtra("WEIGHT", 0))
+                    goIntent.putExtra("DIABETE", intent.getStringExtra("DIABETE"))
+                }
                 activityResultLauncher.launch(goIntent)
             } else {
                 Toast.makeText(applicationContext, "나이를 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         }
 
+        if (isEdit) {
+            binding.layoutBirthEdit.edit.setText("${intent.getIntExtra("AGE", 0)}")
+            viewModel.setButtonClickEnable(binding.layoutBirthEdit.edit.text.length!! > 0)
+            if (intent.getStringExtra("SEX") == "M") {
+                viewModel.setSelectedButton(2)
+            }
+        }
+
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result : ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
+            val resultIntent = result.data
+            if (resultIntent != null) {
                 if (result.resultCode == R.integer.join_success) {
+                    if (isEdit) {
+                        val resultIntent = Intent(applicationContext, EtcFragment::class.java)
+                        setResult(R.integer.join_success, resultIntent)
+                    }
                     finish()
                 }
             }

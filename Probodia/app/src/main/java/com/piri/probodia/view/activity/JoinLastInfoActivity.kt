@@ -23,6 +23,8 @@ class JoinLastInfoActivity : AppCompatActivity() {
     private lateinit var binding : ActivityJoinLastInfoBinding
     private lateinit var viewModel : JoinLastInfoViewModel
 
+    private var isEdit : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +34,8 @@ class JoinLastInfoActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(JoinLastInfoViewModel::class.java)
         binding.vm = viewModel
+
+        isEdit = intent.getBooleanExtra("ISEDIT", false)
 
         binding.heightLayout.titleText.text = "키"
         binding.heightLayout.edit.hint = "cm 단위로 입력 (ex. 168)"
@@ -81,14 +85,35 @@ class JoinLastInfoActivity : AppCompatActivity() {
         binding.enterBtn.setOnClickListener {
             if (viewModel.buttonClickEnable.value!!) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val userId = intent.getLongExtra("USERID", 0)
-                    val apiToken = viewModel.getApiToken(userId, intent.getStringExtra("KAKAOACCESS")!!)
-                    Log.e("TOKEN", "${apiToken}")
-                    viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
-                    setUserInfo(userId)
+                    if (isEdit) {
+                        val userId = intent.getLongExtra("USERID", 0)
+                        setUserInfo(userId)
+                    } else {
+                        val userId = intent.getLongExtra("USERID", 0)
+                        val apiToken =
+                            viewModel.getApiToken(userId, intent.getStringExtra("KAKAOACCESS")!!)
+                        Log.e("TOKEN", "${apiToken}")
+                        viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
+                        setUserInfo(userId)
+                    }
                 }
             } else {
                 Toast.makeText(applicationContext, "키와 몸무게를 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (isEdit) {
+            binding.heightLayout.edit.setText("${intent.getIntExtra("HEIGHT", 0)}")
+            binding.weightLayout.edit.setText("${intent.getIntExtra("WEIGHT", 0)}")
+            viewModel.setButtonClickEnable(
+                binding.heightLayout.edit.text.isNotEmpty() &&
+                        binding.weightLayout.edit.text.isNotEmpty()
+            )
+
+            when (intent.getStringExtra("DIABETE")) {
+                "1형 당뇨" -> viewModel.setSelectedButton(1)
+                "2형 당뇨" -> viewModel.setSelectedButton(2)
+                "임신성 당뇨" -> viewModel.setSelectedButton(3)
             }
         }
 
@@ -97,11 +122,17 @@ class JoinLastInfoActivity : AppCompatActivity() {
         }
 
         viewModel.joinResult.observe(this) {
-            val resultIntent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
-            setResult(R.integer.join_success, resultIntent)
-            val goIntent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(goIntent)
-            finish()
+            if (isEdit) {
+                val resultIntent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
+                setResult(R.integer.join_success, resultIntent)
+                finish()
+            } else {
+                val resultIntent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
+                setResult(R.integer.join_success, resultIntent)
+                val goIntent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(goIntent)
+                finish()
+            }
         }
     }
 
