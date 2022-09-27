@@ -45,6 +45,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_delete"
+            android:padding="5dp"
             android:background="@android:color/transparent"/>
 
         <ImageButton
@@ -53,8 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/delete_btn"
-            android:layout_marginRight="19dp"
+            android:layout_marginRight="14dp"
             android:src="@drawable/ic_edit"
+            android:padding="5dp"
             android:background="@android:color/transparent"/>
 
     </RelativeLayout>
