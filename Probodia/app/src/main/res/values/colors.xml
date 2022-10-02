@@ -26,11 +26,16 @@
     <color name="orange_800">#EC5704</color>
 
     <color name="red_50">#FFEAEA</color>
+    <color name="red_600">#FF4545</color>
     <color name="red_800">#E00807</color>
 
     <color name="blue_50">#EBEFFF</color>
     <color name="blue_800">#4F64D7</color>
 
     <color name="green_50">#E3F6F2</color>
+    <color name="green_600">#00C19A</color>
     <color name="green_800">#117A65</color>
+
+    <color name="yellow_600">#FFC700</color>
+    <color name="yellow_800">#FF9900</color>
 </resources>

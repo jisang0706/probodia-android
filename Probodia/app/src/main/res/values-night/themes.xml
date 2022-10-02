@@ -19,6 +19,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/font</item>
+        <item name="android:textColor">@color/gray_800</item>
     </style>
 
     <style name="numberPickerCustom">

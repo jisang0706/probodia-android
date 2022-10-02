@@ -8,8 +8,10 @@
         <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/drawable/gray_300_2_background.xml" value="0.19212962962962962" />
         <entry key="app/src/main/res/drawable/gray_400_2_background.xml" value="0.19212962962962962" />
+        <entry key="app/src/main/res/drawable/gray_50_2_background.xml" value="0.1675925925925926" />
         <entry key="app/src/main/res/drawable/gray_button_2_background.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/green_1_background.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/green_600_round_background.xml" value="0.1675925925925926" />
         <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/drawable/ic_challenge.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_challengeselected.xml" value="0.22407407407407406" />
@@ -41,6 +43,7 @@
         <entry key="app/src/main/res/drawable/record_btn_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/red_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/red_2_background.xml" value="0.14305555555555555" />
+        <entry key="app/src/main/res/drawable/red_600_round_background.xml" value="0.1675925925925926" />
         <entry key="app/src/main/res/drawable/tab_text.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/white_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/white_2_background.xml" value="0.20677083333333332" />
@@ -49,6 +52,7 @@
         <entry key="app/src/main/res/drawable/white_primary_100_1_background.xml" value="0.16342592592592592" />
         <entry key="app/src/main/res/drawable/white_pure_2_background.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/white_top_3_background.xml" value="0.1648148148148148" />
+        <entry key="app/src/main/res/drawable/yellow_600_round_background.xml" value="0.1675925925925926" />
         <entry key="app/src/main/res/font/font.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_join_base_info.xml" value="0.2717391304347826" />
@@ -63,13 +67,15 @@
         <entry key="app/src/main/res/layout/activity_search_food.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_search_food_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_search_medicine.xml" value="0.13333333333333333" />
+        <entry key="app/src/main/res/layout/fragment_analysis_glucose_range.xml" value="0.1634963768115942" />
+        <entry key="app/src/main/res/layout/fragment_analysis_range.xml" value="0.2596685082872928" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_date_picker_dialog.xml" value="0.33194444444444443" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.2955801104972376" />
         <entry key="app/src/main/res/layout/fragment_recognition_food.xml" value="0.1361111111111111" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.38125" />
-        <entry key="app/src/main/res/layout/fragment_record_analysis.xml" value="0.1671195652173913" />
+        <entry key="app/src/main/res/layout/fragment_record_analysis.xml" value="0.21020408163265306" />
         <entry key="app/src/main/res/layout/fragment_record_detail.xml" value="0.27071823204419887" />
         <entry key="app/src/main/res/layout/fragment_record_glucose.xml" value="0.1550925925925926" />
         <entry key="app/src/main/res/layout/fragment_record_list.xml" value="0.1" />
@@ -99,6 +105,7 @@
         <entry key="app/src/main/res/layout/item_tab.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/layout_join_edittext.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/layout_number_picker.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/layout_range_chart.xml" value="0.15324074074074073" />
         <entry key="app/src/main/res/layout/layout_select_button.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/sample_my_view.xml" value="0.2640625" />
         <entry key="app/src/main/res/menu/main_bottom_menu.xml" value="0.19427083333333334" />

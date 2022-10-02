@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.piri.probodia.R
+import com.piri.probodia.databinding.FragmentRecordAnalysisBinding
 
 class RecordAnalysisFragment : Fragment() {
+
+    private lateinit var binding : FragmentRecordAnalysisBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +20,19 @@ class RecordAnalysisFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_record_analysis, container, false)
+        binding = FragmentRecordAnalysisBinding.inflate(layoutInflater)
+
+        initAnalysisGlucoseRageFragment()
+
+        return binding.root
+    }
+
+    fun initAnalysisGlucoseRageFragment() {
+        val manager = childFragmentManager
+        val transaction = manager.beginTransaction()
+        val fragment = AnalysisGlucoseRangeFragment()
+        transaction.replace(R.id.glucose_layout, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
