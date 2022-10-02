@@ -8,7 +8,7 @@ import com.piri.probodia.R
 import com.piri.probodia.data.remote.body.PostMealBody
 import com.piri.probodia.databinding.ItemFoodAddBinding
 
-class FoodAddAdapter : RecyclerView.Adapter<com.piri.probodia.adapter.FoodAddAdapter.ViewHolder>() {
+class FoodAddAdapter : RecyclerView.Adapter<FoodAddAdapter.ViewHolder>() {
 
     interface OnItemButtonClickListener {
         fun onItemDeleteClick(position : Int)

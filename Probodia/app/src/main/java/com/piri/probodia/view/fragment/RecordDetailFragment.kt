@@ -179,7 +179,7 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
             ItemRecordDetailDataDto(
                 glucoseDto.record.timeTag,
                 "mg/dL",
-                glucoseDto.record.glucose
+                glucoseDto.record.glucose.toString()
             )
         )
         return RecordDetailAdapter("", itemDatas)
@@ -190,19 +190,19 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
             ItemRecordDetailDataDto(
                 "최고 혈압",
                 "mmHg",
-                pressureDto.record.maxPressure
+                pressureDto.record.maxPressure.toString()
             ),
 
             ItemRecordDetailDataDto(
                 "최저 혈압",
                 "mmHg",
-                pressureDto.record.minPressure
+                pressureDto.record.minPressure.toString()
             ),
 
             ItemRecordDetailDataDto(
                 "맥박",
                 "회/분",
-                pressureDto.record.heartRate
+                pressureDto.record.heartRate.toString()
             )
         )
         return RecordDetailAdapter(pressureDto.record.timeTag, itemDatas)
@@ -215,7 +215,7 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                 ItemRecordDetailDataDto(
                     medicine.medicineName,
                     "unit",
-                    medicine.medicineCnt
+                    medicine.medicineCnt.toString()
                 )
             )
         }
@@ -229,7 +229,7 @@ class RecordDetailFragment(val data : RecordDatasBase, val reload : () -> Unit) 
                 ItemRecordDetailDataDto(
                     meal.foodName,
                     "g",
-                    meal.quantity
+                    meal.quantity.toString()
                 )
             )
         }

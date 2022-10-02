@@ -51,6 +51,7 @@ import java.io.File
 import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data : MealDto.Record?) : BaseBottomSheetDialogFragment() {
@@ -118,7 +119,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
                     PostMealBody.PostMealItem(
                     data.mealDetails[i].foodName,
                     "",
-                    data.mealDetails[i].quantity,
+                    data.mealDetails[i].quantity.toDouble(),
                     data.mealDetails[i].calories,
                     data.mealDetails[i].bloodSugar,
                     data.mealDetails[i].imageUrl
@@ -320,6 +321,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
     }
 
     fun addMealItem(meal : PostMealBody.PostMealItem) {
+        meal.quantity = meal.quantity.roundToInt().toDouble()
         listAdapter.addItem(meal)
         listAdapter.notifyDataSetChanged()
         baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)

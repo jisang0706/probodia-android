@@ -3,10 +3,12 @@ package com.piri.probodia.view.fragment
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
@@ -52,12 +54,35 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
             binding.foodInfoRv.layoutManager = LinearLayoutManager(requireContext())
         })
 
+        binding.quantityEdit.addTextChangedListener { edittext ->
+            if (binding.quantityEdit.length() > 0 && "${binding.quantityEdit.text}"[0] == '.') {
+                binding.quantityEdit.setText("0" + "${binding.quantityEdit.text}")
+                binding.quantityEdit.setSelection(binding.quantityEdit.text.length)
+            }
+
+            if (edittext!!.count { it == '.' } > 1) {
+                val ind = "${binding.quantityEdit.text!!}".indexOfLast { it == '.' }
+                Log.e("INDEX", ind.toString())
+                Log.e("TEXT123", "${binding.quantityEdit.text}".substring(0, ind) +
+                        "${binding.quantityEdit.text}".substring(ind + 1, binding.quantityEdit.text.length)
+                )
+                binding.quantityEdit.setText(
+                    "${binding.quantityEdit.text}".substring(0, ind) +
+                            "${binding.quantityEdit.text}".substring(ind + 1, binding.quantityEdit.text.length)
+                )
+                binding.quantityEdit.setSelection(binding.quantityEdit.text.length)
+            }
+        }
+
         binding.enterBtn.setOnClickListener {
             if ("${binding.quantityEdit.text}" == "")    binding.quantityEdit.setText("1")
+            if ("${binding.quantityEdit.text}"[binding.quantityEdit.text.length - 1] == '.') {
+                binding.quantityEdit.setText("${binding.quantityEdit.text}".substring(0, "${binding.quantityEdit.text}".length - 1))
+            }
             val postMealItem = PostMealBody.PostMealItem(
                 viewModel.foodInfo.value!!.name,
                 foodId,
-                viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toInt(),
+                viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toDouble(),
                 viewModel.foodInfo.value!!.calories.roundToInt(),
                 0,
                 ""
