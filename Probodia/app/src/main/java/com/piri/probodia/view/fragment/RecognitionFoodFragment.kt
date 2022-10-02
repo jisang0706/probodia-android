@@ -81,6 +81,10 @@ class RecognitionFoodFragment(val addMealItem : (item : PostMealBody.PostMealIte
             fragment.show(childFragmentManager, fragment.tag)
         }
 
+        binding.cancelBtn.setOnClickListener {
+            parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
         return binding.root
     }
 
