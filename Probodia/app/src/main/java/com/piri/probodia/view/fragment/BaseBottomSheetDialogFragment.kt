@@ -1,12 +1,18 @@
 package com.piri.probodia.view.fragment
 
 import android.app.Activity
+import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import com.piri.probodia.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import android.util.DisplayMetrics
+
+
+
 
 open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -29,7 +35,13 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun getWindowHeight() : Int {
-        return (context as Activity?)!!.getSystemService(WindowManager::class.java)
-            .currentWindowMetrics.bounds.height()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return (context as Activity?)!!.getSystemService(WindowManager::class.java)
+                .currentWindowMetrics.bounds.height()
+        } else {
+            val displayMetrics = DisplayMetrics()
+            (context as Activity?)!!.windowManager.getDefaultDisplay().getMetrics(displayMetrics)
+            return displayMetrics.heightPixels
+        }
     }
 }
