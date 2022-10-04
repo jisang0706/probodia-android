@@ -17,8 +17,8 @@ android {
         applicationId "com.piri.probodia"
         minSdk 29
         targetSdk 31
-        versionCode 9
-        versionName "1.0.1"
+        versionCode 10
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
