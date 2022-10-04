@@ -85,11 +85,10 @@ class JoinLastInfoActivity : AppCompatActivity() {
         binding.enterBtn.setOnClickListener {
             if (viewModel.buttonClickEnable.value!!) {
                 CoroutineScope(Dispatchers.IO).launch {
+                    val userId = intent.getLongExtra("USERID", 0)
                     if (isEdit) {
-                        val userId = intent.getLongExtra("USERID", 0)
                         setUserInfo(userId)
                     } else {
-                        val userId = intent.getLongExtra("USERID", 0)
                         val apiToken =
                             viewModel.getApiToken(userId, intent.getStringExtra("KAKAOACCESS")!!)
                         Log.e("TOKEN", "${apiToken}")

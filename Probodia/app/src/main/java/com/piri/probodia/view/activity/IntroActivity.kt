@@ -120,6 +120,8 @@ class IntroActivity : AppCompatActivity() {
 
     fun goJoin() {
         val intent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
+        intent.putExtra("USERID", viewModel.liveKakaoUserId.value)
+        intent.putExtra("KAKAOACCESS", viewModel.liveKakaoAccessToken.value)
         startActivity(intent)
         finish()
     }
