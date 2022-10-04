@@ -29,18 +29,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/title_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_meal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"/>
+
                 <TextView
                     android:id="@+id/title_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_toRightOf="@id/title_icon"
                     android:layout_centerVertical="true"
                     android:text="음식"
                     android:textSize="20dp"
-                    android:textStyle="bold"
                     android:textColor="@color/gray_900"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="34dp" />
+                    android:layout_marginBottom="34dp"/>
 
                 <ImageButton
                     android:id="@+id/cancel_btn"

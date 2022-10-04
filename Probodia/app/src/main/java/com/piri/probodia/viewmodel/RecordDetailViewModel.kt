@@ -3,6 +3,7 @@ package com.piri.probodia.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.piri.probodia.R
 import com.piri.probodia.repository.PreferenceRepository
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,16 @@ class RecordDetailViewModel(val recordType : String) : BaseViewModel() {
     })
     val titleText : LiveData<String>
         get() = _titleText
+
+    private val _titleSrc = MutableLiveData(when(recordType) {
+        "SUGAR" -> R.drawable.ic_glucose
+        "PRESSURE" -> R.drawable.ic_pressure
+        "MEDICINE" -> R.drawable.ic_medicine
+        "MEAL" -> R.drawable.ic_meal
+        else -> R.drawable.ic_glucose
+    })
+    val titleSrc : LiveData<Int>
+        get() = _titleSrc
 
     fun deleteRecord(preferenceRepository : PreferenceRepository, recordId : Int) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
