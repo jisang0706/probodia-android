@@ -30,10 +30,6 @@ class RecordFragment : Fragment() {
     private lateinit var recordPagerAdapter: RecordPagerAdapter
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
