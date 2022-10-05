@@ -74,7 +74,7 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
 
             override fun afterTextChanged(s: Editable?) {
                 val name = "${binding.foodEdittext.text}"
-                if (Pattern.matches("^[a-zA-Z0-9가-힣]+$", name)) {
+                if (name.isNotEmpty() && Pattern.matches("^[a-zA-Z0-9가-힣]+$", name)) {
                     viewModel.setFoodName(name)
                 }
             }
