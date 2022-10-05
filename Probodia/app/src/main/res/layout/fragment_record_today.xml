@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.piri.probodia.viewmodel.RecordTodayViewModel" />
+            type="com.piri.probodia.viewmodel.RecordHistoryViewModel" />
     </data>
 
     <FrameLayout

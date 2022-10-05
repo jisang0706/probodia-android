@@ -1,12 +1,10 @@
 package com.piri.probodia.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -19,18 +17,15 @@ import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.data.remote.model.TodayRecord
 import com.piri.probodia.databinding.FragmentRecordPastBinding
 import com.piri.probodia.repository.PreferenceRepository
-import com.piri.probodia.viewmodel.RecordPastViewModel
-import com.piri.probodia.widget.utils.TimeTag
+import com.piri.probodia.viewmodel.RecordHistoryViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import androidx.core.widget.NestedScrollView
-import androidx.annotation.NonNull
 
 
 class RecordPastFragment : Fragment() {
 
     private lateinit var binding : FragmentRecordPastBinding
-    private lateinit var viewModel : RecordPastViewModel
+    private lateinit var viewModel : RecordHistoryViewModel
     private var recordRVAdapter : RecordTodayAdapter? = null
 
     private var dateTime = LocalDateTime.now()
@@ -43,7 +38,7 @@ class RecordPastFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_past, container, false)
 
-        viewModel = ViewModelProvider(this).get(RecordPastViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RecordHistoryViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
@@ -94,7 +89,7 @@ class RecordPastFragment : Fragment() {
 
     fun loadPastRecord(dateTime : LocalDateTime) {
         loadCnt += 3
-        viewModel.getPastRecord(PreferenceRepository(requireContext()), dateTime)
+        viewModel.getRecordHistory(PreferenceRepository(requireContext()), dateTime)
     }
 
     fun restartRecord() {

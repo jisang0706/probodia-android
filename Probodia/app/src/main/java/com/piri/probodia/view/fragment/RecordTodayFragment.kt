@@ -1,14 +1,12 @@
 package com.piri.probodia.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
@@ -18,22 +16,17 @@ import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.data.remote.model.TodayRecord
 import com.piri.probodia.databinding.FragmentRecordTodayBinding
 import com.piri.probodia.repository.PreferenceRepository
-import com.piri.probodia.viewmodel.RecordTodayViewModel
-import com.piri.probodia.viewmodel.factory.RecordTodayViewModelFactory
-import com.piri.probodia.widget.utils.TimeTag
+import com.piri.probodia.viewmodel.RecordHistoryViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class RecordTodayFragment : Fragment() {
 
     private lateinit var binding: FragmentRecordTodayBinding
-    private lateinit var viewModelFactory : RecordTodayViewModelFactory
-    private lateinit var viewModel : RecordTodayViewModel
+    private lateinit var viewModel : RecordHistoryViewModel
     private var recordRVAdapter: RecordTodayAdapter? = null
 
     private lateinit var reloadRecord : () -> Unit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +34,7 @@ class RecordTodayFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record_today, container, false)
 
-        viewModelFactory = RecordTodayViewModelFactory(PreferenceRepository(requireContext()))
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecordTodayViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RecordHistoryViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
@@ -50,14 +42,15 @@ class RecordTodayFragment : Fragment() {
         binding.recordRv.adapter = recordRVAdapter
         binding.recordRv.layoutManager = LinearLayoutManager(context)
 
-        viewModel.result.observe(viewLifecycleOwner, Observer {
-            val todayRecord = TodayRecord(it.second)
+        viewModel.result.observe(viewLifecycleOwner) {
+            val record = TodayRecord(it.second)
             val dataSet : MutableList<RecordDatasBase> =
-                mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first,  "2022-01-01", todayRecord.getDatas().size)))
-            dataSet.addAll(todayRecord.getDatas())
+                mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first.second, it.first.first.format(
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")), record.getDatas().size)))
+            dataSet.addAll(record.getDatas())
             recordRVAdapter!!.addDataSet(dataSet)
             recordRVAdapter!!.notifyDataSetChanged()
-        })
+        }
         loadTodayRecord()
 
         recordRVAdapter!!.setOnItemClickListener(object : RecordTodayAdapter.OnItemClickListener {
@@ -78,9 +71,8 @@ class RecordTodayFragment : Fragment() {
     fun loadTodayRecord() {
         if (recordRVAdapter != null) {
             recordRVAdapter!!.resetDataSet()
-            for (flag in 0..2) {
-                viewModel.getTodayRecord(TimeTag.timeTag[flag])
-            }
+            val dateTime = LocalDateTime.now()
+            viewModel.getRecordHistory(PreferenceRepository(requireContext()), dateTime)
         }
     }
 

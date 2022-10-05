@@ -10,13 +10,13 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordPastViewModel : BaseViewModel() {
+class RecordHistoryViewModel : BaseViewModel() {
 
     private val _result = MutableLiveData<Pair<Pair<LocalDateTime, String>, MutableList<TodayRecord.AllData>>>()
     val result : LiveData<Pair<Pair<LocalDateTime, String>, MutableList<TodayRecord.AllData>>>
         get() = _result
 
-    fun getPastRecord(preferenceRepository : PreferenceRepository, dateTime : LocalDateTime) = viewModelScope.launch(coroutineExceptionHandler) {
+    fun getRecordHistory(preferenceRepository : PreferenceRepository, dateTime : LocalDateTime) = viewModelScope.launch(coroutineExceptionHandler) {
         val startDate = "${dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
         val nextDay = dateTime.plusDays(1)
         val endDate = "${nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
@@ -26,16 +26,16 @@ class RecordPastViewModel : BaseViewModel() {
             val getRecordBody = GetRecordBody(startDate, endDate, filterType, mutableListOf(i))
             try {
                 val accessToken = preferenceRepository.getApiToken().apiAccessToken
-                _getPastRecord(startDate, i, accessToken, getRecordBody)
+                _getRecordHistory(startDate, i, accessToken, getRecordBody)
             } catch (e : Exception) {
                 refreshApiToken(preferenceRepository)
                 val accessToken = preferenceRepository.getApiToken().apiAccessToken
-                _getPastRecord(startDate, i, accessToken, getRecordBody)
+                _getRecordHistory(startDate, i, accessToken, getRecordBody)
             }
         }
     }
 
-    suspend fun _getPastRecord(startDate : String, i : String, accessToken : String, getRecordBody: GetRecordBody) {
+    suspend fun _getRecordHistory(startDate : String, i : String, accessToken : String, getRecordBody: GetRecordBody) {
         val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         _result.value = Pair(Pair(LocalDateTime.parse(startDate, localDateTimeFormatter), i), serverRepository.getRecords(accessToken, getRecordBody))
     }
