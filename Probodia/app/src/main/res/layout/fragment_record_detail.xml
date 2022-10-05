@@ -118,12 +118,13 @@
                 android:layout_marginVertical="16dp"/>
         </RelativeLayout>
 
-        <View
+        <LinearLayout
             android:id="@+id/record_datetime_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_300"
-            android:layout_below="@id/record_datetime_layout"/>
+            android:layout_below="@id/record_datetime_layout"
+            android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/record_detail_rv"

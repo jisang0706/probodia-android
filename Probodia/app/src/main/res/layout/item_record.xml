@@ -54,12 +54,13 @@
                 android:layout_marginRight="20dp"/>
         </RelativeLayout>
 
-        <View
+        <LinearLayout
             android:id="@+id/bottom_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_200"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" />
 
 
         <ProgressBar

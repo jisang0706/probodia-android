@@ -128,25 +128,28 @@
             android:layout_below="@id/title_text_layout"
             android:layout_marginTop="24dp">
 
-            <View
+            <LinearLayout
                 android:id="@+id/first_layout"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
-                android:background="@drawable/green_600_round_background"/>
+                android:background="@drawable/green_600_round_background"
+                android:orientation="horizontal" />
 
-            <View
+            <LinearLayout
                 android:id="@+id/second_layout"
                 android:layout_width="300dp"
                 android:layout_height="17dp"
                 android:background="@drawable/yellow_600_round_right_background"
-                android:layout_gravity="right"/>
+                android:layout_gravity="right"
+                android:orientation="horizontal" />
 
-            <View
+            <LinearLayout
                 android:id="@+id/third_layout"
                 android:layout_width="150dp"
                 android:layout_height="17dp"
                 android:background="@drawable/red_600_round_right_background"
-                android:layout_gravity="right"/>
+                android:layout_gravity="right"
+                android:orientation="horizontal" />
         </FrameLayout>
     </RelativeLayout>
 </layout>

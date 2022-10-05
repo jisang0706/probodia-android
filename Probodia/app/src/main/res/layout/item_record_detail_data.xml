@@ -39,7 +39,7 @@
             android:textStyle="bold"
             android:layout_marginRight="8dp"/>
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_300"
