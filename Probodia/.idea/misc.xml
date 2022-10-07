@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1162037037037037" />
+        <entry key="app/src/main/res/drawable-v24/red_600_round_background.xml" value="0.13657407407407407" />
+        <entry key="app/src/main/res/drawable-v24/yellow_600_round_background.xml" value="0.13657407407407407" />
         <entry key="app/src/main/res/drawable/blue_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/gray_100_2_background.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/drawable/gray_300_2_background.xml" value="0.19212962962962962" />
@@ -44,6 +46,7 @@
         <entry key="app/src/main/res/drawable/red_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/red_2_background.xml" value="0.14305555555555555" />
         <entry key="app/src/main/res/drawable/red_600_round_background.xml" value="0.1675925925925926" />
+        <entry key="app/src/main/res/drawable/red_600_round_right_background.xml" value="0.13657407407407407" />
         <entry key="app/src/main/res/drawable/tab_text.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/white_1_background.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/white_2_background.xml" value="0.20677083333333332" />

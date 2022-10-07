@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.piri.probodia.viewmodel.AnalysisRangeViewModel" />
+            type="com.piri.probodia.viewmodel.RecordAnalisysViewModel" />
     </data>
 
     <RelativeLayout
