@@ -127,5 +127,6 @@ class RecordFragment : Fragment() {
     fun reloadRecord() {
         recordPagerAdapter.recordTodayFragment.loadTodayRecord()
         recordPagerAdapter.recordPastFragment.restartRecord()
+        recordPagerAdapter.recordAnalysisFragment.reloadAnalysis()
     }
 }

@@ -1,27 +1,22 @@
 package com.piri.probodia.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import com.piri.probodia.R
 import com.piri.probodia.databinding.FragmentAnalysisRangeBinding
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.lifecycle.ViewModelProvider
-import com.piri.probodia.data.remote.model.GlucoseDto
-import com.piri.probodia.data.remote.model.RecordDatasBase
-import com.piri.probodia.data.remote.model.TodayRecord
-import com.piri.probodia.viewmodel.RecordAnalisysViewModel
+import com.piri.probodia.viewmodel.RecordAnalysisViewModel
 
 
 class AnalysisGlucoseRangeFragment : Fragment() {
 
     private lateinit var binding : FragmentAnalysisRangeBinding
 
-    private lateinit var viewModel : RecordAnalisysViewModel
+    private lateinit var viewModel : RecordAnalysisViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +29,7 @@ class AnalysisGlucoseRangeFragment : Fragment() {
         binding = FragmentAnalysisRangeBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(requireParentFragment()).get(RecordAnalisysViewModel::class.java)
+        viewModel = ViewModelProvider(requireParentFragment()).get(RecordAnalysisViewModel::class.java)
         binding.vm = viewModel
 
         viewModel.glucoseRange.observe(viewLifecycleOwner) {

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.piri.probodia.viewmodel.RecordAnalisysViewModel" />
+            type="com.piri.probodia.viewmodel.RecordAnalysisViewModel" />
     </data>
 
     <RelativeLayout
@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="15"
+                    android:text="0"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/green_800"/>
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="10"
+                    android:text="0"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/red_800"/>
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="10"
+                    android:text="0"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/yellow_800"/>
@@ -136,14 +136,14 @@
 
             <View
                 android:id="@+id/second_layout"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="17dp"
                 android:background="@drawable/yellow_600_round_right_background"
                 android:layout_gravity="right"/>
 
             <View
                 android:id="@+id/third_layout"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="17dp"
                 android:background="@drawable/red_600_round_right_background"
                 android:layout_gravity="right"/>

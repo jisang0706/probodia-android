@@ -111,4 +111,11 @@ interface ServerService {
         @Header("Authorization") token : String,
         @Body userData : PutUserData
     ) : UserDto
+
+    @GET("/api/recordStat/average-nutrient/{start}/{end}")
+    suspend fun getNutrient(
+        @Header("Authorization") token : String,
+        @Query("start") startDate : String,
+        @Query("end") endDate : String
+    ) : NutrientDto
 }

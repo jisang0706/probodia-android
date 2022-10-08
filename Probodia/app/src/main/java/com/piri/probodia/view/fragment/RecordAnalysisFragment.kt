@@ -9,12 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.databinding.FragmentRecordAnalysisBinding
 import com.piri.probodia.repository.PreferenceRepository
-import com.piri.probodia.viewmodel.RecordAnalisysViewModel
+import com.piri.probodia.viewmodel.RecordAnalysisViewModel
+import java.time.LocalDate
 
 class RecordAnalysisFragment : Fragment() {
 
     private lateinit var binding : FragmentRecordAnalysisBinding
-    private lateinit var viewModel : RecordAnalisysViewModel
+    private lateinit var viewModel : RecordAnalysisViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +28,14 @@ class RecordAnalysisFragment : Fragment() {
         binding = FragmentRecordAnalysisBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this).get(RecordAnalisysViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RecordAnalysisViewModel::class.java)
         binding.vm = viewModel
 
         initAnalysisGlucoseRageFragment()
+        initAnalysisMealRangeFragment()
 
         viewModel.kindEndDate.observe(viewLifecycleOwner) {
-            viewModel.getGlucose(PreferenceRepository(
-                requireContext()),
-                it.first,
-                it.second
-            )
+            loadAnalysis(it)
         }
 
         viewModel.glucoseResult.observe(viewLifecycleOwner) {
@@ -55,5 +53,32 @@ class RecordAnalysisFragment : Fragment() {
         transaction.replace(R.id.glucose_layout, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun initAnalysisMealRangeFragment() {
+        val manager = childFragmentManager
+        val transaction = manager.beginTransaction()
+        val fragment = AnalysisMealRangeFragment()
+        transaction.replace(R.id.nutrient_layout, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun loadAnalysis(kindDate : Pair<Int, LocalDate>) {
+        viewModel.getGlucose(PreferenceRepository(
+            requireContext()),
+            kindDate.first,
+            kindDate.second
+        )
+
+        viewModel.getMealRange(
+            PreferenceRepository(requireContext()),
+            kindDate.first,
+            kindDate.second
+        )
+    }
+
+    fun reloadAnalysis() {
+        viewModel.kindEndDate.value?.let { loadAnalysis(it) }
     }
 }

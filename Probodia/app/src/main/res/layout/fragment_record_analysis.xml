@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.piri.probodia.viewmodel.RecordAnalisysViewModel" />
+            type="com.piri.probodia.viewmodel.RecordAnalysisViewModel" />
     </data>
 
     <LinearLayout
@@ -82,7 +82,7 @@
                             android:id="@+id/count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="35회"
+                            android:text="0회"
                             android:textStyle="bold"
                             android:textSize="24dp"/>
                     </LinearLayout>
