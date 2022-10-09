@@ -110,4 +110,7 @@ dependencies {
 
     // Keyboard Visibility listener
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC1'
+
+    // Graph
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

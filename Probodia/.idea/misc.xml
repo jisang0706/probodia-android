@@ -71,6 +71,7 @@
         <entry key="app/src/main/res/layout/activity_search_food_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_search_medicine.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/fragment_analysis_glucose_range.xml" value="0.1634963768115942" />
+        <entry key="app/src/main/res/layout/fragment_analysis_line.xml" value="0.1408839779005525" />
         <entry key="app/src/main/res/layout/fragment_analysis_range.xml" value="0.2596685082872928" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />

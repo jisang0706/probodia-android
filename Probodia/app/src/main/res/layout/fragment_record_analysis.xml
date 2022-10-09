@@ -117,6 +117,15 @@
                         android:layout_below="@id/nutrient_text"
                         android:layout_marginTop="24dp"/>
                 </RelativeLayout>
+
+                <FrameLayout
+                    android:id="@+id/glucose_line_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:paddingVertical="24dp"
+                    android:paddingHorizontal="20dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
