@@ -30,7 +30,7 @@ import java.lang.Float.max
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class AnalysisGlucoseLineFragment : AnalysisBaseLineFragment() {
+class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
 
     private lateinit var selectorViewModel : AnalysisTimeSelectorViewModel
 
@@ -166,12 +166,12 @@ class AnalysisGlucoseLineFragment : AnalysisBaseLineFragment() {
         }
         return ScatterData(buildList<IScatterDataSet> {
             for(i in 0 until scatterEntriesList.size) {
-                add(ScatterDataSet(scatterEntriesList[i], Convert.getTimeTag(i)).apply {
+                add(ScatterDataSet(scatterEntriesList[i], "").apply {
                     axisDependency = YAxis.AxisDependency.LEFT
                     highLightColor = Color.TRANSPARENT
                     setScatterShape(ScatterShape.scatterShape[0])
                     color = scatterColor[i]
-                    valueTextColor = Color.WHITE
+                    valueTextColor = Color.TRANSPARENT
                     scatterShapeSize = 30f
                 })
             }

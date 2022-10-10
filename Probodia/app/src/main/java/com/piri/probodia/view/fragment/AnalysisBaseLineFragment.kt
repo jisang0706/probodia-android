@@ -1,6 +1,7 @@
 package com.piri.probodia.view.fragment
 
 import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.piri.probodia.databinding.FragmentAnalysisLineBinding
 import com.piri.probodia.viewmodel.RecordAnalysisViewModel
@@ -14,12 +15,17 @@ open class AnalysisBaseLineFragment : Fragment() {
     fun initChart() {
         binding.apply {
             analysisChart.description.isEnabled = false
-//            analysisChart.setMaxVisibleValueCount(200)
+            analysisChart.setMaxVisibleValueCount(200)
             analysisChart.setVisibleXRangeMaximum(7f)
             analysisChart.setPinchZoom(false)
             analysisChart.setDrawGridBackground(false)
             analysisChart.isDragEnabled = false
             analysisChart.isDoubleTapToZoomEnabled = false
+            analysisChart.setNoDataText("기간 내 기록이 존재하지 않습니다.")
+
+            analysisChart.legend.apply {
+                form = Legend.LegendForm.NONE
+            }
 
             analysisChart.xAxis.apply {
 //                textColor = Color.TRANSPARENT

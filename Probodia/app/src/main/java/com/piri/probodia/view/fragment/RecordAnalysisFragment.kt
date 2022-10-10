@@ -69,7 +69,7 @@ class RecordAnalysisFragment : Fragment() {
     fun initAnalysisGlucoseLineFragment() {
         val manager = childFragmentManager
         val transaction = manager.beginTransaction()
-        val fragment = AnalysisGlucoseLineFragment()
+        val fragment = AnalysisGlucoseChartFragment()
         transaction.replace(R.id.glucose_line_layout, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
