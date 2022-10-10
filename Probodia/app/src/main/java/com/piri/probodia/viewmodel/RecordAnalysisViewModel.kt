@@ -27,6 +27,10 @@ class RecordAnalysisViewModel : BaseViewModel() {
     val glucoseRange : LiveData<List<Int>>
         get() = _glucoseRange
 
+    private val _pressureResult = MutableLiveData<MutableList<TodayRecord.AllData>>()
+    val pressureResult : LiveData<MutableList<TodayRecord.AllData>>
+        get() = _pressureResult
+
     private val _mealRange = MutableLiveData<NutrientDto>()
     val mealRange : LiveData<NutrientDto>
         get() = _mealRange
@@ -92,6 +96,40 @@ class RecordAnalysisViewModel : BaseViewModel() {
         }
 
         _glucoseRange.value = listOf(common, low, high)
+    }
+
+    fun getPressure(preferenceRepo : PreferenceRepository, __kind : Int, __endDate: LocalDate) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
+            _getPressure(accessToken, __kind, __endDate)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
+            _getPressure(accessToken, __kind, __endDate)
+        }
+    }
+
+    suspend fun _getPressure(accessToken : String, __kind : Int, __endDate : LocalDate) {
+        val __startDate : LocalDate = when(__kind) {
+            1 -> __endDate.minusDays(1)
+            2 -> __endDate.minusWeeks(1)
+            3 -> __endDate.minusMonths(1)
+            else -> __endDate.minusDays(1)
+        }
+
+        val filterType = mutableListOf("PRESSURE")
+        val timeTagList : MutableList<String> = TimeTag.timeTag
+
+        val getRecordBody = GetRecordBody(
+            "${__startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00",
+            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00",
+            filterType,
+            timeTagList
+        )
+        val tempPressureResult = serverRepository.getRecords(accessToken, getRecordBody)
+        if (__kind == kindEndDate.value!!.first && __endDate == kindEndDate.value!!.second) {
+            _pressureResult.value = tempPressureResult
+        }
     }
 
     fun getMealRange(preferenceRepo : PreferenceRepository, __kind : Int, __endDate : LocalDate) = viewModelScope.launch(coroutineExceptionHandler) {

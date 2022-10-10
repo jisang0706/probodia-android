@@ -30,11 +30,8 @@ import java.lang.Float.max
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class AnalysisGlucoseLineFragment : Fragment() {
+class AnalysisGlucoseLineFragment : AnalysisBaseLineFragment() {
 
-    private lateinit var binding : FragmentAnalysisLineBinding
-
-    private lateinit var viewModel : RecordAnalysisViewModel
     private lateinit var selectorViewModel : AnalysisTimeSelectorViewModel
 
     private lateinit var scatterColor : List<Int>
@@ -53,6 +50,8 @@ class AnalysisGlucoseLineFragment : Fragment() {
         selectorViewModel = ViewModelProvider(this).get(AnalysisTimeSelectorViewModel::class.java)
         binding.selectorVm = selectorViewModel
 
+        initChart()
+
         var combinedData = CombinedData()
 
         scatterColor = buildList {
@@ -65,8 +64,6 @@ class AnalysisGlucoseLineFragment : Fragment() {
         }
 
         viewModel.glucoseResult.observe(viewLifecycleOwner) {
-            combinedData = CombinedData()
-            initChart()
             binding.analysisChart.apply {
                 combinedData = CombinedData()
                 combinedData.setData(setGlucoseScatter(it))
@@ -117,41 +114,6 @@ class AnalysisGlucoseLineFragment : Fragment() {
         return binding.root
     }
 
-    fun initChart() {
-        binding.apply {
-            analysisChart.description.isEnabled = false
-//            analysisChart.setMaxVisibleValueCount(200)
-            analysisChart.setVisibleXRangeMaximum(7f)
-            analysisChart.setPinchZoom(false)
-            analysisChart.setDrawGridBackground(false)
-            analysisChart.isDragEnabled = false
-            analysisChart.isDoubleTapToZoomEnabled = false
-
-            analysisChart.xAxis.apply {
-//                textColor = Color.TRANSPARENT
-                position = XAxis.XAxisPosition.BOTTOM
-                axisMinimum = 0f
-                axisMaximum = 6.5f
-                setLabelCount(6, false)
-
-                this.setDrawGridLines(true)
-            }
-
-            analysisChart.axisLeft.apply {
-                setLabelCount(10, true)
-                axisMinimum = 0f
-                axisMaximum = 200f
-//                textColor = Color.WHITE
-                setDrawGridLines(true)
-                setDrawAxisLine(true)
-            }
-
-            analysisChart.axisRight.apply {
-                isEnabled = false
-            }
-        }
-    }
-
     fun setGlucoseLine(items : MutableList<TodayRecord.AllData>, selected : Int) : LineData {
         val lineEntries = buildList<Entry> {
             for(item in items) {
@@ -160,7 +122,7 @@ class AnalysisGlucoseLineFragment : Fragment() {
                     var x = (viewModel.kindEndDate.value!!.second.until(
                         localdate,
                         ChronoUnit.DAYS
-                    )).toFloat() + 7
+                    )).toFloat() + 8
 
                     add(Entry(x, item.record.glucose!!.toFloat()))
                 }
@@ -192,7 +154,7 @@ class AnalysisGlucoseLineFragment : Fragment() {
         var top = 0f
         for(item in items) {
             val localdate = LocalDate.parse(item.record.recordDate.split(' ')[0])
-            var x = (viewModel.kindEndDate.value!!.second.until(localdate, ChronoUnit.DAYS)).toFloat() + 7
+            var x = (viewModel.kindEndDate.value!!.second.until(localdate, ChronoUnit.DAYS)).toFloat() + 8
             scatterEntriesList[Convert.timeTagToInt(item.record.timeTag)].add(BarEntry(x, item.record.glucose!!.toFloat()))
             top = max(top, item.record.glucose!!.toFloat())
         }
