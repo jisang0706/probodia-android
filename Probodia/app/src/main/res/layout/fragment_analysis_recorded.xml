@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.RecordAnalysisViewModel" />
+
+        <variable
+            name="recordedVm"
+            type="com.piri.probodia.viewmodel.AnalysisRecordedViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.AnalysisRecordedFragment">
+
+        <TextView
+            android:id="@+id/analysis_recorded_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기록 주기 확인"
+            android:textSize="20dp"/>
+
+        <LinearLayout
+            android:id="@+id/recorded_color_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/analysis_recorded_text"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_circlegreen"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기록함"
+                android:layout_marginLeft="8dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_circleprimary"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기록 안함"
+                android:layout_marginLeft="8dp"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fir_range_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/recorded_color_text_layout"/>
+
+        <FrameLayout
+            android:id="@+id/sec_range_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/fir_range_layout"/>
+
+        <FrameLayout
+            android:id="@+id/thr_range_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/sec_range_layout"/>
+    </RelativeLayout>
+</layout>

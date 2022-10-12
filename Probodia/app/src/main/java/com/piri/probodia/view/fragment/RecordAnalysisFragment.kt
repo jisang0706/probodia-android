@@ -35,6 +35,7 @@ class RecordAnalysisFragment : Fragment() {
         initAnalysisMealRangeFragment()
         initAnalysisGlucoseLineFragment()
         initAnalysisPressureChartFragment()
+        initAnalysisRecordedRangeFragment()
 
         viewModel.kindEndDate.observe(viewLifecycleOwner) {
             loadAnalysis(it)
@@ -80,6 +81,15 @@ class RecordAnalysisFragment : Fragment() {
         val transaction = manager.beginTransaction()
         val fragment = AnalysisPressureChartFragment()
         transaction.replace(R.id.pressure_chart_layout, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun initAnalysisRecordedRangeFragment() {
+        val manager = childFragmentManager
+        val transaction = manager.beginTransaction()
+        val fragment = AnalysisRecordedFragment()
+        transaction.replace(R.id.recorded_range_layout, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

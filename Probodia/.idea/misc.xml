@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1162037037037037" />
+        <entry key="app/src/main/res/drawable-v24/primary_100_round_background.xml" value="0.19398148148148148" />
+        <entry key="app/src/main/res/drawable-v24/primary_100_round_right_background.xml" value="0.191324200913242" />
         <entry key="app/src/main/res/drawable-v24/red_600_round_background.xml" value="0.13657407407407407" />
         <entry key="app/src/main/res/drawable-v24/yellow_600_round_background.xml" value="0.13657407407407407" />
         <entry key="app/src/main/res/drawable/blue_1_background.xml" value="0.20677083333333332" />
@@ -17,6 +19,7 @@
         <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/drawable/ic_challenge.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_challengeselected.xml" value="0.22407407407407406" />
+        <entry key="app/src/main/res/drawable/ic_circlegreen.xml" value="0.191324200913242" />
         <entry key="app/src/main/res/drawable/ic_community.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.16157407407407406" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.16157407407407406" />
@@ -73,6 +76,8 @@
         <entry key="app/src/main/res/layout/fragment_analysis_glucose_range.xml" value="0.1634963768115942" />
         <entry key="app/src/main/res/layout/fragment_analysis_line.xml" value="0.1408839779005525" />
         <entry key="app/src/main/res/layout/fragment_analysis_range.xml" value="0.2596685082872928" />
+        <entry key="app/src/main/res/layout/fragment_analysis_recorded.xml" value="0.12962962962962962" />
+        <entry key="app/src/main/res/layout/fragment_analysis_recorded_range.xml" value="0.13269927536231885" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_date_picker_dialog.xml" value="0.33194444444444443" />

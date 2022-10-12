@@ -135,6 +135,15 @@
                     android:layout_marginTop="8dp"
                     android:paddingVertical="24dp"
                     android:paddingHorizontal="20dp"/>
+
+                <FrameLayout
+                    android:id="@+id/recorded_range_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:paddingVertical="24dp"
+                    android:paddingHorizontal="20dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
