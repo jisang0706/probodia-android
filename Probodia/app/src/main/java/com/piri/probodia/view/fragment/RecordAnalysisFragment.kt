@@ -36,6 +36,7 @@ class RecordAnalysisFragment : Fragment() {
         initAnalysisGlucoseLineFragment()
         initAnalysisPressureChartFragment()
         initAnalysisRecordedRangeFragment()
+        initAnalysisHemoglobinFragment()
 
         viewModel.kindEndDate.observe(viewLifecycleOwner) {
             loadAnalysis(it)
@@ -94,6 +95,15 @@ class RecordAnalysisFragment : Fragment() {
         transaction.commit()
     }
 
+    fun initAnalysisHemoglobinFragment() {
+        val manager = childFragmentManager
+        val transaction = manager.beginTransaction()
+        val fragment = AnalysisHemoglobinFragment()
+        transaction.replace(R.id.hemoglobin_layout, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
     fun loadAnalysis(kindDate : Pair<Int, LocalDate>) {
         viewModel.getGlucose(PreferenceRepository(
             requireContext()),
@@ -108,6 +118,12 @@ class RecordAnalysisFragment : Fragment() {
         )
 
         viewModel.getMealRange(
+            PreferenceRepository(requireContext()),
+            kindDate.first,
+            kindDate.second
+        )
+
+        viewModel.getHemoglobin(
             PreferenceRepository(requireContext()),
             kindDate.first,
             kindDate.second

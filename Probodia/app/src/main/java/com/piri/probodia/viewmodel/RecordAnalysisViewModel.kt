@@ -27,6 +27,10 @@ class RecordAnalysisViewModel : BaseViewModel() {
     val glucoseRange : LiveData<List<Int>>
         get() = _glucoseRange
 
+    private val _hemoglobinResult = MutableLiveData<Double>()
+    val hemoglobinResult : LiveData<Double>
+        get() = _hemoglobinResult
+
     private val _pressureResult = MutableLiveData<MutableList<TodayRecord.AllData>>()
     val pressureResult : LiveData<MutableList<TodayRecord.AllData>>
         get() = _pressureResult
@@ -96,6 +100,29 @@ class RecordAnalysisViewModel : BaseViewModel() {
         }
 
         _glucoseRange.value = listOf(common, low, high)
+    }
+
+    fun getHemoglobin(preferenceRepo: PreferenceRepository, __kind : Int, __endDate: LocalDate) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
+            _getHemoglobin(accessToken, __kind, __endDate)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepo)
+            val accessToken = preferenceRepo.getApiToken().apiAccessToken
+            _getHemoglobin(accessToken, __kind, __endDate)
+        }
+    }
+
+    suspend fun _getHemoglobin(accessToken : String, __kind : Int, __endDate: LocalDate) {
+        val tempHemoglobin = serverRepository.getHemoglobin(
+            accessToken,
+            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00",
+            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
+        )
+
+        if (__kind == kindEndDate.value!!.first && __endDate == kindEndDate.value!!.second) {
+            _hemoglobinResult.value = tempHemoglobin
+        }
     }
 
     fun getPressure(preferenceRepo : PreferenceRepository, __kind : Int, __endDate: LocalDate) = viewModelScope.launch(coroutineExceptionHandler) {

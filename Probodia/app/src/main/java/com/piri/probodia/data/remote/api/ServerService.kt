@@ -118,4 +118,11 @@ interface ServerService {
         @Query("start") startDate : String,
         @Query("end") endDate : String
     ) : NutrientDto
+
+    @GET("/api/recordStat/hemoglobin/{start}/{end}")
+    suspend fun getHemoglobin(
+        @Header("Authorization") token : String,
+        @Query("start") startDate : String,
+        @Query("end") endDate : String
+    ) : Double
 }

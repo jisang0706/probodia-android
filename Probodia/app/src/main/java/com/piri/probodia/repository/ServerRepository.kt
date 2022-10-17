@@ -93,4 +93,7 @@ class ServerRepository {
 
     suspend fun getNutrient(apiToken : String, startDate : String, endDate : String)
         = client.getNutrient(apiToken, startDate, endDate)
+
+    suspend fun getHemoglobin(apiToken : String, startDate : String, endDate : String)
+            = client.getHemoglobin(apiToken, startDate, endDate)
 }
