@@ -64,7 +64,10 @@ class AnalysisGlucoseRangeFragment : Fragment() {
             if (low == 0) {
                 binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_background)
             }
+        } else {
+            binding.firstLayout.setBackgroundResource(R.drawable.green_600_round_background)
         }
+
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width = binding.firstLayout.width * high / (common + low + high)
         binding.thirdLayout.layoutParams = thirdLayoutParams

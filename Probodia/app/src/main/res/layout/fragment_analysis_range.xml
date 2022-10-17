@@ -132,7 +132,7 @@
                 android:id="@+id/first_layout"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
-                android:background="@drawable/green_600_round_background"/>
+                android:background="@drawable/gray_300_2_background"/>
 
             <View
                 android:id="@+id/second_layout"

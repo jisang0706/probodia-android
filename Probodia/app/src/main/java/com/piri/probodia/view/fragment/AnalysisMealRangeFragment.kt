@@ -67,7 +67,10 @@ class AnalysisMealRangeFragment : Fragment() {
             if (nutrientDto.carbohydrate <= 0) {
                 binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_background)
             }
+        } else {
+            binding.firstLayout.setBackgroundResource(R.drawable.green_600_round_background)
         }
+
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width =
             binding.firstLayout.width * nutrientDto.fat / (nutrientDto.protein + nutrientDto.carbohydrate + nutrientDto.fat)
