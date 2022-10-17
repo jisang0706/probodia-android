@@ -57,6 +57,8 @@ open class AnalysisRecordedRangeFragment : Fragment() {
     private fun _setGlucoseRange(all : Int, recorded : Int) {
         if (recorded == 0) {
             binding.secondLayout.setBackgroundResource(R.drawable.primary_100_round_background)
+        } else {
+            binding.secondLayout.setBackgroundResource(R.drawable.primary_100_round_right_background)
         }
 
         val secondLayoutParams = binding.secondLayout.layoutParams
