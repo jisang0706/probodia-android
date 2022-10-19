@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="recordedVm"
+            type="com.piri.probodia.viewmodel.AnalysisRecordedViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/recorded_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아침"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/recorded_percent_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0% 기록"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recorded_title_text"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:id="@+id/first_layout"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:orientation="horizontal"
+                android:background="@drawable/green_600_round_background"/>
+
+            <LinearLayout
+                android:id="@+id/second_layout"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:orientation="horizontal"
+                android:background="@drawable/primary_100_round_background"
+                android:layout_gravity="right"/>
+        </FrameLayout>
+    </RelativeLayout>
+</layout>

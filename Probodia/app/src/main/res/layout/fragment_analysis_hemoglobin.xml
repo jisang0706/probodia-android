@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.RecordAnalysisViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.AnalysisHemoglobinFragment">
+
+        <TextView
+            android:id="@+id/analysis_hemoglobin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예상 당화혈색소"
+            android:textSize="20dp"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/analysis_hemoglobin_text">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_gradientcircle"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/hemoglobin_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="혈당 기록이\n충분하지 않습니다"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+        </FrameLayout>
+    </RelativeLayout>
+</layout>
