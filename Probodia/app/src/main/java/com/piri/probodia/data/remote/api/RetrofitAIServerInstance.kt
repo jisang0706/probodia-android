@@ -18,7 +18,7 @@ object RetrofitAIServerInstance {
         client = Retrofit
             .Builder()
             .client(
-                SSLUtil.generateSecureOkHttpClient(context)
+                SSLUtil.generateSecureOkHttpClient(context, 2)
             )
             .baseUrl(BuildConfig.AI_SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())

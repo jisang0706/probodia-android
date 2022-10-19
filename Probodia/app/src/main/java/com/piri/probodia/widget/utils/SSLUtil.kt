@@ -1,9 +1,12 @@
 package com.piri.probodia.widget.utils
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
+import androidx.annotation.RawRes
 import com.piri.probodia.R
 import okhttp3.OkHttpClient
+import java.io.InputStream
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.Certificate
@@ -18,14 +21,18 @@ import javax.net.ssl.HostnameVerifier
 
 object SSLUtil {
 
-    fun generateSecureOkHttpClient(context : Context) : OkHttpClient {
+    fun generateSecureOkHttpClient(context : Context, kind : Int) : OkHttpClient {
 
         var httpClientBuilder = OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
 
         val cf = CertificateFactory.getInstance("X.509")
-        val caInput = context.resources.openRawResource(R.raw.aiserverssl)
+        val caInput : InputStream = if (kind == 1) {
+            context.resources.openRawResource(R.raw.serverssl)
+        } else {
+            context.resources.openRawResource(R.raw.aiserverssl)
+        }
         var ca: Certificate?
         caInput.use { caInput ->
             ca = cf.generateCertificate(caInput)
