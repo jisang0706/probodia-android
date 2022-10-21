@@ -115,10 +115,12 @@ class RecordAnalysisViewModel : BaseViewModel() {
     }
 
     suspend fun _getHemoglobin(accessToken : String, __kind : Int, __endDate: LocalDate) {
+        val __startDate : LocalDate = __endDate.minusMonths(3)
+
         val tempHemoglobin = serverRepository.getHemoglobin(
             accessToken,
-            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00",
-            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))} 00:00:00"
+            "${__startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}",
+            "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}"
         )
 
         if (__kind == kindEndDate.value!!.first && __endDate == kindEndDate.value!!.second) {
