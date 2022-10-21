@@ -57,7 +57,21 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
         })
 
         viewModel.foodGL.observe(this) {
-            binding.glucoseText.text = "${it.foodGL.roundToInt()}"
+            binding.glucoseText.text = when(it.healthGL) {
+                "high" -> "조금만 더 열심히 관리해보아요"
+                "mid" -> "잘하고있어요"
+                "low" -> "와우! 최고의 식단인걸요"
+                else -> "와우! 최고의 식단인걸요"
+            }
+
+            binding.glucoseIcon.setImageResource(
+                when (it.healthGL) {
+                    "high" -> R.drawable.sad
+                    "mid" -> R.drawable.soso
+                    "low" -> R.drawable.smile
+                    else -> R.drawable.smile
+                }
+            )
         }
 
         binding.quantityEdit.addTextChangedListener { edittext ->
