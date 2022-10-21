@@ -8,6 +8,7 @@ import com.piri.probodia.data.remote.model.FoodDetailDto
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.repository.ServerFoodRepository
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class SearchFoodDetailViewModel : ViewModel() {
 
@@ -24,6 +25,6 @@ class SearchFoodDetailViewModel : ViewModel() {
     fun getFoodInfo(preferenceRepository : PreferenceRepository, foodId : String) = viewModelScope.launch {
         val apiToken = preferenceRepository.getApiToken().apiAccessToken
         _foodInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodId)
-        _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne})당 | ${foodInfo.value!!.calories} kcal"
+        _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
     }
 }

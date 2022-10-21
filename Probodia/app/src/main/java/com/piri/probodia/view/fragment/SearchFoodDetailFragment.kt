@@ -62,10 +62,6 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
 
             if (edittext!!.count { it == '.' } > 1) {
                 val ind = "${binding.quantityEdit.text!!}".indexOfLast { it == '.' }
-                Log.e("INDEX", ind.toString())
-                Log.e("TEXT123", "${binding.quantityEdit.text}".substring(0, ind) +
-                        "${binding.quantityEdit.text}".substring(ind + 1, binding.quantityEdit.text.length)
-                )
                 binding.quantityEdit.setText(
                     "${binding.quantityEdit.text}".substring(0, ind) +
                             "${binding.quantityEdit.text}".substring(ind + 1, binding.quantityEdit.text.length)
