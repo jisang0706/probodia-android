@@ -11,6 +11,7 @@ import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.NutrientDto
 import com.piri.probodia.databinding.FragmentAnalysisRangeBinding
 import com.piri.probodia.viewmodel.RecordAnalysisViewModel
+import kotlin.math.roundToInt
 
 class AnalysisMealRangeFragment : Fragment() {
 
@@ -36,9 +37,9 @@ class AnalysisMealRangeFragment : Fragment() {
         viewModel.mealRange.observe(viewLifecycleOwner) {
             setMealRange(it)
 
-            binding.firstText.text = "${it.protein}"
-            binding.secondText.text = "${it.carbohydrate}"
-            binding.thirdText.text = "${it.fat}"
+            binding.firstText.text = "${it.protein.roundToInt()}"
+            binding.secondText.text = "${it.carbohydrate.roundToInt()}"
+            binding.thirdText.text = "${it.fat.roundToInt()}"
         }
 
         return binding.root
@@ -73,15 +74,15 @@ class AnalysisMealRangeFragment : Fragment() {
 
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width =
-            binding.firstLayout.width * nutrientDto.fat / (nutrientDto.protein + nutrientDto.carbohydrate + nutrientDto.fat)
+            binding.firstLayout.width * nutrientDto.fat.roundToInt() / (nutrientDto.protein.roundToInt() + nutrientDto.carbohydrate.roundToInt() + nutrientDto.fat.roundToInt())
         binding.thirdLayout.layoutParams = thirdLayoutParams
 
         val secondLayoutParams = binding.secondLayout.layoutParams
         secondLayoutParams.width =
-            binding.firstLayout.width * nutrientDto.carbohydrate / (
-                nutrientDto.protein +
-                nutrientDto.carbohydrate +
-                nutrientDto.fat
+            binding.firstLayout.width * nutrientDto.carbohydrate.roundToInt() / (
+                nutrientDto.protein.roundToInt() +
+                nutrientDto.carbohydrate.roundToInt() +
+                nutrientDto.fat.roundToInt()
             ) + thirdLayoutParams.width
         binding.secondLayout.layoutParams = secondLayoutParams
     }

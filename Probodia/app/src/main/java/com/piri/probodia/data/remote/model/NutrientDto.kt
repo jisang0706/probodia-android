@@ -1,7 +1,7 @@
 package com.piri.probodia.data.remote.model
 
 data class NutrientDto(
-    var carbohydrate : Int,
-    var fat : Int,
-    var protein : Int
+    var protein : Double,
+    var carbohydrate : Double,
+    var fat : Double
 )

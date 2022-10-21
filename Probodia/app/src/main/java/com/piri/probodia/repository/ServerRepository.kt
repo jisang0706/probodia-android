@@ -92,8 +92,8 @@ class ServerRepository {
         = client.putUserData("Bearer $apiToken", userData)
 
     suspend fun getNutrient(apiToken : String, startDate : String, endDate : String)
-        = client.getNutrient(apiToken, startDate, endDate)
+        = client.getNutrient("Bearer $apiToken", startDate, endDate)
 
     suspend fun getHemoglobin(apiToken : String, startDate : String, endDate : String)
-            = client.getHemoglobin(apiToken, startDate, endDate)
+            = client.getHemoglobin("Bearer $apiToken", startDate, endDate)
 }

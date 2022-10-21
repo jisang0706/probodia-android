@@ -112,17 +112,17 @@ interface ServerService {
         @Body userData : PutUserData
     ) : UserDto
 
-    @GET("/api/recordStat/average-nutrient/{start}/{end}")
+    @GET("api/recordStat/average-nutrient/{start}/{end}")
     suspend fun getNutrient(
         @Header("Authorization") token : String,
-        @Query("start") startDate : String,
-        @Query("end") endDate : String
+        @Path("start") startDate : String,
+        @Path("end") endDate : String
     ) : NutrientDto
 
-    @GET("/api/recordStat/hemoglobin/{start}/{end}")
+    @GET("api/recordStat/hemoglobin/{start}/{end}")
     suspend fun getHemoglobin(
         @Header("Authorization") token : String,
-        @Query("start") startDate : String,
-        @Query("end") endDate : String
+        @Path("start") startDate : String,
+        @Path("end") endDate : String
     ) : Double
 }
