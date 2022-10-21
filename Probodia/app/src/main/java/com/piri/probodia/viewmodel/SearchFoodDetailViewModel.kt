@@ -5,14 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piri.probodia.data.remote.model.FoodDetailDto
+import com.piri.probodia.data.remote.model.GLDto
+import com.piri.probodia.repository.AIGlucoseServerRepository
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.repository.ServerFoodRepository
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-class SearchFoodDetailViewModel : ViewModel() {
+class SearchFoodDetailViewModel : BaseViewModel() {
 
     private val serverFoodRepository = ServerFoodRepository()
+    private val aiGlucoseServerRepository = AIGlucoseServerRepository()
 
     private val _foodInfo = MutableLiveData<FoodDetailDto>()
     val foodInfo : LiveData<FoodDetailDto>
@@ -22,9 +25,18 @@ class SearchFoodDetailViewModel : ViewModel() {
     val foodQuantityText : LiveData<String>
         get() = _foodQuantityText
 
-    fun getFoodInfo(preferenceRepository : PreferenceRepository, foodId : String) = viewModelScope.launch {
+    private val _foodGL = MutableLiveData<GLDto>()
+    val foodGL : LiveData<GLDto>
+        get()=  _foodGL
+
+    fun getFoodInfo(preferenceRepository : PreferenceRepository, foodId : String) = viewModelScope.launch(coroutineExceptionHandler) {
         val apiToken = preferenceRepository.getApiToken().apiAccessToken
         _foodInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodId)
         _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
+    }
+
+    fun getFoodGL(preferenceRepository : PreferenceRepository, foodDetailBody : FoodDetailDto) = viewModelScope.launch {
+        val apiToken = preferenceRepository.getApiToken().apiAccessToken
+        _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodDetailBody)
     }
 }

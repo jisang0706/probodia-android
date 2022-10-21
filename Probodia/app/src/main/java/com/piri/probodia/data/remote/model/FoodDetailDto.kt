@@ -1,6 +1,8 @@
 package com.piri.probodia.data.remote.model
 
 data class FoodDetailDto(
+    val bigCategory : String,
+    val smallCategory : String,
     val name : String,
     val quantityByOne : Int,
     val quantityByOneUnit : String,

@@ -52,7 +52,13 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
             listAdapter = FoodInfoAdapter(getFoodInfoList(it))
             binding.foodInfoRv.adapter = listAdapter
             binding.foodInfoRv.layoutManager = LinearLayoutManager(requireContext())
+
+            viewModel.getFoodGL(PreferenceRepository(requireContext()), it)
         })
+
+        viewModel.foodGL.observe(this) {
+            binding.glucoseText.text = "${it.foodGL.roundToInt()}"
+        }
 
         binding.quantityEdit.addTextChangedListener { edittext ->
             if (binding.quantityEdit.length() > 0 && "${binding.quantityEdit.text}"[0] == '.') {

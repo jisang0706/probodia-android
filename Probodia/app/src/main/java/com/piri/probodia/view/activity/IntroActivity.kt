@@ -10,17 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.BuildConfig
 import com.piri.probodia.R
-import com.piri.probodia.data.remote.model.ApiToken
 import com.piri.probodia.databinding.ActivityIntroBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.viewmodel.IntroViewModel
-import com.kakao.auth.Session
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.piri.probodia.data.remote.api.RetrofitAIServerInstance
+import com.piri.probodia.data.remote.api.RetrofitAIGlucoseServerService
 import com.piri.probodia.data.remote.api.RetrofitServerFoodInstance
 import com.piri.probodia.data.remote.api.RetrofitServerInstance
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +37,7 @@ class IntroActivity : AppCompatActivity() {
         RetrofitAIServerInstance.initInstance(applicationContext)
         RetrofitServerInstance.initInstance(applicationContext)
         RetrofitServerFoodInstance.initInstance(applicationContext)
+        RetrofitAIGlucoseServerService.initInstance(applicationContext)
 
         supportActionBar?.hide()
 

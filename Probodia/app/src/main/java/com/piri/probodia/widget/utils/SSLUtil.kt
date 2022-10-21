@@ -30,8 +30,10 @@ object SSLUtil {
         val cf = CertificateFactory.getInstance("X.509")
         val caInput : InputStream = if (kind == 1) {
             context.resources.openRawResource(R.raw.serverssl)
-        } else {
+        } else if (kind == 2){
             context.resources.openRawResource(R.raw.aiserverssl)
+        } else {
+            context.resources.openRawResource(R.raw.aiglucoseserverssl)
         }
         var ca: Certificate?
         caInput.use { caInput ->
