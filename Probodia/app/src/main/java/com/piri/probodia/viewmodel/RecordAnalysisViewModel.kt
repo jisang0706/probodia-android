@@ -180,14 +180,12 @@ class RecordAnalysisViewModel : BaseViewModel() {
             3 -> __endDate.minusMonths(1)
             else -> __endDate.minusWeeks(1)
         }
-        Log.e("MEAL", accessToken)
 
         val tempMealRange = serverRepository.getNutrient(
             accessToken,
             "${__startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}",
             "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}"
         )
-        Log.e("MEAL", tempMealRange.carbohydrate.toString())
 
         if (__kind == kindEndDate.value!!.first && __endDate == kindEndDate.value!!.second) {
             _mealRange.value = tempMealRange

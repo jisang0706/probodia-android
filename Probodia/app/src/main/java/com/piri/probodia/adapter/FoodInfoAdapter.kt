@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.piri.probodia.R
 import com.piri.probodia.databinding.ItemFoodInfoBinding
 
-class FoodInfoAdapter(val dataSet : List<Pair<String, Double>>) : RecyclerView.Adapter<FoodInfoAdapter.ViewHolder>() {
+class FoodInfoAdapter(private val dataSet : MutableList<Pair<String, Double>>) : RecyclerView.Adapter<FoodInfoAdapter.ViewHolder>() {
+
+    init {
+        dataSet.removeIf { it.second < 0 }
+    }
 
     inner class ViewHolder(val binding : ItemFoodInfoBinding) : RecyclerView.ViewHolder(binding.root) {
 

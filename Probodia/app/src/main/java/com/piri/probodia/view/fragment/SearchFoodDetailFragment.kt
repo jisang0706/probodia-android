@@ -123,8 +123,8 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
         return dialog
     }
 
-    fun getFoodInfoList(item : FoodDetailDto) : List<Pair<String, Double>> {
-        return listOf(
+    fun getFoodInfoList(item : FoodDetailDto) : MutableList<Pair<String, Double>> {
+        return mutableListOf(
             Pair("탄수화물", item.carbohydrate),
             Pair("당류", item.sugars),
             Pair("단백질", item.protein),
