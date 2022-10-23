@@ -17,6 +17,7 @@ import com.piri.probodia.data.remote.model.TodayRecord
 import com.piri.probodia.databinding.FragmentRecordTodayBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.viewmodel.RecordHistoryViewModel
+import com.piri.probodia.widget.utils.BottomSearchFood
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -41,6 +42,7 @@ class RecordTodayFragment : Fragment() {
         recordRVAdapter = RecordTodayAdapter(false)
         binding.recordRv.adapter = recordRVAdapter
         binding.recordRv.layoutManager = LinearLayoutManager(context)
+        binding.recordRv.setPadding(0, 0, 0, BottomSearchFood.getBottomPadding())
 
         viewModel.result.observe(viewLifecycleOwner) {
             val record = TodayRecord(it.second)

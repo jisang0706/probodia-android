@@ -18,7 +18,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_navigation"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:id="@+id/food_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/white_round_20_background"
+            android:layout_above="@+id/bottom_navigation"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            app:elevation="0dp">
+
+            <Button
+                android:id="@+id/food_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_50_2_background"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="8dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="음식 검색"
+                android:textSize="17dp"
+                android:textColor="@color/gray_400"
+                android:gravity="left"
+                style="?android:attr/borderlessButtonStyle"/>
+        </LinearLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -30,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/white" />
-
+            android:background="@color/white"
+            android:shadowColor="@color/white"
+            app:elevation="0dp"/>
     </RelativeLayout>
 </layout>
