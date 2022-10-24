@@ -34,7 +34,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/red_2_background"
                 android:text="삭제"
-                android:textColor="@color/red_800" />
+                android:textColor="@color/red_800"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/edit_btn"
@@ -44,7 +45,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/primary_100_2_background"
                 android:text="수정"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <RelativeLayout

@@ -34,7 +34,8 @@
                 android:text="날짜"
                 android:textSize="13dp"
                 android:drawableRight="@drawable/layerlist_ic_chevron_down"
-                android:drawableTint="@color/gray_900"/>
+                android:drawableTint="@color/gray_900"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/time_picker_btn"
@@ -50,7 +51,8 @@
                 android:text="시간"
                 android:textSize="13dp"
                 android:drawableRight="@drawable/layerlist_ic_chevron_down"
-                android:drawableTint="@color/gray_900"/>
+                android:drawableTint="@color/gray_900"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +67,8 @@
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
                 android:onClick="@{()->vm.setSelectedTimeTag(1)}"
-                android:text="아침 식전" />
+                android:text="아침 식전"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/lunch_fir_btn"
@@ -75,7 +78,8 @@
                 android:layout_weight="1"
                 android:layout_marginHorizontal="13dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(2)}"
-                android:text="점심 식전"/>
+                android:text="점심 식전"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/dinner_fir_btn"
@@ -84,7 +88,8 @@
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
                 android:onClick="@{()->vm.setSelectedTimeTag(3)}"
-                android:text="저녁 식전"/>
+                android:text="저녁 식전"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <LinearLayout
@@ -101,7 +106,8 @@
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
                 android:onClick="@{()->vm.setSelectedTimeTag(4)}"
-                android:text="아침 식후"/>
+                android:text="아침 식후"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/lunch_sec_btn"
@@ -111,7 +117,8 @@
                 android:layout_weight="1"
                 android:layout_marginHorizontal="13dp"
                 android:onClick="@{()->vm.setSelectedTimeTag(5)}"
-                android:text="점심 식후"/>
+                android:text="점심 식후"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:id="@+id/dinner_sec_btn"
@@ -120,7 +127,8 @@
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
                 android:onClick="@{()->vm.setSelectedTimeTag(6)}"
-                android:text="저녁 식후"/>
+                android:text="저녁 식후"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <LinearLayout
