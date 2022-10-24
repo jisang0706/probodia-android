@@ -21,7 +21,7 @@ import com.piri.probodia.viewmodel.SearchFoodDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.math.roundToInt
 
-class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem) -> Unit, val foodId : String) : BaseBottomSheetDialogFragment() {
+class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyItem : (item : PostMealBody.PostMealItem) -> Unit) : BaseBottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentSearchFoodDetailBinding
 
@@ -43,6 +43,10 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
 
         viewModel = SearchFoodDetailViewModel()
         binding.vm = viewModel
+
+        if (kind == R.integer.search) {
+            binding.enterBtn.text = "닫기"
+        }
 
         viewModel.getFoodInfo(PreferenceRepository(requireContext()), foodId)
 
@@ -91,19 +95,26 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
         }
 
         binding.enterBtn.setOnClickListener {
-            if ("${binding.quantityEdit.text}" == "")    binding.quantityEdit.setText("1")
-            if ("${binding.quantityEdit.text}"[binding.quantityEdit.text.length - 1] == '.') {
-                binding.quantityEdit.setText("${binding.quantityEdit.text}".substring(0, "${binding.quantityEdit.text}".length - 1))
+            if (kind == R.integer.record) {
+                if ("${binding.quantityEdit.text}" == "") binding.quantityEdit.setText("1")
+                if ("${binding.quantityEdit.text}"[binding.quantityEdit.text.length - 1] == '.') {
+                    binding.quantityEdit.setText(
+                        "${binding.quantityEdit.text}".substring(
+                            0,
+                            "${binding.quantityEdit.text}".length - 1
+                        )
+                    )
+                }
+                val postMealItem = PostMealBody.PostMealItem(
+                    viewModel.foodInfo.value!!.name,
+                    foodId,
+                    viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toDouble(),
+                    viewModel.foodInfo.value!!.calories.roundToInt(),
+                    0,
+                    ""
+                )
+                applyItem(postMealItem)
             }
-            val postMealItem = PostMealBody.PostMealItem(
-                viewModel.foodInfo.value!!.name,
-                foodId,
-                viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toDouble(),
-                viewModel.foodInfo.value!!.calories.roundToInt(),
-                0,
-                ""
-            )
-            applyItem(postMealItem)
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
 

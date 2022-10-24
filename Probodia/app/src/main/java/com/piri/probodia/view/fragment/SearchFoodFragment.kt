@@ -32,7 +32,7 @@ import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
 import java.util.regex.Pattern
 
-class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Unit, val foodName : String) : BaseBottomSheetDialogFragment() {
+class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.PostMealItem) -> Unit = {}, val foodName : String = "") : BaseBottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentSearchFoodBinding
 
@@ -107,7 +107,7 @@ class SearchFoodFragment(val addItem : (item : PostMealBody.PostMealItem) -> Uni
             override fun onItemClick(v: View, position: Int) {
                 val item = listAdapter.dataSet[position] as FoodDto.FoodItem
                 if (item != null) {
-                    val fragment = SearchFoodDetailFragment(::applyItem, item.foodId)
+                    val fragment = SearchFoodDetailFragment(kind, item.foodId, ::applyItem)
                     fragment.show(childFragmentManager, fragment.tag)
                 } else {
                     Toast.makeText(requireContext(), "음식 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()

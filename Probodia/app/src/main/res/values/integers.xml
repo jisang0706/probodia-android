@@ -7,6 +7,9 @@
     <integer name="sortation_type">5</integer>
     <integer name="progress_type">6</integer>
 
+    <integer name="record">21</integer>
+    <integer name="search">22</integer>
+
     <integer name="join_success">51</integer>
 
     <integer name="permission_camera">1001</integer>

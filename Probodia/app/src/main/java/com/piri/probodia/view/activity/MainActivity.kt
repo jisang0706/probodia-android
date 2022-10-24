@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.adapter.MainPagerAdapter
 import com.piri.probodia.databinding.ActivityMainBinding
+import com.piri.probodia.view.fragment.SearchFoodDetailFragment
+import com.piri.probodia.view.fragment.SearchFoodFragment
 import com.piri.probodia.viewmodel.MainViewModel
 import com.piri.probodia.widget.utils.BottomSearchFood
 
@@ -46,6 +48,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
+        }
+
+        binding.foodSearchBtn.setOnClickListener {
+            val fragment = SearchFoodFragment(R.integer.search)
+            fragment.show(supportFragmentManager, fragment.tag)
         }
 
         initMainViewPager()

@@ -130,7 +130,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         }
 
         binding.searchBtn.setOnClickListener {
-            val fragment = SearchFoodFragment(::addMealItem, "")
+            val fragment = SearchFoodFragment(R.integer.record, ::addMealItem)
             fragment.show(childFragmentManager, fragment.tag)
         }
 
