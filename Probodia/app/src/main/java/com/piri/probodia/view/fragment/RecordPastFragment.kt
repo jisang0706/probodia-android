@@ -93,7 +93,7 @@ class RecordPastFragment : Fragment() {
     }
 
     fun restartRecord() {
-        if (recordRVAdapter != null) {
+        if (recordRVAdapter != null && ::viewModel.isInitialized) {
             recordRVAdapter!!.resetDataSet()
             dateTime = LocalDateTime.now()
             loadPastRecord(dateTime)

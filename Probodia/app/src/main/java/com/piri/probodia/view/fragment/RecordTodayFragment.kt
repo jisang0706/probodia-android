@@ -69,7 +69,7 @@ class RecordTodayFragment : Fragment() {
     }
 
     fun loadTodayRecord() {
-        if (recordRVAdapter != null) {
+        if (recordRVAdapter != null && ::viewModel.isInitialized) {
             recordRVAdapter!!.resetDataSet()
             val dateTime = LocalDateTime.now()
             viewModel.getRecordHistory(PreferenceRepository(requireContext()), dateTime)

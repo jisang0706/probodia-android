@@ -131,6 +131,8 @@ class RecordAnalysisFragment : Fragment() {
     }
 
     fun reloadAnalysis() {
-        viewModel.kindEndDate.value?.let { loadAnalysis(it) }
+        if (::viewModel.isInitialized) {
+            viewModel.kindEndDate.value?.let { loadAnalysis(it) }
+        }
     }
 }
