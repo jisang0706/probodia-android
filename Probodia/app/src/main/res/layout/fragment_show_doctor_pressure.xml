@@ -1,14 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.ShowDoctorPressureFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".view.fragment.ShowDoctorPressureFragment"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="일자"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/gray_200_stroke_background"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="6">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="아침"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="점심"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="저녁"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="6">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최저"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최저"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최저"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="10dp"
+                        android:background="@drawable/gray_200_stroke_background"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
