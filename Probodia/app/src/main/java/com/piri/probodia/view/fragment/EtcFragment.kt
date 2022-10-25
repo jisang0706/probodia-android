@@ -18,6 +18,7 @@ import com.piri.probodia.databinding.FragmentEtcBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.view.activity.JoinBaseInfoActivity
 import com.piri.probodia.view.activity.PersonalInformationActivity
+import com.piri.probodia.view.activity.ShowDoctorActivity
 import com.piri.probodia.viewmodel.EtcViewModel
 
 class EtcFragment : Fragment() {
@@ -54,6 +55,11 @@ class EtcFragment : Fragment() {
 
         binding.ruleBtn.setOnClickListener {
             val intent = Intent(requireContext(), PersonalInformationActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.showBtn.setOnClickListener {
+            val intent = Intent(requireContext(), ShowDoctorActivity::class.java)
             startActivity(intent)
         }
 

@@ -73,8 +73,6 @@
                     android:textSize="16dp"/>
             </RelativeLayout>
 
-
-
             <Button
                 android:id="@+id/edit_btn"
                 android:layout_width="wrap_content"
@@ -101,6 +99,18 @@
             android:layout_marginTop="20dp"
             android:background="@color/white"
             android:text="이용약관/개인정보처리방침"
+            android:textSize="16dp"
+            android:gravity="left"/>
+
+        <Button
+            android:id="@+id/show_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:text="의사에게 보여주기"
             android:textSize="16dp"
             android:gravity="left"/>
     </LinearLayout>
