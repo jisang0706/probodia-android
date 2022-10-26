@@ -107,6 +107,10 @@ class SearchFoodDetailFragment(val applyItem : (item : PostMealBody.PostMealItem
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
+        viewModel.isGLError.observe(viewLifecycleOwner) {
+            binding.glucoseLayout.visibility = View.GONE
+        }
+
         binding.cancelBtn.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
