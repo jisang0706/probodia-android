@@ -14,21 +14,29 @@ import kotlinx.coroutines.launch
 
 class IntroViewModel : BaseViewModel() {
 
-    private var _kakaoLoginMutableLiveData = SingleLiveEvent<Boolean>()
-    val liveKakaoLogin : LiveData<Boolean>
-        get() = _kakaoLoginMutableLiveData
+    private var _kakaoLogin = SingleLiveEvent<Boolean>()
+    val kakaoLogin : LiveData<Boolean>
+        get() = _kakaoLogin
 
     private var _kakaoUserId = MutableLiveData(0.toLong())
-    val liveKakaoUserId : LiveData<Long>
+    val kakaoUserId : LiveData<Long>
         get() = _kakaoUserId
 
     private var _kakaoAccessToken = MutableLiveData("")
-    val liveKakaoAccessToken : LiveData<String>
+    val kakaoAccessToken : LiveData<String>
         get() = _kakaoAccessToken
 
     private var _buttonLogin = SingleLiveEvent<Boolean>()
     val buttonLogin : LiveData<Boolean>
         get() = _buttonLogin
+
+    private var _join = MutableLiveData<Boolean>()
+    val join : LiveData<Boolean>
+        get() = _join
+
+    private var _apiToken = MutableLiveData<ApiToken>()
+    val apiToken : LiveData<ApiToken>
+        get() = _apiToken
 
     fun autoLogin() {
         if (AuthApiClient.instance.hasToken()) {
@@ -50,7 +58,7 @@ class IntroViewModel : BaseViewModel() {
     }
 
     fun kakaoLogin() {
-        _kakaoLoginMutableLiveData.call()
+        _kakaoLogin.call()
     }
 
     fun setKakaoUserId(userId: Long) {
@@ -61,11 +69,20 @@ class IntroViewModel : BaseViewModel() {
         _kakaoAccessToken.value = accessToken
     }
 
+    fun apiLogin() = viewModelScope.launch(coroutineExceptionHandler) {
+        if (getUserJoined()) {
+            _apiToken.value = getApiToken()
+            _join.value = false
+        } else {
+            _join.value = true
+        }
+    }
+
     suspend fun getApiToken() : ApiToken
-        =  serverRepository.getApiToken(liveKakaoUserId.value!!, liveKakaoAccessToken.value!!)
+        =  serverRepository.getApiToken(kakaoUserId.value!!, kakaoAccessToken.value!!)
 
     suspend fun getUserJoined() : Boolean =
-        serverRepository.getUserJoined(liveKakaoUserId.value!!)
+        serverRepository.getUserJoined(kakaoUserId.value!!)
 
     fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) = viewModelScope.launch {
         preferenceRepository.saveApiToken(apiToken)

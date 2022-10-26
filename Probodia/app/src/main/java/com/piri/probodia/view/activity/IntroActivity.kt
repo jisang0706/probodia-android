@@ -22,6 +22,7 @@ import com.piri.probodia.data.remote.api.RetrofitAIServerInstance
 import com.piri.probodia.data.remote.api.RetrofitAIGlucoseServerService
 import com.piri.probodia.data.remote.api.RetrofitServerFoodInstance
 import com.piri.probodia.data.remote.api.RetrofitServerInstance
+import com.piri.probodia.view.fragment.ServerConnectFailFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,32 +50,48 @@ class IntroActivity : AppCompatActivity() {
 
         viewModel.autoLogin()
 
-        viewModel.liveKakaoLogin.observe(this) {
+        viewModel.kakaoLogin.observe(this) {
             kakaoLogin()
         }
 
-        viewModel.liveKakaoUserId.observe(this, Observer {
+        viewModel.kakaoUserId.observe(this, Observer {
             if (it != 0.toLong()) {
-                if (viewModel.liveKakaoAccessToken.value == "") {
+                if (viewModel.kakaoAccessToken.value == "") {
                     kakaoLogin()
                 } else {
-                    ApiLogin()
+                    viewModel.apiLogin()
                 }
             }
         })
 
-        viewModel.liveKakaoAccessToken.observe(this, Observer {
+        viewModel.kakaoAccessToken.observe(this, Observer {
             if (it != "") {
-                if (viewModel.liveKakaoUserId.value == 0.toLong()) {
+                if (viewModel.kakaoUserId.value == 0.toLong()) {
                     viewModel.autoLogin()
                 } else {
-                    ApiLogin()
+                    viewModel.apiLogin()
                 }
             }
         })
 
         viewModel.buttonLogin.observe(this) {
             binding.kakaoLoginButton.visibility = View.VISIBLE
+        }
+
+        viewModel.apiToken.observe(this) {
+            viewModel.saveApiToken(PreferenceRepository(applicationContext), it)
+        }
+
+        viewModel.join.observe(this) {
+            if (it) {
+                goJoin()
+            } else {
+                goMain()
+            }
+        }
+
+        viewModel.isError.observe(this) {
+            popUpServerConnectFail()
         }
     }
 
@@ -106,19 +123,6 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
-    fun ApiLogin() {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (viewModel.getUserJoined()) {
-                val apiToken = viewModel.getApiToken()
-                Log.e("TOKEN", "${apiToken}")
-                viewModel.saveApiToken(PreferenceRepository(applicationContext), apiToken)
-                goMain()
-            } else {
-                goJoin()
-            }
-        }
-    }
-
     fun goMain() {
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
@@ -127,9 +131,14 @@ class IntroActivity : AppCompatActivity() {
 
     fun goJoin() {
         val intent = Intent(applicationContext, JoinBaseInfoActivity::class.java)
-        intent.putExtra("USERID", viewModel.liveKakaoUserId.value)
-        intent.putExtra("KAKAOACCESS", viewModel.liveKakaoAccessToken.value)
+        intent.putExtra("USERID", viewModel.kakaoUserId.value)
+        intent.putExtra("KAKAOACCESS", viewModel.kakaoAccessToken.value)
         startActivity(intent)
         finish()
+    }
+
+    fun popUpServerConnectFail() {
+        val fragment = ServerConnectFailFragment(::finish)
+        fragment.show(supportFragmentManager, fragment.tag)
     }
 }
