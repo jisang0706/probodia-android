@@ -62,7 +62,7 @@ class ShowDoctorViewModel : BaseViewModel() {
 
         val record = TodayRecord(serverRepository.getRecords(accessToken, getRecordBody))
         if (record.getDatas().isEmpty() && dateTime.year >= 2022) {
-            _getRecord(accessToken, filter, dateTime.minusMonths(1))
+            _localDateTime.value = _localDateTime.value!!.minusMonths(1)
         } else {
             _result.value = Pair(dateTime, record.getDatas())
         }

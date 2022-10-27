@@ -83,22 +83,6 @@ class ShowDoctorGlucoseFragment : Fragment() {
     }
 
     private fun setStartDateTime() {
-        if (binding.recordRv.height > 0) {
-            _setStartDateTime()
-        } else {
-            binding.recordRv.viewTreeObserver.addOnGlobalLayoutListener(
-                object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        binding.recordRv.viewTreeObserver.removeOnGlobalLayoutListener(this)
-
-                        _setStartDateTime()
-                    }
-                }
-            )
-        }
-    }
-
-    private fun _setStartDateTime() {
         viewModel.setLocalDateTime(LocalDateTime.now().plusMonths(1).withDayOfMonth(1))
     }
 

@@ -8,8 +8,8 @@ import com.piri.probodia.view.fragment.ShowDoctorGlucoseFragment
 import com.piri.probodia.view.fragment.ShowDoctorPressureFragment
 
 class ShowDoctorPagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
-    val showDoctorGlucoseFragment = ShowDoctorGlucoseFragment()
-    val showDoctorPressureFragment = ShowDoctorPressureFragment()
+    private val showDoctorGlucoseFragment = ShowDoctorGlucoseFragment()
+    private val showDoctorPressureFragment = ShowDoctorPressureFragment()
 
     override fun getItemCount() = 2
 
