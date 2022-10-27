@@ -19,7 +19,7 @@ class TodayRecord(
         return datas!!
     }
 
-    fun initDatas() {
+    private fun initDatas() {
         for(it in temp) {
             when(it.type) {
                 "SUGAR" -> datas!!.add(GlucoseDto(it.type, it.record.getGlucoseRecord()))
