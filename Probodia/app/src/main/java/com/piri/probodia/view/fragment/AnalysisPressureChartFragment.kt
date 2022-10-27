@@ -36,6 +36,7 @@ class AnalysisPressureChartFragment : AnalysisBaseLineFragment() {
        initChart()
 
         viewModel.pressureResult.observe(viewLifecycleOwner) {
+            it.sortBy { it.record.recordDate }
             binding.analysisChart.apply {
                 var combinedData = CombinedData()
                 val candleData = setPressureCandleStick(it)

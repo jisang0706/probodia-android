@@ -64,6 +64,7 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
         }
 
         viewModel.glucoseResult.observe(viewLifecycleOwner) {
+            it.sortBy { it.record.recordDate }
             binding.analysisChart.apply {
                 combinedData = CombinedData()
                 combinedData.setData(setGlucoseScatter(it))
@@ -164,7 +165,7 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
                 axisMaximum = max(200f, top + 10)
             }
         }
-        return ScatterData(buildList<IScatterDataSet> {
+        val temp = ScatterData(buildList<IScatterDataSet> {
             for(i in 0 until scatterEntriesList.size) {
                 add(ScatterDataSet(scatterEntriesList[i], "").apply {
                     axisDependency = YAxis.AxisDependency.LEFT
@@ -176,5 +177,7 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
                 })
             }
         })
+
+        return temp
     }
 }

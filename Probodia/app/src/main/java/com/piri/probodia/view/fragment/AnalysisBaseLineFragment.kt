@@ -15,7 +15,7 @@ open class AnalysisBaseLineFragment : Fragment() {
     fun initChart() {
         binding.apply {
             analysisChart.description.isEnabled = false
-            analysisChart.setMaxVisibleValueCount(200)
+            analysisChart.setMaxVisibleValueCount(999)
             analysisChart.setVisibleXRangeMaximum(7f)
             analysisChart.setPinchZoom(false)
             analysisChart.setDrawGridBackground(false)
