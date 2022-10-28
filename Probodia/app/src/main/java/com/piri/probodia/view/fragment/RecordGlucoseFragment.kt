@@ -2,9 +2,7 @@ package com.piri.probodia.view.fragment
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,6 @@ import com.piri.probodia.viewmodel.RecordAnythingViewModel
 import com.piri.probodia.viewmodel.RecordGlucoseViewModel
 import com.piri.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.time.LocalDateTime
@@ -68,13 +65,14 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
                 else -> 1
             })
             binding.glucoseEdit.setText(data!!.glucose.toString())
-            baseViewModel.setButtonClickEnable(binding.glucoseEdit.text.length!! > 0)
+            baseViewModel.setInputAll(binding.glucoseEdit.text.length!! > 0)
             val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             baseViewModel.setLocalDateTime(LocalDateTime.parse(data!!.recordDate, localDateTimeFormatter))
         }
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
+                baseViewModel.setServerFinish(false)
                 if (recordType == 1) {
                     glucoseViewModel.putGlucose(
                         PreferenceRepository(requireContext()),
@@ -97,10 +95,11 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
         }
 
         binding.glucoseEdit.addTextChangedListener {
-            baseViewModel.setButtonClickEnable(it?.length!! > 0)
+            baseViewModel.setInputAll(it?.length!! > 0)
         }
 
         glucoseViewModel.glucoseResult.observe(this, {
+            baseViewModel.setServerFinish(true)
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
@@ -118,6 +117,7 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
         }
 
         glucoseViewModel.isError.observe(this) {
+            baseViewModel.setServerFinish(true)
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 

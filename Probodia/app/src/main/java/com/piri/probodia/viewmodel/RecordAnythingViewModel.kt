@@ -20,12 +20,26 @@ class RecordAnythingViewModel(val num : Int) : ViewModel() {
     val buttonClickEnable : LiveData<Boolean>
         get() = _buttonClickEnable
 
+    private val _isInputAll = MutableLiveData(false)
+    val isInputAll : LiveData<Boolean>
+        get() = _isInputAll
+
+    private val _isServerFinish = MutableLiveData(true)
+    val isServerFinish : LiveData<Boolean>
+        get() = _isServerFinish
+
     fun setSelectedTimeTag(kind : Int) {
         _selectedTimeTag.value = kind
     }
 
-    fun setButtonClickEnable(work : Boolean) {
-        _buttonClickEnable.value = work
+    fun setInputAll(work : Boolean) {
+        _isInputAll.value = work
+        _buttonClickEnable.value = isInputAll.value!! && isServerFinish.value!!
+    }
+
+    fun setServerFinish(work : Boolean) {
+        _isServerFinish.value = work
+        _buttonClickEnable.value = isInputAll.value!! && isServerFinish.value!!
     }
 
     fun setLocalDateTime(newLocalDateTime : LocalDateTime) {

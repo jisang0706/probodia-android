@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler
@@ -96,7 +94,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
             override fun onItemDeleteClick(position: Int) {
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
-                baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+                baseViewModel.setInputAll(listAdapter.itemCount > 0)
             }
 
             override fun onItemEditClick(position: Int) {
@@ -126,7 +124,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
                 ))
             }
             listAdapter.notifyDataSetChanged()
-            baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+            baseViewModel.setInputAll(listAdapter.itemCount > 0)
         }
 
         binding.searchBtn.setOnClickListener {
@@ -152,6 +150,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
+                baseViewModel.setServerFinish(false)
                 if (recordType == 1) {
                     mealViewModel.putMeal(
                         PreferenceRepository(requireContext()),
@@ -174,6 +173,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         }
 
         mealViewModel.mealResult.observe(this, {
+            baseViewModel.setServerFinish(true)
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
@@ -196,6 +196,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         }
 
         mealViewModel.isError.observe(this) {
+            baseViewModel.setServerFinish(true)
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -324,6 +325,6 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         meal.quantity = meal.quantity.roundToInt().toDouble()
         listAdapter.addItem(meal)
         listAdapter.notifyDataSetChanged()
-        baseViewModel.setButtonClickEnable(listAdapter.itemCount > 0)
+        baseViewModel.setInputAll(listAdapter.itemCount > 0)
     }
 }

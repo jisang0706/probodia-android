@@ -2,9 +2,7 @@ package com.piri.probodia.view.fragment
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +71,7 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
+                baseViewModel.setServerFinish(false)
                 if (recordType == 1) {
                     pressureViewModel.putPressure(
                         PreferenceRepository(requireContext()),
@@ -119,6 +118,7 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
             examineEditTextFull()
         }
         pressureViewModel.pressureResult.observe(this, {
+            baseViewModel.setServerFinish(true)
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
@@ -136,6 +136,7 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
         }
 
         pressureViewModel.isError.observe(this) {
+            baseViewModel.setServerFinish(true)
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -196,7 +197,7 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
     }
 
     fun examineEditTextFull() {
-        baseViewModel.setButtonClickEnable(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
+        baseViewModel.setInputAll(binding.highPressureEdit.text.length > 0 && binding.lowPressureEdit.text.length > 0 && binding.heartRateEdit.text.length > 0)
     }
 
     fun getSelectedTimeTag() = when(baseViewModel.selectedTimeTag.value) {

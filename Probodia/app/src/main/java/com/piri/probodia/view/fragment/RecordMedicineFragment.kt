@@ -2,7 +2,6 @@ package com.piri.probodia.view.fragment
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +62,7 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
             override fun onItemDeleteClick(position: Int) {
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
-                baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
+                baseViewModel.setInputAll(listAdapter.checkItemComplete())
             }
 
             override fun onItemSearchClick(position: Int) {
@@ -83,7 +82,7 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
                 ))
                 listAdapter.notifyDataSetChanged()
                 binding.medicineAddRv.scrollToPosition(listAdapter.itemCount - 1)
-                baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
+                baseViewModel.setInputAll(listAdapter.checkItemComplete())
             }
         })
 
@@ -108,11 +107,12 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
                 listAdapter.setItemUnit(i, data.medicineDetails[i].medicineCnt)
             }
             listAdapter.notifyDataSetChanged()
-            baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
+            baseViewModel.setInputAll(listAdapter.checkItemComplete())
         }
 
         binding.enterBtn.setOnClickListener {
             if (baseViewModel.buttonClickEnable.value!!) {
+                baseViewModel.setServerFinish(false)
                 if (recordType == 1) {
                     medicineViewModel.putMedicine(
                         PreferenceRepository(requireContext()),
@@ -143,6 +143,7 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
         })
 
         medicineViewModel.medicineResult.observe(this, {
+            baseViewModel.setServerFinish(true)
             reload()
             parentFragmentManager.beginTransaction().remove(this).commit()
         })
@@ -152,6 +153,7 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
         }
 
         medicineViewModel.isError.observe(this) {
+            baseViewModel.setServerFinish(true)
             Toast.makeText(requireContext(), "인터넷 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -189,7 +191,7 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
         if (position != -1) {
             listAdapter.setItem(position, item)
             listAdapter.notifyDataSetChanged()
-            baseViewModel.setButtonClickEnable(listAdapter.checkItemComplete())
+            baseViewModel.setInputAll(listAdapter.checkItemComplete())
         }
     }
 }
