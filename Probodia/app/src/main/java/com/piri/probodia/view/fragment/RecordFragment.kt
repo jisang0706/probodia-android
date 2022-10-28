@@ -1,22 +1,14 @@
 package com.piri.probodia.view.fragment
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.piri.probodia.R
 import com.piri.probodia.adapter.RecordPagerAdapter
@@ -28,7 +20,6 @@ class RecordFragment : Fragment() {
     private lateinit var binding : FragmentRecordBinding
     private lateinit var viewModel : RecordViewModel
     private lateinit var recordPagerAdapter: RecordPagerAdapter
-    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,25 +52,6 @@ class RecordFragment : Fragment() {
         TabLayoutMediator(binding.recordTabs, binding.recordViewpager) { tab, position ->
             tab.text = recordPagerAdapter.getItemTitle(position)
         }.attach()
-
-        activityResultLauncher = registerForActivityResult(
-            StartActivityForResult()
-        ) { result: ActivityResult ->
-            val intent = result.data
-            if (intent != null) {
-                if (mutableListOf(
-                        R.integer.record_glucose_result_code,
-                        R.integer.record_pressure_result_code,
-                        R.integer.record_medicine_result_code,
-                        R.integer.record_meal_result_code
-                    ).any{ it == result.resultCode}) {
-                    val reload = intent!!.getBooleanExtra("RELOAD", false)
-                    if (reload) {
-                        reloadRecord()
-                    }
-                }
-            }
-        }
 
         binding.recordGlucoseLayout.setOnClickListener {
             binding.recordGlucoseBtn.callOnClick()
