@@ -11,6 +11,7 @@ import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.NutrientDto
 import com.piri.probodia.databinding.FragmentAnalysisRangeBinding
 import com.piri.probodia.viewmodel.RecordAnalysisViewModel
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 class AnalysisMealRangeFragment : Fragment() {
@@ -35,6 +36,10 @@ class AnalysisMealRangeFragment : Fragment() {
         binding.thirdTitleText.text = "지방"
 
         viewModel.mealRange.observe(viewLifecycleOwner) {
+            it.carbohydrate = max(it.carbohydrate, 0.0)
+            it.fat = max(it.fat, 0.0)
+            it.protein = max(it.protein, 0.0)
+
             setMealRange(it)
 
             binding.firstText.text = "${it.protein.roundToInt()}"
