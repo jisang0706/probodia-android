@@ -89,13 +89,13 @@ class AnalysisMealRangeFragment : Fragment() {
 
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width =
-            binding.firstLayout.width * fat / (if (protein + carbohydrate + fat == 0) 1 else protein + carbohydrate + fat)
+            binding.firstLayout.width * fat / (if (protein + carbohydrate + fat <= 0) 1 else protein + carbohydrate + fat)
         binding.thirdLayout.layoutParams = thirdLayoutParams
 
         val secondLayoutParams = binding.secondLayout.layoutParams
         secondLayoutParams.width =
             binding.firstLayout.width * carbohydrate / (
-                if (protein + carbohydrate + fat == 0)
+                if (protein + carbohydrate + fat <= 0)
                     1
                 else
                     protein + carbohydrate + fat

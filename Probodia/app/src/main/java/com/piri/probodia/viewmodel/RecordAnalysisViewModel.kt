@@ -187,6 +187,10 @@ class RecordAnalysisViewModel : BaseViewModel() {
             "${__endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}"
         )
 
+        if (tempMealRange.fat.isNaN())    tempMealRange.fat = 0.0
+        if (tempMealRange.carbohydrate.isNaN())    tempMealRange.carbohydrate = 0.0
+        if (tempMealRange.protein.isNaN())    tempMealRange.protein = 0.0
+
         if (__kind == kindEndDate.value!!.first && __endDate == kindEndDate.value!!.second) {
             _mealRange.value = tempMealRange
         }
