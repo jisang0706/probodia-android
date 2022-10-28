@@ -42,9 +42,9 @@ class AnalysisMealRangeFragment : Fragment() {
 
             setMealRange(it)
 
-            binding.firstText.text = "${it.protein.roundToInt()}"
-            binding.secondText.text = "${it.carbohydrate.roundToInt()}"
-            binding.thirdText.text = "${it.fat.roundToInt()}"
+            binding.firstText.text = String.format("%.1f", it.protein)
+            binding.secondText.text = String.format("%.1f", it.carbohydrate)
+            binding.thirdText.text = String.format("%.1f", it.fat)
         }
 
         return binding.root
@@ -69,9 +69,9 @@ class AnalysisMealRangeFragment : Fragment() {
 
     fun _setMealRange(nutrientDto: NutrientDto) {
 
-        val protein = nutrientDto.protein.roundToInt()
-        val carbohydrate = nutrientDto.carbohydrate.roundToInt()
-        val fat = nutrientDto.fat.roundToInt()
+        val protein = nutrientDto.protein
+        val carbohydrate = nutrientDto.carbohydrate
+        val fat = nutrientDto.fat
 
         if (protein <= 0) {
             binding.secondLayout.setBackgroundResource(R.drawable.yellow_600_round_background)
@@ -89,17 +89,17 @@ class AnalysisMealRangeFragment : Fragment() {
 
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width =
-            binding.firstLayout.width * fat / (if (protein + carbohydrate + fat <= 0) 1 else protein + carbohydrate + fat)
+            (binding.firstLayout.width * fat / (if (protein + carbohydrate + fat <= 0) 1.0 else protein + carbohydrate + fat)).roundToInt()
         binding.thirdLayout.layoutParams = thirdLayoutParams
 
         val secondLayoutParams = binding.secondLayout.layoutParams
         secondLayoutParams.width =
-            binding.firstLayout.width * carbohydrate / (
-                if (protein + carbohydrate + fat <= 0)
-                    1
-                else
-                    protein + carbohydrate + fat
-                ) + thirdLayoutParams.width
+            (binding.firstLayout.width * carbohydrate / (
+                    if (protein + carbohydrate + fat <= 0)
+                        1.0
+                    else
+                        protein + carbohydrate + fat
+                    ) + thirdLayoutParams.width).roundToInt()
         binding.secondLayout.layoutParams = secondLayoutParams
     }
 }
