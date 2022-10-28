@@ -63,27 +63,38 @@ class AnalysisMealRangeFragment : Fragment() {
     }
 
     fun _setMealRange(nutrientDto: NutrientDto) {
-        if (nutrientDto.protein <= 0) {
+
+        val protein = nutrientDto.protein.roundToInt()
+        val carbohydrate = nutrientDto.carbohydrate.roundToInt()
+        val fat = nutrientDto.fat.roundToInt()
+
+        if (protein <= 0) {
             binding.secondLayout.setBackgroundResource(R.drawable.yellow_600_round_background)
-            if (nutrientDto.carbohydrate <= 0) {
+            if (carbohydrate <= 0) {
                 binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_background)
+                if (fat <= 0) {
+                    binding.firstLayout.setBackgroundResource(R.drawable.gray_300_2_background)
+                }
             }
         } else {
             binding.firstLayout.setBackgroundResource(R.drawable.green_600_round_background)
+            binding.secondLayout.setBackgroundResource(R.drawable.yellow_600_round_right_background)
+            binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_right_background)
         }
 
         val thirdLayoutParams = binding.thirdLayout.layoutParams
         thirdLayoutParams.width =
-            binding.firstLayout.width * nutrientDto.fat.roundToInt() / (nutrientDto.protein.roundToInt() + nutrientDto.carbohydrate.roundToInt() + nutrientDto.fat.roundToInt())
+            binding.firstLayout.width * fat / (if (protein + carbohydrate + fat == 0) 1 else protein + carbohydrate + fat)
         binding.thirdLayout.layoutParams = thirdLayoutParams
 
         val secondLayoutParams = binding.secondLayout.layoutParams
         secondLayoutParams.width =
-            binding.firstLayout.width * nutrientDto.carbohydrate.roundToInt() / (
-                nutrientDto.protein.roundToInt() +
-                nutrientDto.carbohydrate.roundToInt() +
-                nutrientDto.fat.roundToInt()
-            ) + thirdLayoutParams.width
+            binding.firstLayout.width * carbohydrate / (
+                if (protein + carbohydrate + fat == 0)
+                    1
+                else
+                    protein + carbohydrate + fat
+                ) + thirdLayoutParams.width
         binding.secondLayout.layoutParams = secondLayoutParams
     }
 }

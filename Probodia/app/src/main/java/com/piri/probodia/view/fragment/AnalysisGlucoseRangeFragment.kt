@@ -63,18 +63,23 @@ class AnalysisGlucoseRangeFragment : Fragment() {
             binding.secondLayout.setBackgroundResource(R.drawable.yellow_600_round_background)
             if (low == 0) {
                 binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_background)
+                if (high == 0) {
+                    binding.firstLayout.setBackgroundResource(R.drawable.gray_300_2_background)
+                }
             }
         } else {
             binding.firstLayout.setBackgroundResource(R.drawable.green_600_round_background)
+            binding.secondLayout.setBackgroundResource(R.drawable.yellow_600_round_right_background)
+            binding.thirdLayout.setBackgroundResource(R.drawable.red_600_round_right_background)
         }
 
         val thirdLayoutParams = binding.thirdLayout.layoutParams
-        thirdLayoutParams.width = binding.firstLayout.width * high / (common + low + high)
+        thirdLayoutParams.width = binding.firstLayout.width * high / (if (common + low + high == 0) 1 else common + low + high)
         binding.thirdLayout.layoutParams = thirdLayoutParams
 
         val secondLayoutParams = binding.secondLayout.layoutParams
         secondLayoutParams.width =
-            binding.firstLayout.width * low / (common + low + high) + thirdLayoutParams.width
+            binding.firstLayout.width * low /  (if (common + low + high == 0) 1 else common + low + high) + thirdLayoutParams.width
         binding.secondLayout.layoutParams = secondLayoutParams
     }
 }
