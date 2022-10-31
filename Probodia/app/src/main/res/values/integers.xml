@@ -6,6 +6,7 @@
     <integer name="meal_type">4</integer>
     <integer name="sortation_type">5</integer>
     <integer name="progress_type">6</integer>
+    <integer name="empty_type">7</integer>
 
     <integer name="record_glucose">11</integer>
     <integer name="record_pressure">12</integer>

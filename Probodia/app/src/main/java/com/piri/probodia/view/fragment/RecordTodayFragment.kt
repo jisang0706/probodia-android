@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
 import com.piri.probodia.adapter.RecordTodayAdapter
 import com.piri.probodia.data.remote.model.RecordDatasBase
+import com.piri.probodia.data.remote.model.RecordEmptyDto
 import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.data.remote.model.TodayRecord
 import com.piri.probodia.databinding.FragmentRecordTodayBinding
@@ -48,8 +49,12 @@ class RecordTodayFragment(val record : (sortation : SortationDto, kind : Int) ->
             val record = TodayRecord(it.second)
             val dataSet : MutableList<RecordDatasBase> =
                 mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first.second, it.first.first.format(
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd")), record.getDatas().size)))
-            dataSet.addAll(record.getDatas())
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")))))
+            if (record.getDatas().size == 0) {
+                dataSet.add(RecordEmptyDto("EMPTY"))
+            } else {
+                dataSet.addAll(record.getDatas())
+            }
             recordRVAdapter!!.addDataSet(dataSet)
             recordRVAdapter!!.notifyDataSetChanged()
         }

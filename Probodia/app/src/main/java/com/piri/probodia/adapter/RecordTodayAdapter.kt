@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.*
 import com.piri.probodia.databinding.ItemRecordBinding
+import com.piri.probodia.databinding.ItemRecordEmptyBinding
 import com.piri.probodia.databinding.ItemRecordSortationBinding
 import com.piri.probodia.widget.utils.Convert
 
@@ -93,6 +94,7 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
             "MEDICINE" -> R.integer.medicine_type
             "MEAL" -> R.integer.meal_type
             "SORTATION" -> R.integer.sortation_type
+            "EMPTY" -> R.integer.empty_type
             else -> 0
         }
     }
@@ -105,6 +107,13 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
             R.integer.sortation_type -> SortationViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record_sortation,
+                parent,
+                false
+            ))
+
+            R.integer.empty_type -> EmptyViewHolder(DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_record_empty,
                 parent,
                 false
             ))
@@ -153,6 +162,11 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
                 holder.setIsRecyclable(false)
             }
 
+            R.integer.empty_type -> {
+                (holder as EmptyViewHolder).bind(dataSet[position] as RecordEmptyDto)
+                holder.setIsRecyclable(false)
+            }
+
             R.integer.glucose_type -> {
                 (holder as GlucoseViewHolder).bind(dataSet[position] as GlucoseDto)
                 holder.setIsRecyclable(false)
@@ -188,9 +202,6 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
                 binding.datetimeText.text = item.record.recordDate
             } else {
                 binding.datetimeText.visibility = View.GONE
-            }
-            if (item.record.itemCnt != 0) {
-                binding.recordNullText.visibility = View.GONE
             }
             if (past && position == dataSet.size - 1) {
                 binding.loadingProgress.visibility = View.VISIBLE
@@ -263,6 +274,18 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
                     moveRecordBtn.start()
                     isRecordBtnShow = true
                 }
+            }
+        }
+    }
+
+    inner class EmptyViewHolder(val binding : ItemRecordEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item : RecordEmptyDto) {
+            val position = bindingAdapterPosition
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
         }
     }

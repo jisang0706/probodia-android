@@ -8,8 +8,6 @@ data class SortationDto(
     data class Record(
         val timeTag : String,
 
-        val recordDate : String,
-
-        val itemCnt : Int
+        val recordDate : String
     )
 }
