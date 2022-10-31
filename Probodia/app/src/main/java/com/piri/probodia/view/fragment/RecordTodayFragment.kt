@@ -21,7 +21,7 @@ import com.piri.probodia.widget.utils.BottomSearchFood
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordTodayFragment : Fragment() {
+class RecordTodayFragment(val record : (sortation : SortationDto, kind : Int) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentRecordTodayBinding
     private lateinit var viewModel : RecordHistoryViewModel
@@ -61,6 +61,9 @@ class RecordTodayFragment : Fragment() {
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
             }
 
+            override fun onRecordClick(data: SortationDto, kind: Int) {
+                record(data, kind)
+            }
         })
 
         viewModel.isError.observe(requireActivity()) {

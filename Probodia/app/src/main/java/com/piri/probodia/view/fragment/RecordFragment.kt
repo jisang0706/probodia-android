@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.piri.probodia.R
 import com.piri.probodia.adapter.RecordPagerAdapter
+import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.databinding.FragmentRecordBinding
 import com.piri.probodia.viewmodel.RecordViewModel
 
@@ -39,9 +40,11 @@ class RecordFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(RecordViewModel::class.java)
         binding.vm = viewModel
 
-        recordPagerAdapter = RecordPagerAdapter(childFragmentManager, lifecycle)
+        recordPagerAdapter = RecordPagerAdapter(childFragmentManager, lifecycle, ::record)
+
         recordPagerAdapter.recordTodayFragment.setReload(::reloadRecord)
         recordPagerAdapter.recordPastFragment.setReload(::reloadRecord)
+
         binding.recordViewpager.adapter = recordPagerAdapter
         binding.recordViewpager.isUserInputEnabled = false
         binding.recordViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -49,10 +52,8 @@ class RecordFragment : Fragment() {
                 super.onPageSelected(position)
                 if (position == 0 || position == 1) {
                     binding.introText.visibility = View.VISIBLE
-                    binding.recordBtnLayout.visibility = View.VISIBLE
                 } else {
                     binding.introText.visibility = View.GONE
-                    binding.recordBtnLayout.visibility = View.GONE
                 }
             }
         })
@@ -81,42 +82,6 @@ class RecordFragment : Fragment() {
             }
         }
 
-        binding.recordGlucoseLayout.setOnClickListener {
-            binding.recordGlucoseBtn.callOnClick()
-        }
-
-        binding.recordGlucoseBtn.setOnClickListener {
-            val fragment = RecordGlucoseFragment(::reloadRecord, 0, null)
-            fragment.show(childFragmentManager, fragment.tag)
-        }
-
-        binding.recordPressureLayout.setOnClickListener {
-            binding.recordPressureBtn.callOnClick()
-        }
-
-        binding.recordPressureBtn.setOnClickListener {
-            val fragment = RecordPressureFragment(::reloadRecord, 0, null)
-            fragment.show(childFragmentManager, fragment.tag)
-        }
-
-        binding.recordMedicineLayout.setOnClickListener {
-            binding.recordMedicineBtn.callOnClick()
-        }
-
-        binding.recordMedicineBtn.setOnClickListener {
-            val fragment = RecordMedicineFragment(::reloadRecord, 0, null)
-            fragment.show(childFragmentManager, fragment.tag)
-        }
-
-        binding.recordMealLayout.setOnClickListener {
-            binding.recordMealBtn.callOnClick()
-        }
-
-        binding.recordMealBtn.setOnClickListener {
-            val fragment = RecordMealFragment(::reloadRecord, 0, null)
-            fragment.show(childFragmentManager, fragment.tag)
-        }
-
         return binding.root
     }
 
@@ -124,5 +89,29 @@ class RecordFragment : Fragment() {
         recordPagerAdapter.recordTodayFragment.loadTodayRecord()
         recordPagerAdapter.recordPastFragment.restartRecord()
         recordPagerAdapter.recordAnalysisFragment.reloadAnalysis()
+    }
+
+    fun record(sortation : SortationDto, kind : Int) {
+        when(kind) {
+            R.integer.record_glucose -> {
+                val fragment = RecordGlucoseFragment(::reloadRecord, 0, null)
+                fragment.show(childFragmentManager, fragment.tag)
+            }
+
+            R.integer.record_pressure -> {
+                val fragment = RecordPressureFragment(::reloadRecord, 0, null)
+                fragment.show(childFragmentManager, fragment.tag)
+            }
+
+            R.integer.record_medicine -> {
+                val fragment = RecordMedicineFragment(::reloadRecord, 0, null)
+                fragment.show(childFragmentManager, fragment.tag)
+            }
+
+            R.integer.record_meal -> {
+                val fragment = RecordMealFragment(::reloadRecord, 0, null)
+                fragment.show(childFragmentManager, fragment.tag)
+            }
+        }
     }
 }

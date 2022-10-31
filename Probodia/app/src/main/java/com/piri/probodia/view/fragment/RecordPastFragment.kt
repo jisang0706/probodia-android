@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class RecordPastFragment : Fragment() {
+class RecordPastFragment(val record : (sortation : SortationDto, kind : Int) -> Unit) : Fragment() {
 
     private lateinit var binding : FragmentRecordPastBinding
     private lateinit var viewModel : RecordHistoryViewModel
@@ -62,6 +62,10 @@ class RecordPastFragment : Fragment() {
             override fun onItemClick(data: RecordDatasBase) {
                 val recordDetailFragment = RecordDetailFragment(data, reloadRecord)
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
+            }
+
+            override fun onRecordClick(data: SortationDto, kind: Int) {
+                record(data, kind)
             }
         })
 
