@@ -20,9 +20,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.piri.probodia.R
 import com.piri.probodia.adapter.RecordPagerAdapter
-import com.piri.probodia.data.remote.model.SortationDto
+import com.piri.probodia.data.remote.model.*
 import com.piri.probodia.databinding.FragmentRecordBinding
 import com.piri.probodia.viewmodel.RecordViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class RecordFragment : Fragment() {
 
@@ -92,24 +94,35 @@ class RecordFragment : Fragment() {
     }
 
     fun record(sortation : SortationDto, kind : Int) {
+        val nowDateTime = LocalDateTime.now()
+        val nowDateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+        val recordDate = "${sortation.record.recordDate} ${nowDateTime.format(nowDateTimeFormatter)}"
         when(kind) {
             R.integer.record_glucose -> {
-                val fragment = RecordGlucoseFragment(::reloadRecord, 0, null)
+                val fragment = RecordGlucoseFragment(::reloadRecord, 0,
+                    GlucoseDto.Record("${sortation.record.timeTag} 식전", 0, 0, recordDate)
+                )
                 fragment.show(childFragmentManager, fragment.tag)
             }
 
             R.integer.record_pressure -> {
-                val fragment = RecordPressureFragment(::reloadRecord, 0, null)
+                val fragment = RecordPressureFragment(::reloadRecord, 0,
+                    PressureDto.Record(sortation.record.timeTag, 0, 0, 0, 0, recordDate)
+                )
                 fragment.show(childFragmentManager, fragment.tag)
             }
 
             R.integer.record_medicine -> {
-                val fragment = RecordMedicineFragment(::reloadRecord, 0, null)
+                val fragment = RecordMedicineFragment(::reloadRecord, 0,
+                    MedicineDto.Record(sortation.record.timeTag, 0, recordDate, listOf())
+                )
                 fragment.show(childFragmentManager, fragment.tag)
             }
 
             R.integer.record_meal -> {
-                val fragment = RecordMealFragment(::reloadRecord, 0, null)
+                val fragment = RecordMealFragment(::reloadRecord, 0,
+                    MealDto.Record(sortation.record.timeTag, listOf(), 0, recordDate)
+                )
                 fragment.show(childFragmentManager, fragment.tag)
             }
         }

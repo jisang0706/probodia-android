@@ -87,16 +87,10 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
             }
         })
 
+        setRecordBaseTime()
+
         if (recordType == 1) {
-            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
-                "아침" -> 1
-                "점심" -> 2
-                "저녁" -> 3
-                else -> 1
-            })
-            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
-            for(i in 0 until data.medicineDetails.size) {
+            for(i in 0 until data!!.medicineDetails.size) {
                 listAdapter.addItem(ApiMedicineDto.Body.MedicineItem(
                     data.medicineDetails[i].medicineId,
                     data.medicineDetails[i].medicineName,
@@ -174,6 +168,17 @@ class RecordMedicineFragment(val reload : () -> Unit, val recordType : Int, val 
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun setRecordBaseTime() {
+        baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
+            "아침" -> 1
+            "점심" -> 2
+            "저녁" -> 3
+            else -> 1
+        })
+        val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
     }
 
     fun getSelectedTimeTag(): String {

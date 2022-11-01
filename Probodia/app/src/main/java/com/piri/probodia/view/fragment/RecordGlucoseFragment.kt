@@ -57,20 +57,11 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
 
         binding.lifecycleOwner = this
 
+        setRecordBaseTime()
+
         if (recordType == 1) {
-            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
-                "아침 식전" -> 1
-                "점심 식전" -> 2
-                "저녁 식전" -> 3
-                "아침 식후" -> 4
-                "점심 식후" -> 5
-                "저녁 식후" -> 6
-                else -> 1
-            })
             binding.glucoseEdit.setText(data!!.glucose.toString())
             baseViewModel.setButtonClickEnable(binding.glucoseEdit.text.length!! > 0)
-            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            baseViewModel.setLocalDateTime(LocalDateTime.parse(data!!.recordDate, localDateTimeFormatter))
         }
 
         binding.enterBtn.setOnClickListener {
@@ -161,6 +152,20 @@ class RecordGlucoseFragment(val reload : () -> Unit, val recordType : Int, val d
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun setRecordBaseTime() {
+        baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
+            "아침 식전" -> 1
+            "점심 식전" -> 2
+            "저녁 식전" -> 3
+            "아침 식후" -> 4
+            "점심 식후" -> 5
+            "저녁 식후" -> 6
+            else -> 1
+        })
+        val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        baseViewModel.setLocalDateTime(LocalDateTime.parse(data!!.recordDate, localDateTimeFormatter))
     }
 
     fun getSelectedTimeTag() = when(baseViewModel.selectedTimeTag.value) {
