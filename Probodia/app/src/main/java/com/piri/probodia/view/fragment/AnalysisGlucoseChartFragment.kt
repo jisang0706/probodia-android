@@ -74,16 +74,15 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
                 this.invalidate()
                 selectorViewModel.setSelectedTimeTag(0)
                 binding.selectFirLayout.visibility = View.VISIBLE
-                binding.selectSecLayout.visibility = View.VISIBLE
             }
         }
 
         selectorViewModel.selectedTimeTag.observe(viewLifecycleOwner) {
             binding.apply {
                 val buttons = mutableListOf(
-                    morningFirBtn, morningSecBtn,
-                    lunchFirBtn, lunchSecBtn,
-                    dinnerFirBtn, dinnerSecBtn
+                    morningBtn,
+                    lunchBtn,
+                    dinnerBtn
                 )
 
                 for(i in 0 until buttons.size) {
@@ -118,9 +117,23 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
     }
 
     fun setGlucoseLine(items : MutableList<TodayRecord.AllData>, selected : Int) : LineData {
-        val lineEntries = buildList<Entry> {
+        val firLineEntries = buildList<Entry> {
             for(item in items) {
-                if (item.record.timeTag == Convert.getTimeTag(selected)) {
+                if (item.record.timeTag == Convert.getTimeTag(selected * 2)) {
+                    val localdate = LocalDate.parse(item.record.recordDate.split(' ')[0])
+                    var x = (viewModel.kindEndDate.value!!.second.until(
+                        localdate,
+                        ChronoUnit.DAYS
+                    )).toFloat() + 8
+
+                    add(Entry(x, item.record.glucose!!.toFloat()))
+                }
+            }
+        }
+
+        val secLineEntries = buildList<Entry> {
+            for(item in items) {
+                if (item.record.timeTag == Convert.getTimeTag(selected * 2 + 1)) {
                     val localdate = LocalDate.parse(item.record.recordDate.split(' ')[0])
                     var x = (viewModel.kindEndDate.value!!.second.until(
                         localdate,
@@ -133,10 +146,24 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
         }
 
         return LineData(buildList {
-            add(LineDataSet(lineEntries, null).apply {
+            add(LineDataSet(firLineEntries, null).apply {
                 setDrawIcons(false)
-                color = scatterColor[0]
-                setCircleColor(Color.TRANSPARENT)
+                color = scatterColor[selected * 2]
+                setCircleColor(scatterColor[selected * 2])
+                circleSize = 5f
+
+                lineWidth = 2f
+
+                setDrawCircleHole(false)
+
+                valueTextSize = 16f
+            })
+
+            add(LineDataSet(secLineEntries, null).apply {
+                setDrawIcons(false)
+                color = scatterColor[selected * 2 + 1]
+                setCircleColor(scatterColor[selected * 2 + 1])
+                circleSize = 5f
 
                 lineWidth = 2f
 

@@ -177,72 +177,33 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/morning_fir_btn"
+                android:id="@+id/morning_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/primary_100_1_background"
                 android:layout_weight="1"
                 android:onClick="@{()->selectorVm.setSelectedTimeTag(0)}"
-                android:text="아침 식전"
+                android:text="아침"
                 android:textColor="@color/white"/>
 
             <Button
-                android:id="@+id/lunch_fir_btn"
+                android:id="@+id/lunch_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="13dp"
-                android:onClick="@{()->selectorVm.setSelectedTimeTag(2)}"
-                android:text="점심 식전"/>
-
-            <Button
-                android:id="@+id/dinner_fir_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/white_1_background"
-                android:layout_weight="1"
-                android:onClick="@{()->selectorVm.setSelectedTimeTag(4)}"
-                android:text="저녁 식전"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/select_sec_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/select_fir_layout"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone">
-
-            <Button
-                android:id="@+id/morning_sec_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/white_1_background"
-                android:layout_weight="1"
                 android:onClick="@{()->selectorVm.setSelectedTimeTag(1)}"
-                android:text="아침 식후"/>
+                android:text="점심"/>
 
             <Button
-                android:id="@+id/lunch_sec_btn"
+                android:id="@+id/dinner_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_1_background"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="13dp"
-                android:onClick="@{()->selectorVm.setSelectedTimeTag(3)}"
-                android:text="점심 식후"/>
-
-            <Button
-                android:id="@+id/dinner_sec_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/white_1_background"
-                android:layout_weight="1"
-                android:onClick="@{()->selectorVm.setSelectedTimeTag(5)}"
-                android:text="저녁 식후"/>
+                android:onClick="@{()->selectorVm.setSelectedTimeTag(2)}"
+                android:text="저녁"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>
