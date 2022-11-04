@@ -50,6 +50,8 @@ class AnalysisGlucoseChartFragment : AnalysisBaseLineFragment() {
         selectorViewModel = ViewModelProvider(this).get(AnalysisTimeSelectorViewModel::class.java)
         binding.selectorVm = selectorViewModel
 
+        binding.pressureColorTextLayout.visibility = View.GONE
+
         initChart()
 
         var combinedData = CombinedData()

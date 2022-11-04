@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.piri.probodia.R
@@ -33,15 +34,17 @@ class AnalysisPressureChartFragment : AnalysisBaseLineFragment() {
 
         binding.analysisLineText.text = "혈압 추세선"
 
-       initChart()
+        binding.glucoseColorTextLayout.visibility = View.GONE
+
+        initChart()
 
         viewModel.pressureResult.observe(viewLifecycleOwner) {
             it.sortBy { it.record.recordDate }
             binding.analysisChart.apply {
                 var combinedData = CombinedData()
-                val candleData = setPressureCandleStick(it)
-                if (candleData != null) {
-                    combinedData.setData(candleData)
+                val lineData = setPressureLine(it)
+                if (lineData != null) {
+                    combinedData.setData(lineData)
                     this.data = combinedData
                     this.invalidate()
                 }
@@ -51,36 +54,52 @@ class AnalysisPressureChartFragment : AnalysisBaseLineFragment() {
         return binding.root
     }
 
-    private fun setPressureCandleStick(items : MutableList<TodayRecord.AllData>) : CandleData? {
-        val candleEntries = buildList<CandleEntry> {
-            for (item in items) {
-                val localdate = LocalDate.parse(item.record.recordDate.split(' ')[0])
-                var x = (viewModel.kindEndDate.value!!.second.until(
-                    localdate,
-                    ChronoUnit.DAYS
-                )).toFloat() + 8
+    private fun setPressureLine(items : MutableList<TodayRecord.AllData>) : LineData {
+        var pressureItems = items.groupBy {
+            it.record.recordDate.split(' ')[0]
+        }.values.toMutableList()
+        pressureItems.sortBy { it[0].record.recordDate }
 
-                add(CandleEntry(
-                    x,
-                    item.record.maxPressure!!.toFloat(),
-                    item.record.minPressure!!.toFloat(),
-                    item.record.maxPressure!!.toFloat(),
-                    item.record.minPressure!!.toFloat()
-                ))
-            }
+        val lowLineEntries : MutableList<Entry> = mutableListOf()
+        val highLineEntries : MutableList<Entry> = mutableListOf()
+
+        for(item in pressureItems) {
+            val localDate = LocalDate.parse(item[0].record.recordDate.split(' ')[0])
+            var x = (viewModel.kindEndDate.value!!.second.until(
+                localDate,
+                ChronoUnit.DAYS
+            )).toFloat() + 8
+
+            highLineEntries.add(Entry(x, item.maxOf { it.record.maxPressure!! }.toFloat()))
+            lowLineEntries.add(Entry(x, item.minOf { it.record.minPressure!! }.toFloat()))
         }
 
-        return if (candleEntries.isNotEmpty()) {
-            CandleData(buildList {
-                add(CandleDataSet(candleEntries, null).apply {
-                    decreasingColor = ResourcesCompat.getColor(resources, R.color.red_800, null)
-                    decreasingPaintStyle = Paint.Style.FILL
-                    axisDependency = YAxis.AxisDependency.LEFT
-                    valueTextColor = Color.TRANSPARENT
-                })
+        return LineData(buildList {
+            add(LineDataSet(highLineEntries, null).apply {
+                setDrawIcons(false)
+                color = ResourcesCompat.getColor(resources, R.color.red_800, null)
+                setCircleColor(ResourcesCompat.getColor(resources, R.color.red_800, null))
+                circleSize = 5f
+
+                lineWidth = 2f
+
+                setDrawCircleHole(false)
+
+                valueTextSize = 16f
             })
-        } else {
-            null
-        }
+
+            add(LineDataSet(lowLineEntries, null).apply {
+                setDrawIcons(false)
+                color = ResourcesCompat.getColor(resources, R.color.yellow_800, null)
+                setCircleColor(ResourcesCompat.getColor(resources, R.color.yellow_800, null))
+                circleSize = 5f
+
+                lineWidth = 2f
+
+                setDrawCircleHole(false)
+
+                valueTextSize = 16f
+            })
+        })
     }
 }
