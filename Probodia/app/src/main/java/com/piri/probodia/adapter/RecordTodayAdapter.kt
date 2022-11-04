@@ -1,5 +1,6 @@
 package com.piri.probodia.adapter
 
+import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
@@ -16,12 +17,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.animation.addListener
+import androidx.core.animation.addPauseListener
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.*
 import com.piri.probodia.databinding.ItemRecordBinding
+import com.piri.probodia.databinding.ItemRecordEmptyBinding
 import com.piri.probodia.databinding.ItemRecordSortationBinding
 import com.piri.probodia.widget.utils.Convert
 
@@ -31,6 +35,7 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
 
     interface OnItemClickListener {
         fun onItemClick(data : RecordDatasBase)
+        fun onRecordClick(data : SortationDto, kind : Int)
     }
 
     var clickListener : OnItemClickListener? = null
@@ -89,6 +94,7 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
             "MEDICINE" -> R.integer.medicine_type
             "MEAL" -> R.integer.meal_type
             "SORTATION" -> R.integer.sortation_type
+            "EMPTY" -> R.integer.empty_type
             else -> 0
         }
     }
@@ -101,6 +107,13 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
             R.integer.sortation_type -> SortationViewHolder(DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_record_sortation,
+                parent,
+                false
+            ))
+
+            R.integer.empty_type -> EmptyViewHolder(DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_record_empty,
                 parent,
                 false
             ))
@@ -149,6 +162,11 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
                 holder.setIsRecyclable(false)
             }
 
+            R.integer.empty_type -> {
+                (holder as EmptyViewHolder).bind(dataSet[position] as RecordEmptyDto)
+                holder.setIsRecyclable(false)
+            }
+
             R.integer.glucose_type -> {
                 (holder as GlucoseViewHolder).bind(dataSet[position] as GlucoseDto)
                 holder.setIsRecyclable(false)
@@ -185,9 +203,85 @@ class RecordTodayAdapter(val past : Boolean) : RecyclerView.Adapter<RecyclerView
             } else {
                 binding.datetimeText.visibility = View.GONE
             }
-            if (item.record.itemCnt != 0) {
-                binding.recordNullText.visibility = View.GONE
+            if (past && position == dataSet.size - 1) {
+                binding.loadingProgress.visibility = View.VISIBLE
+            } else {
+                binding.loadingProgress.visibility = View.GONE
             }
+
+            binding.recordGlucoseBtn.setOnClickListener {
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onRecordClick(item, R.integer.record_glucose)
+                }
+            }
+
+            binding.recordPressureBtn.setOnClickListener {
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onRecordClick(item, R.integer.record_pressure)
+                }
+            }
+
+            binding.recordMedicineBtn.setOnClickListener {
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onRecordClick(item, R.integer.record_medicine)
+                }
+            }
+
+            binding.recordMealBtn.setOnClickListener {
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener!!.onRecordClick(item, R.integer.record_meal)
+                }
+            }
+
+            var isRecordBtnShow = false
+            binding.recordSortationBaseLayout.setOnClickListener {
+                if (isRecordBtnShow) {
+                    binding.recordBtnBaseLayout.animate().withEndAction {
+                        val params = binding.baseLayout.layoutParams
+                        params.height =
+                            binding.baseLayout.height - binding.recordBtnBaseLayout.height - 30
+                        binding.baseLayout.layoutParams = params
+                        binding.recordBtnBaseLayout.visibility = View.GONE
+                    }.start()
+                    val moveRecordBtn = ObjectAnimator
+                        .ofFloat(
+                            binding.recordBtnBaseLayout,
+                            "y",
+                            binding.recordSortationBaseLayout.bottom.toFloat() + 15f,
+                            binding.recordSortationBaseLayout.bottom.toFloat() - (binding.recordSortationBaseLayout.height / 2)
+                        )
+                        .setDuration(300)
+
+                    moveRecordBtn.start()
+                    isRecordBtnShow = false
+                } else {
+                    binding.recordBtnBaseLayout.visibility = View.INVISIBLE
+                    val params = binding.baseLayout.layoutParams
+                    params.height =
+                        binding.baseLayout.height + binding.recordBtnBaseLayout.height + 30
+                    binding.baseLayout.layoutParams = params
+                    binding.recordBtnBaseLayout.visibility = View.VISIBLE
+
+                    val moveRecordBtn = ObjectAnimator
+                        .ofFloat(
+                            binding.recordBtnBaseLayout,
+                            "y",
+                            binding.recordSortationBaseLayout.bottom.toFloat() - (binding.recordSortationBaseLayout.height / 2),
+                                    binding.recordSortationBaseLayout.bottom.toFloat() + 15f
+                        )
+                        .setDuration(300)
+
+                    moveRecordBtn.start()
+                    isRecordBtnShow = true
+                }
+            }
+        }
+    }
+
+    inner class EmptyViewHolder(val binding : ItemRecordEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item : RecordEmptyDto) {
+            val position = bindingAdapterPosition
             if (past && position == dataSet.size - 1) {
                 binding.loadingProgress.visibility = View.VISIBLE
             } else {

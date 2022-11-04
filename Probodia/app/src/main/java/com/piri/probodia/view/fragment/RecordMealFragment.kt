@@ -103,16 +103,10 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
 
         })
 
+        setRecordBaseTime()
+
         if (recordType == 1) {
-            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
-                "아침" -> 1
-                "점심" -> 2
-                "저녁" -> 3
-                else -> 1
-            })
-            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
-            for(i in 0 until data.mealDetails.size) {
+            for(i in 0 until data!!.mealDetails.size) {
                 listAdapter.addItem(
                     PostMealBody.PostMealItem(
                     data.mealDetails[i].foodName,
@@ -128,7 +122,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         }
 
         binding.searchBtn.setOnClickListener {
-            val fragment = SearchFoodFragment(::addMealItem, "")
+            val fragment = SearchFoodFragment(R.integer.record, ::addMealItem)
             fragment.show(childFragmentManager, fragment.tag)
         }
 
@@ -219,6 +213,17 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun setRecordBaseTime() {
+        baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
+            "아침" -> 1
+            "점심" -> 2
+            "저녁" -> 3
+            else -> 1
+        })
+        val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
     }
 
     fun checkCameraPermission() {

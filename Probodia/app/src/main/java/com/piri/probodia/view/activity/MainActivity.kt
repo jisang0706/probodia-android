@@ -2,12 +2,17 @@ package com.piri.probodia.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.adapter.MainPagerAdapter
 import com.piri.probodia.databinding.ActivityMainBinding
+import com.piri.probodia.view.fragment.SearchFoodDetailFragment
+import com.piri.probodia.view.fragment.SearchFoodFragment
 import com.piri.probodia.viewmodel.MainViewModel
+import com.piri.probodia.widget.utils.BottomSearchFood
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        binding.mainViewpager.adapter = MainPagerAdapter(supportFragmentManager, lifecycle)
         binding.mainViewpager.isUserInputEnabled = false
 
         binding.bottomNavigation.run {
@@ -36,8 +40,42 @@ class MainActivity : AppCompatActivity() {
                     R.id.item_etc -> binding.mainViewpager.currentItem = 3
                     else -> true
                 }
+
+                if (item.itemId == R.id.item_record) {
+                    binding.foodSearchLayout.visibility = View.VISIBLE
+                } else {
+                    binding.foodSearchLayout.visibility = View.GONE
+                }
                 true
             }
         }
+
+        binding.foodSearchBtn.setOnClickListener {
+            val fragment = SearchFoodFragment(R.integer.search)
+            fragment.show(supportFragmentManager, fragment.tag)
+        }
+
+        initMainViewPager()
+    }
+
+    private fun initMainViewPager() {
+        if (binding.foodSearchLayout.width > 0) {
+            _initMainViewPager()
+        } else {
+            binding.foodSearchLayout.viewTreeObserver.addOnGlobalLayoutListener (
+                object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        binding.foodSearchLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                        _initMainViewPager()
+                    }
+                }
+            )
+        }
+    }
+
+    private fun _initMainViewPager() {
+        BottomSearchFood.setBottomPadding(binding.foodSearchLayout.height)
+        binding.mainViewpager.adapter = MainPagerAdapter(supportFragmentManager, lifecycle)
     }
 }

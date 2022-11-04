@@ -72,12 +72,12 @@ class RecognitionFoodFragment(val addMealItem : (item : PostMealBody.PostMealIte
         })
 
         binding.enterBtn.setOnClickListener {
-            val fragment = SearchFoodFragment(::applyItem, viewModel.foodNameResult.value!![viewModel.selectedFood.value!!])
+            val fragment = SearchFoodFragment(R.integer.record, ::applyItem, viewModel.foodNameResult.value!![viewModel.selectedFood.value!!])
             fragment.show(childFragmentManager, fragment.tag)
         }
 
         binding.searchBtn.setOnClickListener {
-            val fragment = SearchFoodFragment(::applyItem, "")
+            val fragment = SearchFoodFragment(R.integer.record, ::applyItem)
             fragment.show(childFragmentManager, fragment.tag)
         }
 

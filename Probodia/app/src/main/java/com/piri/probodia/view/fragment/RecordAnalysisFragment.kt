@@ -10,6 +10,7 @@ import com.piri.probodia.R
 import com.piri.probodia.databinding.FragmentRecordAnalysisBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.viewmodel.RecordAnalysisViewModel
+import com.piri.probodia.widget.utils.BottomSearchFood
 import java.time.LocalDate
 
 class RecordAnalysisFragment : Fragment() {
@@ -37,6 +38,8 @@ class RecordAnalysisFragment : Fragment() {
         initAnalysisPressureChartFragment()
         initAnalysisRecordedRangeFragment()
         initAnalysisHemoglobinFragment()
+
+        binding.recordAnalysisLayout.setPadding(0, 0, 0, BottomSearchFood.getBottomPadding())
 
         viewModel.kindEndDate.observe(viewLifecycleOwner) {
             loadAnalysis(it)

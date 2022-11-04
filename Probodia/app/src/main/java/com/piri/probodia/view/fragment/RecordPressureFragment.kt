@@ -54,19 +54,13 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
 
         binding.lifecycleOwner = this
 
+        setRecordBaseTime()
+
         if (recordType == 1) {
-            baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
-                "아침" -> 1
-                "점심" -> 2
-                "저녁" -> 3
-                else -> 1
-            })
             binding.highPressureEdit.setText(data!!.maxPressure.toString())
             binding.lowPressureEdit.setText(data!!.minPressure.toString())
             binding.heartRateEdit.setText(data!!.heartRate.toString())
             examineEditTextFull()
-            val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
         }
 
         binding.enterBtn.setOnClickListener {
@@ -194,6 +188,17 @@ class RecordPressureFragment(val reload : () -> Unit, val recordType : Int, val 
         transaction.replace(R.id.time_selector_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun setRecordBaseTime() {
+        baseViewModel.setSelectedTimeTag(when(data!!.timeTag) {
+            "아침" -> 1
+            "점심" -> 2
+            "저녁" -> 3
+            else -> 1
+        })
+        val localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        baseViewModel.setLocalDateTime(LocalDateTime.parse(data.recordDate, localDateTimeFormatter))
     }
 
     fun examineEditTextFull() {

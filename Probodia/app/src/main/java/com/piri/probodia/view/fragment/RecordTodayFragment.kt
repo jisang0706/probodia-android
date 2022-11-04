@@ -12,15 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
 import com.piri.probodia.adapter.RecordTodayAdapter
 import com.piri.probodia.data.remote.model.RecordDatasBase
+import com.piri.probodia.data.remote.model.RecordEmptyDto
 import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.data.remote.model.TodayRecord
 import com.piri.probodia.databinding.FragmentRecordTodayBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.viewmodel.RecordHistoryViewModel
+import com.piri.probodia.widget.utils.BottomSearchFood
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordTodayFragment : Fragment() {
+class RecordTodayFragment(val record : (sortation : SortationDto, kind : Int) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentRecordTodayBinding
     private lateinit var viewModel : RecordHistoryViewModel
@@ -41,13 +43,18 @@ class RecordTodayFragment : Fragment() {
         recordRVAdapter = RecordTodayAdapter(false)
         binding.recordRv.adapter = recordRVAdapter
         binding.recordRv.layoutManager = LinearLayoutManager(context)
+        binding.recordRv.setPadding(0, 0, 0, BottomSearchFood.getBottomPadding())
 
         viewModel.result.observe(viewLifecycleOwner) {
             val record = TodayRecord(it.second)
             val dataSet : MutableList<RecordDatasBase> =
                 mutableListOf(SortationDto("SORTATION", SortationDto.Record(it.first.second, it.first.first.format(
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd")), record.getDatas().size)))
-            dataSet.addAll(record.getDatas())
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")))))
+            if (record.getDatas().size == 0) {
+                dataSet.add(RecordEmptyDto("EMPTY"))
+            } else {
+                dataSet.addAll(record.getDatas())
+            }
             recordRVAdapter!!.addDataSet(dataSet)
             recordRVAdapter!!.notifyDataSetChanged()
         }
@@ -59,6 +66,9 @@ class RecordTodayFragment : Fragment() {
                 recordDetailFragment.show(parentFragmentManager, recordDetailFragment.tag)
             }
 
+            override fun onRecordClick(data: SortationDto, kind: Int) {
+                record(data, kind)
+            }
         })
 
         viewModel.isError.observe(requireActivity()) {

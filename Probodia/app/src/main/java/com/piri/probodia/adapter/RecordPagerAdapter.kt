@@ -5,13 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.piri.probodia.data.remote.model.SortationDto
 import com.piri.probodia.view.fragment.RecordAnalysisFragment
 import com.piri.probodia.view.fragment.RecordPastFragment
 import com.piri.probodia.view.fragment.RecordTodayFragment
 
-class RecordPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
-    val recordTodayFragment = RecordTodayFragment()
-    val recordPastFragment = RecordPastFragment()
+class RecordPagerAdapter(fm: FragmentManager, lc: Lifecycle, record : (sortation : SortationDto, kind : Int) -> Unit) : FragmentStateAdapter(fm, lc) {
+    val recordTodayFragment = RecordTodayFragment(record)
+    val recordPastFragment = RecordPastFragment(record)
     val recordAnalysisFragment = RecordAnalysisFragment()
 
     override fun getItemCount() = 3
