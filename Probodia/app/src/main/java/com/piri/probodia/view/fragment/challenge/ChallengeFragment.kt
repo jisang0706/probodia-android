@@ -40,12 +40,6 @@ class ChallengeFragment : Fragment() {
             tab.text = challengePagerAdapter.getItemTitle(position)
         }.attach()
 
-        viewModel.getChallengeList(PreferenceRepository(requireContext()))
-
-        viewModel.result.observe(viewLifecycleOwner) {
-            Log.e("CHALLENGE", it.toString())
-        }
-
         return binding.root
     }
 }

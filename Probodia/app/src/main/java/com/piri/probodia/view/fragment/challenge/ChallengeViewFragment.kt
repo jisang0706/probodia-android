@@ -5,15 +5,42 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
+import com.piri.probodia.adapter.ChallengeViewAdapter
+import com.piri.probodia.databinding.FragmentChallengeViewBinding
+import com.piri.probodia.repository.PreferenceRepository
+import com.piri.probodia.viewmodel.ChallengeViewViewModel
 
 class ChallengeViewFragment : Fragment() {
+
+    private lateinit var binding : FragmentChallengeViewBinding
+    private lateinit var viewModel : ChallengeViewViewModel
+    private lateinit var challengeViewAdapter : ChallengeViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenge_view, container, false)
+        binding = FragmentChallengeViewBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+
+        viewModel = ViewModelProvider(this).get(ChallengeViewViewModel::class.java)
+        binding.vm = viewModel
+
+        challengeViewAdapter = ChallengeViewAdapter()
+
+        binding.challengeRv.adapter = challengeViewAdapter
+        binding.challengeRv.layoutManager = LinearLayoutManager(context)
+
+        viewModel.getChallengeList(PreferenceRepository(requireContext()))
+
+        viewModel.challengeResult.observe(viewLifecycleOwner) {
+            challengeViewAdapter.setData(it)
+            challengeViewAdapter.notifyDataSetChanged()
+        }
+
+        return binding.root
     }
 }

@@ -14,7 +14,7 @@ data class ChallengeDto (
     val caution : MutableList<String>,
 ) {
     data class Frequency (
-        val dataType : String,
+        val dateType : String,
         val period : Int,
         val time : Int
             )
