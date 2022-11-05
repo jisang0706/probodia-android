@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.ChallengeInfoViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".view.activity.ChallengeInfoActivity"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/challenge_image"
+                    android:scaleType="centerCrop"/>
+
+                <ImageButton
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_leftarrow"
+                    android:background="@android:color/transparent"
+                    android:padding="20dp"/>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/challenge_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="@{vm.data.name}"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/challenge_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/challenge_title"
+                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.time)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/challenge_until"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/challenge_rule"
+                    android:layout_below="@id/challenge_title"
+                    android:text="@{@string/challenge_until_text(vm.untilDate)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+
+                <TextView
+                    android:id="@+id/challenge_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/challenge_until"
+                    android:layout_below="@id/challenge_title"
+                    android:text="@{@string/challenge_cnt_text(vm.data.totalCnt)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray_200"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>

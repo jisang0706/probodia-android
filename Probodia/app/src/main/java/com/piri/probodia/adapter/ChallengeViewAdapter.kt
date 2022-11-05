@@ -52,7 +52,7 @@ class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolde
 
             val startDate = LocalDate.parse(item.stDate)
             binding.challengeStartRemain.text =
-                "${Period.between(startDate, LocalDate.now()).days}일 뒤 시작"
+                "${Period.between(LocalDate.now(), startDate).days}일 뒤 시작"
 
             binding.challengeRule.text =
                 "${item.frequency.dateType} ${item.frequency.period}회 ${item.frequency.time}번씩"
