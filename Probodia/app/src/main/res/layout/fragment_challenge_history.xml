@@ -5,7 +5,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.ChallengeHistoryFragment">
+        tools:context=".view.fragment.challenge.ChallengeHistoryFragment">
 
         <TextView
             android:layout_width="match_parent"

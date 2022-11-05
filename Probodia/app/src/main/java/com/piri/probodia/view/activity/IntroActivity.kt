@@ -3,7 +3,6 @@ package com.piri.probodia.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -19,10 +18,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.piri.probodia.data.remote.api.*
-import com.piri.probodia.view.fragment.ServerConnectFailFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.piri.probodia.view.fragment.record.ServerConnectFailFragment
 
 class IntroActivity : AppCompatActivity() {
 

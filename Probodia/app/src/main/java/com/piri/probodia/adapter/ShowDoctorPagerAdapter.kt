@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.piri.probodia.view.fragment.ShowDoctorGlucoseFragment
-import com.piri.probodia.view.fragment.ShowDoctorPressureFragment
+import com.piri.probodia.view.fragment.etc.ShowDoctorGlucoseFragment
+import com.piri.probodia.view.fragment.etc.ShowDoctorPressureFragment
 
 class ShowDoctorPagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
     private val showDoctorGlucoseFragment = ShowDoctorGlucoseFragment()

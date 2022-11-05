@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.fragment.RecordDetailFragment"
+        tools:context=".view.fragment.record.RecordDetailFragment"
         android:background="@drawable/white_top_3_background">
 
         <LinearLayout

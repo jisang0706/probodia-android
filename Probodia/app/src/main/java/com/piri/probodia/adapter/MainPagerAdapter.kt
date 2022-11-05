@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.piri.probodia.view.fragment.ChallengeFragment
-import com.piri.probodia.view.fragment.CommunityFragment
-import com.piri.probodia.view.fragment.EtcFragment
-import com.piri.probodia.view.fragment.RecordFragment
+import com.piri.probodia.view.fragment.challenge.ChallengeFragment
+import com.piri.probodia.view.fragment.community.CommunityFragment
+import com.piri.probodia.view.fragment.etc.EtcFragment
+import com.piri.probodia.view.fragment.record.RecordFragment
 
 class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
     val recordFragment = RecordFragment()

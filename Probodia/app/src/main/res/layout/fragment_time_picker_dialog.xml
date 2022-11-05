@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.fragment.TimePickerDialogFragment"
+        tools:context=".view.fragment.record.TimePickerDialogFragment"
         android:layout_marginHorizontal="31dp"
         android:background="@drawable/white_pure_2_background">
 

@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.piri.probodia.view.fragment.ChallengeHistoryFragment
-import com.piri.probodia.view.fragment.ChallengeParticipatingFragment
-import com.piri.probodia.view.fragment.ChallengeViewFragment
+import com.piri.probodia.view.fragment.challenge.ChallengeHistoryFragment
+import com.piri.probodia.view.fragment.challenge.ChallengeParticipatingFragment
+import com.piri.probodia.view.fragment.challenge.ChallengeViewFragment
 
 class ChallengePagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
     val challengeViewFragment = ChallengeViewFragment()

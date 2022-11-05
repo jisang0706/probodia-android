@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.fragment.ServerConnectFailFragment"
+        tools:context=".view.fragment.record.ServerConnectFailFragment"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/white_pure_2_background">
 

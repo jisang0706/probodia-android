@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.RecordFragment"
+        tools:context=".view.fragment.record.RecordFragment"
         android:background="@color/white">
 
         <LinearLayout

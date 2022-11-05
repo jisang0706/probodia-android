@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".view.fragment.RecordAnalysisFragment"
+        tools:context=".view.fragment.record.analysis.RecordAnalysisFragment"
         android:background="@color/gray_50">
 
         <RelativeLayout
