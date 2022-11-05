@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.ChallengeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.ChallengeViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="준비중입니다"
-        android:gravity="center"/>
+        tools:context=".view.fragment.ChallengeFragment"
+        android:orientation="vertical"
+        android:background="@color/white">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="챌린지"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="4dp"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="35dp"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/challenge_tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/tabTextBold"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/challenge_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>
