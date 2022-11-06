@@ -9,17 +9,21 @@ import java.time.Period
 
 class ChallengeInfoViewModel : ViewModel() {
 
-    val _data = MutableLiveData<ChallengeDto>()
+    private val _data = MutableLiveData<ChallengeDto>()
     val data : LiveData<ChallengeDto>
         get() = _data
 
-    val _untilDate = MutableLiveData<Int>()
+    private val _untilDate = MutableLiveData<Int>()
     val untilDate : LiveData<Int>
         get() = _untilDate
 
-    val _date = MutableLiveData<List<Int>>()
+    private val _date = MutableLiveData<List<Int>>()
     val date : LiveData<List<Int>>
         get() = _date
+
+    private val _cautionText = MutableLiveData<String>()
+    val cautionText : LiveData<String>
+        get() = _cautionText
 
     fun setData(newData : ChallengeDto) {
         _data.value = newData
@@ -36,5 +40,11 @@ class ChallengeInfoViewModel : ViewModel() {
             add(edDate.monthValue)
             add(edDate.dayOfMonth)
         }
+
+        var caution = ""
+        for (item in newData.caution) {
+            caution += "✔️$item\n\n"
+        }
+        _cautionText.value = caution
     }
 }

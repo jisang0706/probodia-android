@@ -131,6 +131,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="@color/gray_200"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/challenge_caution_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="챌린지 진행시 알아야 할 사항"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/challenge_caution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_caution_title"
+                    android:layout_alignParentLeft="true"
+                    android:text="@{vm.cautionText}"
+                    android:layout_marginTop="12dp"/>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
