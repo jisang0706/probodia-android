@@ -17,6 +17,10 @@ class ChallengeInfoViewModel : ViewModel() {
     val untilDate : LiveData<Int>
         get() = _untilDate
 
+    val _date = MutableLiveData<List<Int>>()
+    val date : LiveData<List<Int>>
+        get() = _date
+
     fun setData(newData : ChallengeDto) {
         _data.value = newData
 
@@ -24,5 +28,13 @@ class ChallengeInfoViewModel : ViewModel() {
         val stDate = LocalDate.parse(newData.stDate)
 
         _untilDate.value = Period.between(stDate, edDate).days / 7
+
+        _date.value = buildList {
+            add(stDate.year)
+            add(stDate.monthValue)
+            add(stDate.dayOfMonth)
+            add(edDate.monthValue)
+            add(edDate.dayOfMonth)
+        }
     }
 }
