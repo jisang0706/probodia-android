@@ -3,6 +3,9 @@ package com.piri.probodia.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
@@ -30,5 +33,36 @@ class ChallengeInfoActivity : AppCompatActivity() {
         }
 
         viewModel.setData(intent.getParcelableExtra("DATA")!!)
+
+        setEnterBtnPosition()
+    }
+
+    private fun setEnterBtnPosition() {
+        if (binding.challengeInfoBaseLayout.height != 0) {
+            _setEnterBtnPosition()
+        } else {
+            binding.challengeInfoBaseLayout.viewTreeObserver.addOnGlobalLayoutListener(
+                object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        binding.challengeInfoBaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                        _setEnterBtnPosition()
+                    }
+                }
+            )
+        }
+    }
+
+    private fun _setEnterBtnPosition() {
+        if (binding.challengeInfoBaseLayout.height < binding.root.height) {
+            val params = ViewGroup.MarginLayoutParams(binding.enterBtn.layoutParams)
+            params.setMargins(
+                20,
+                binding.root.height - binding.challengeInfoBaseLayout.height + 16,
+                20,
+                16
+            )
+            binding.enterBtn.layoutParams = LinearLayout.LayoutParams(params)
+        }
     }
 }

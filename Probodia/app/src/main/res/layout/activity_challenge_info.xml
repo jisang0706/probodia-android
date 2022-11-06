@@ -15,6 +15,7 @@
         android:background="@android:color/transparent">
 
         <LinearLayout
+            android:id="@+id/challenge_info_base_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".view.activity.ChallengeInfoActivity"
@@ -156,6 +157,17 @@
                     android:text="@{vm.cautionText}"
                     android:layout_marginTop="12dp"/>
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/primary_100_2_background"
+                android:text="참가하기"
+                android:textSize="16dp"
+                android:textColor="@color/white"/>
         </LinearLayout>
     </ScrollView>
 </layout>
