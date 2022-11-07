@@ -1,22 +1,29 @@
 package com.piri.probodia.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.ChallengeDto
 import com.piri.probodia.databinding.ActivityChallengeInfoBinding
+import com.piri.probodia.view.fragment.challenge.ChallengeFragment
 import com.piri.probodia.viewmodel.ChallengeInfoViewModel
 
 class ChallengeInfoActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityChallengeInfoBinding
     private lateinit var viewModel : ChallengeInfoViewModel
+
+    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +35,32 @@ class ChallengeInfoActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ChallengeInfoViewModel::class.java)
         binding.vm = viewModel
 
+        viewModel.setData(intent.getParcelableExtra("DATA")!!)
+
+        setEnterBtnPosition()
+
         binding.cancelBtn.setOnClickListener {
             finish()
         }
 
-        viewModel.setData(intent.getParcelableExtra("DATA")!!)
+        binding.enterBtn.setOnClickListener {
+            val intent = Intent(applicationContext, ChallengeParticipateActivity::class.java)
+            intent.putExtra("DATA", viewModel.data.value)
+            activityResultLauncher.launch(intent)
+        }
 
-        setEnterBtnPosition()
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result : ActivityResult ->
+            val resultIntent = result.data
+            if (resultIntent != null) {
+                if (result.resultCode == R.integer.challenge_participant_code) {
+                    val returnIntent = Intent(applicationContext, ChallengeFragment::class.java)
+                    setResult(R.integer.challenge_participant_code, returnIntent)
+                    finish()
+                }
+            }
+        }
     }
 
     private fun setEnterBtnPosition() {

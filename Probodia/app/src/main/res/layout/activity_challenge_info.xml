@@ -73,15 +73,15 @@
                     android:id="@+id/challenge_until"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/challenge_rule"
                     android:layout_below="@id/challenge_title"
-                    android:text="@{@string/challenge_until_text(vm.untilDate)}"
-                    android:textSize="12dp"
-                    android:background="@drawable/white_1_background"
-                    android:paddingVertical="6dp"
-                    android:paddingHorizontal="12dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_toRightOf="@id/challenge_rule"
+                    android:background="@drawable/white_1_background"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:text="@{@string/challenge_until_text(vm.untilDate)}"
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/challenge_cnt"
@@ -113,8 +113,8 @@
                     android:id="@+id/challenge_date_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:text="챌린지 기간"
                     android:textSize="20dp" />
 

@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.piri.probodia.R
@@ -20,6 +23,8 @@ class ChallengeViewFragment : Fragment() {
     private lateinit var binding : FragmentChallengeViewBinding
     private lateinit var viewModel : ChallengeViewViewModel
     private lateinit var challengeViewAdapter : ChallengeViewAdapter
+
+    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +45,7 @@ class ChallengeViewFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(requireContext(), ChallengeInfoActivity::class.java)
                 intent.putExtra("DATA", challengeViewAdapter.getData(position))
-                startActivity(intent)
+                activityResultLauncher.launch(intent)
             }
         })
 
@@ -49,6 +54,17 @@ class ChallengeViewFragment : Fragment() {
         viewModel.challengeResult.observe(viewLifecycleOwner) {
             challengeViewAdapter.setData(it)
             challengeViewAdapter.notifyDataSetChanged()
+        }
+
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result : ActivityResult ->
+            val resultIntent = result.data
+            if (resultIntent != null) {
+                if (result.resultCode == R.integer.challenge_participant_code) {
+                    viewModel.getChallengeList(PreferenceRepository(requireContext()))
+                }
+            }
         }
 
         return binding.root
