@@ -39,6 +39,16 @@ class ChallengeInfoActivity : AppCompatActivity() {
 
         setEnterBtnPosition()
 
+        viewModel.data.observe(this) {
+            binding.challengeImage.setImageResource(
+                when (it.type) {
+                    "혈당기록" -> R.drawable.challenge_glucose
+                    "음식기록" -> R.drawable.challenge_meal
+                    else -> R.drawable.challenge_image
+                }
+            )
+        }
+
         binding.cancelBtn.setOnClickListener {
             finish()
         }

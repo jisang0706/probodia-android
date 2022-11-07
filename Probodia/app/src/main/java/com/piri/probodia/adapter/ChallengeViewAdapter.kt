@@ -56,6 +56,14 @@ class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolde
 
             binding.challengeRule.text =
                 "${item.frequency.dateType} ${item.frequency.period}회 ${item.frequency.time}번씩"
+
+            binding.challengeImage.setImageResource(
+                when (item.type) {
+                    "혈당기록" -> R.drawable.challenge_glucose
+                    "음식기록" -> R.drawable.challenge_meal
+                    else -> R.drawable.challenge_image
+                }
+            )
         }
     }
 
