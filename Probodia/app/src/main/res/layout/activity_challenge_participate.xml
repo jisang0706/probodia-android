@@ -51,7 +51,7 @@
                 android:id="@+id/challenge_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="혈당 꾸준히 기록하기"
+                android:text="@{vm.data.name}"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.time)}"
+                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.times)}"
                     android:textSize="12dp"
                     android:background="@drawable/white_1_background"
                     android:paddingVertical="6dp"

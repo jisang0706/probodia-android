@@ -10,4 +10,9 @@ interface ServerChallengeService {
     suspend fun getChallengeList(
         @Header("Authorization") token : String
     ) : MutableList<ChallengeDto>
+
+    @GET("api/challenge/participant/getJoinChallenge")
+    suspend fun getParticipatedChallenge(
+        @Header("Authorization") token : String
+    ) : MutableList<ChallengeDto>
 }

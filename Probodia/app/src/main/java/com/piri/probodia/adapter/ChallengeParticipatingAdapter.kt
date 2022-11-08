@@ -6,11 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.piri.probodia.R
 import com.piri.probodia.data.remote.model.ChallengeDto
-import com.piri.probodia.databinding.ItemChallengeViewBinding
+import com.piri.probodia.databinding.ItemChallengeParticipatingBinding
 import java.time.LocalDate
 import java.time.Period
 
-class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolder> () {
+class ChallengeParticipatingAdapter : RecyclerView.Adapter<ChallengeParticipatingAdapter.ViewHolder> () {
 
     interface OnItemClickListener {
         fun onItemClick(position : Int)
@@ -30,7 +30,7 @@ class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolde
 
     fun getData(position : Int) = dataSet[position]
 
-    inner class ViewHolder(val binding : ItemChallengeViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding : ItemChallengeParticipatingBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.challengeImage.clipToOutline = true
@@ -48,10 +48,6 @@ class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolde
         fun bind(item : ChallengeDto) {
             binding.challengeTitle.text = item.name
 
-            val startDate = LocalDate.parse(item.stDate)
-            binding.challengeStartRemain.text =
-                "${Period.between(LocalDate.now(), startDate).days}일 뒤 시작"
-
             binding.challengeRule.text =
                 "${item.frequency.dateType} ${item.frequency.period}회 ${item.frequency.times}번씩"
 
@@ -62,22 +58,30 @@ class ChallengeViewAdapter : RecyclerView.Adapter<ChallengeViewAdapter.ViewHolde
                     else -> R.drawable.challenge_image
                 }
             )
+
+            val edDate = LocalDate.parse(item.enDate)
+            val stDate = LocalDate.parse(item.stDate)
+
+            binding.challengeUntil.text = "${Period.between(stDate, edDate).days / 7}주"
+
+            binding.challengeDate.text =
+                "${stDate.monthValue}월 ${stDate.dayOfMonth}일 ~ ${edDate.monthValue}월 ${edDate.dayOfMonth}"
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ChallengeViewAdapter.ViewHolder {
+    ): ChallengeParticipatingAdapter.ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_challenge_view,
+            R.layout.item_challenge_participating,
             parent,
             false
         ))
     }
 
-    override fun onBindViewHolder(holder: ChallengeViewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChallengeParticipatingAdapter.ViewHolder, position: Int) {
         holder.bind(dataSet[position])
         holder.setIsRecyclable(false)
     }

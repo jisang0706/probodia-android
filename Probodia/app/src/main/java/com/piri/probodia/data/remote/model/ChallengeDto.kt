@@ -48,6 +48,6 @@ data class ChallengeDto (
         val period : Int,
 
         // 횟수
-        val time : Int
+        val times : Int
             ) : Parcelable
 }

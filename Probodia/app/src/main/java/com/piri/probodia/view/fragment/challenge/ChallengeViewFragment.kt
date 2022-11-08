@@ -44,6 +44,7 @@ class ChallengeViewFragment : Fragment() {
         challengeViewAdapter.setOnItemClickListener(object : ChallengeViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(requireContext(), ChallengeInfoActivity::class.java)
+                intent.putExtra("VIEW", true)
                 intent.putExtra("DATA", challengeViewAdapter.getData(position))
                 activityResultLauncher.launch(intent)
             }

@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/challenge_title"
-                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.time)}"
+                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.times)}"
                     android:textSize="12dp"
                     android:background="@drawable/white_1_background"
                     android:paddingVertical="6dp"
