@@ -15,7 +15,7 @@ import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.view.activity.ChallengeInfoActivity
 import com.piri.probodia.viewmodel.ChallengeParticipatingViewModel
 
-class ChallengeParticipatingFragment : Fragment() {
+class ChallengeParticipatingFragment() : Fragment() {
 
     private lateinit var binding : FragmentChallengeParticipatingBinding
     private lateinit var viewModel : ChallengeParticipatingViewModel
@@ -45,7 +45,7 @@ class ChallengeParticipatingFragment : Fragment() {
             }
         })
 
-        viewModel.getParticipatingChallengeList(PreferenceRepository(requireContext()))
+        getParticipatingChallengeList()
 
         viewModel.challengeResult.observe(viewLifecycleOwner) {
             challengeParticipatingAdapter.setData(it)
@@ -53,5 +53,9 @@ class ChallengeParticipatingFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun getParticipatingChallengeList() {
+        viewModel.getParticipatingChallengeList(PreferenceRepository(requireContext()))
     }
 }

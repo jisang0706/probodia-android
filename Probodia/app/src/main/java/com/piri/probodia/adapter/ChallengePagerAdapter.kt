@@ -9,7 +9,7 @@ import com.piri.probodia.view.fragment.challenge.ChallengeParticipatingFragment
 import com.piri.probodia.view.fragment.challenge.ChallengeViewFragment
 
 class ChallengePagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
-    val challengeViewFragment = ChallengeViewFragment()
+    val challengeViewFragment = ChallengeViewFragment(::refreshFragment)
     val challengeParticipatingFragment = ChallengeParticipatingFragment()
     val challengeHistoryFragment = ChallengeHistoryFragment()
 
@@ -31,5 +31,10 @@ class ChallengePagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStat
             2 -> "내 기록"
             else -> "구경하기"
         }
+    }
+
+    fun refreshFragment() {
+        challengeViewFragment.getChallengeList()
+        challengeParticipatingFragment.getParticipatingChallengeList()
     }
 }
