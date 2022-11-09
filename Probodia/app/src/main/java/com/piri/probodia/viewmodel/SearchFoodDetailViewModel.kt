@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.piri.probodia.data.remote.body.FoodGLBody
 import com.piri.probodia.data.remote.model.FoodDetailDto
-import com.piri.probodia.data.remote.model.GLDto
+import com.piri.probodia.data.remote.model.OneGLDto
 import com.piri.probodia.repository.AIGlucoseServerRepository
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.repository.ServerFoodRepository
@@ -27,8 +28,8 @@ class SearchFoodDetailViewModel : BaseViewModel() {
     val foodQuantityText : LiveData<String>
         get() = _foodQuantityText
 
-    private val _foodGL = MutableLiveData<GLDto>()
-    val foodGL : LiveData<GLDto>
+    private val _foodGL = MutableLiveData<OneGLDto>()
+    val foodGL : LiveData<OneGLDto>
         get()=  _foodGL
 
     private val _isGLError = SingleLiveEvent<Boolean>()
@@ -46,8 +47,8 @@ class SearchFoodDetailViewModel : BaseViewModel() {
         _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
     }
 
-    fun getFoodGL(preferenceRepository : PreferenceRepository, foodDetailBody : FoodDetailDto) = viewModelScope.launch(coroutineGLExceptionHandler) {
+    fun getFoodGL(preferenceRepository : PreferenceRepository, foodGLBody : FoodGLBody) = viewModelScope.launch(coroutineGLExceptionHandler) {
         val apiToken = preferenceRepository.getApiToken().apiAccessToken
-        _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodDetailBody)
+        _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
     }
 }

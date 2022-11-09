@@ -19,6 +19,7 @@ import com.piri.probodia.databinding.FragmentSearchFoodDetailBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.viewmodel.SearchFoodDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.piri.probodia.data.remote.body.FoodGLBody
 import kotlin.math.roundToInt
 
 class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyItem : (item : PostMealBody.PostMealItem) -> Unit) : BaseBottomSheetDialogFragment() {
@@ -57,11 +58,27 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             binding.foodInfoRv.adapter = listAdapter
             binding.foodInfoRv.layoutManager = LinearLayoutManager(requireContext())
 
-            viewModel.getFoodGL(PreferenceRepository(requireContext()), it)
+            viewModel.getFoodGL(PreferenceRepository(requireContext()), FoodGLBody(
+                foodId,
+                it.bigCategory,
+                it.smallCategory,
+                it.name,
+                it.quantityByOne,
+                it.quantityByOneUnit,
+                it.calories,
+                it.carbohydrate,
+                it.sugars,
+                it.protein,
+                it.fat,
+                it.transFat,
+                it.saturatedFat,
+                it.cholesterol,
+                it.salt
+            ))
         })
 
         viewModel.foodGL.observe(this) {
-            binding.glucoseText.text = when(it.healthGL) {
+            binding.glucoseText.text = when(it.main.healthGL) {
                 "high" -> "조금만 더 열심히 관리해보아요"
                 "mid" -> "잘하고있어요"
                 "low" -> "와우! 최고의 식단인걸요"
@@ -69,7 +86,7 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             }
 
             binding.glucoseIcon.setImageResource(
-                when (it.healthGL) {
+                when (it.main.healthGL) {
                     "high" -> R.drawable.sad
                     "mid" -> R.drawable.soso
                     "low" -> R.drawable.smile
