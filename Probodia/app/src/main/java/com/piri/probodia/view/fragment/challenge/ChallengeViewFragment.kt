@@ -63,7 +63,7 @@ class ChallengeViewFragment(val refreshFragment : () -> Unit) : Fragment() {
             val resultIntent = result.data
             if (resultIntent != null) {
                 if (result.resultCode == R.integer.challenge_participant_code) {
-                    refreshFragment
+                    refreshFragment()
                 }
             }
         }

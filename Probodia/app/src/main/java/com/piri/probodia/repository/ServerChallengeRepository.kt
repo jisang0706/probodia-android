@@ -10,6 +10,9 @@ class ServerChallengeRepository {
     suspend fun getChallengeList (apiToken : String)
         = client.getChallengeList("Bearer $apiToken")
 
+    suspend fun participateChallenge(apiToken : String, challengeId : Int)
+        = client.participateChallenge("Bearer $apiToken", challengeId)
+
     suspend fun getParticipatedChallenge(apiToken : String)
         = client.getParticipatedChallenge("Bearer $apiToken")
 }
