@@ -2,12 +2,14 @@ package com.piri.probodia.view.fragment
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -93,6 +95,8 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                     else -> R.drawable.smile
                 }
             )
+
+            viewModel.getFoodGLInfo(PreferenceRepository(requireContext()), it.foodBig.foodId, it.foodSmall.foodId)
         }
 
         binding.quantityEdit.addTextChangedListener { edittext ->
@@ -109,6 +113,20 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 )
                 binding.quantityEdit.setSelection(binding.quantityEdit.text.length)
             }
+        }
+
+        binding.quantityText.setOnClickListener {
+            val drawable : Drawable?
+            if (binding.foodInfoRv.visibility == View.GONE) {
+                binding.foodInfoRv.visibility = View.VISIBLE
+                binding.foodGlLayout.visibility = View.GONE
+                drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_uparrow)
+            } else {
+                binding.foodInfoRv.visibility = View.GONE
+                binding.foodGlLayout.visibility = View.VISIBLE
+                drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_downarrow)
+            }
+            binding.quantityText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
         }
 
         binding.enterBtn.setOnClickListener {
@@ -133,6 +151,22 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 applyItem(postMealItem)
             }
             parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+        binding.foodBig.setOnClickListener {
+            val fragment = FoodGLFragment(
+                viewModel.foodGL.value!!.foodBig.foodId,
+                viewModel.foodBigInfo.value!!
+            )
+            fragment.show(childFragmentManager, fragment.tag)
+        }
+
+        binding.foodSmall.setOnClickListener {
+            val fragment = FoodGLFragment(
+                viewModel.foodGL.value!!.foodSmall.foodId,
+                viewModel.foodSmallInfo.value!!
+            )
+            fragment.show(childFragmentManager, fragment.tag)
         }
 
         viewModel.isGLError.observe(viewLifecycleOwner) {

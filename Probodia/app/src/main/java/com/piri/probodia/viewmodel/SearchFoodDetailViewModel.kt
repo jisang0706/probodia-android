@@ -36,6 +36,14 @@ class SearchFoodDetailViewModel : BaseViewModel() {
     val isGLError : LiveData<Boolean>
         get() = _isGLError
 
+    private val _foodBigInfo = MutableLiveData<FoodDetailDto>()
+    val foodBigInfo : LiveData<FoodDetailDto>
+        get() = _foodBigInfo
+
+    private val _foodSmallInfo = MutableLiveData<FoodDetailDto>()
+    val foodSmallInfo : LiveData<FoodDetailDto>
+        get() = _foodSmallInfo
+
     val coroutineGLExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
         _isGLError.call()
@@ -50,5 +58,30 @@ class SearchFoodDetailViewModel : BaseViewModel() {
     fun getFoodGL(preferenceRepository : PreferenceRepository, foodGLBody : FoodGLBody) = viewModelScope.launch(coroutineGLExceptionHandler) {
         val apiToken = preferenceRepository.getApiToken().apiAccessToken
         _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
+    }
+
+    fun getFoodGLInfo(preferenceRepository : PreferenceRepository, foodBigId : String, foodSmallId : String) = viewModelScope.launch(coroutineGLExceptionHandler) {
+        var apiToken : String
+        try {
+            apiToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodBigInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodBigId)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            apiToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodBigInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodBigId)
+        }
+
+        try {
+            _foodSmallInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodSmallId)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            apiToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodSmallInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodSmallId)
+        }
+    }
+
+    fun setFoodInfo(foodDetailDto: FoodDetailDto) {
+        _foodInfo.value = foodDetailDto
+        _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
     }
 }
