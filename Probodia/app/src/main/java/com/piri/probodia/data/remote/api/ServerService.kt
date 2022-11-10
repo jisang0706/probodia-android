@@ -22,6 +22,12 @@ interface ServerService {
         @Header("RefreshToken") refreshToken : String
     ) : String
 
+    @GET("api/version/{userVersion}")
+    suspend fun getVersionRunnable(
+        @Header("Authorization") token : String,
+        @Path("userVersion") version : Int
+    ) : Boolean
+
     @POST("api/record/sugar")
     suspend fun postGlucose(
         @Header("Authorization") token : String,

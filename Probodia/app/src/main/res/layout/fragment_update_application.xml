@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.fragment.ServerConnectFailFragment"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/white_pure_2_background">
+
+        <TextView
+            android:id="@+id/title_first_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최신버전 앱으로 업데이트를 위해"
+            android:textSize="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/title_second_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스토어로 이동합니다."
+            android:textSize="16dp"
+            android:layout_below="@id/title_first_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"/>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_100_2_background"
+            android:layout_below="@id/title_second_text"
+            android:layout_margin="24dp"/>
+    </RelativeLayout>
+</layout>

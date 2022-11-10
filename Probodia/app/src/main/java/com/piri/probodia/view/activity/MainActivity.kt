@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.piri.probodia.R
 import com.piri.probodia.adapter.MainPagerAdapter
 import com.piri.probodia.databinding.ActivityMainBinding
+import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.view.fragment.SearchFoodDetailFragment
 import com.piri.probodia.view.fragment.SearchFoodFragment
+import com.piri.probodia.view.fragment.UpdateApplicationFragment
 import com.piri.probodia.viewmodel.MainViewModel
 import com.piri.probodia.widget.utils.BottomSearchFood
 
@@ -28,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
+
+        viewModel.getVersionRunnable(PreferenceRepository(applicationContext))
+        viewModel.versionRunnable.observe(this) {
+            if (it) {
+                binding.runnableLayout.visibility = View.GONE
+            } else {
+                popUpUpdateApplication()
+            }
+        }
 
         binding.mainViewpager.isUserInputEnabled = false
 
@@ -77,5 +88,10 @@ class MainActivity : AppCompatActivity() {
     private fun _initMainViewPager() {
         BottomSearchFood.setBottomPadding(binding.foodSearchLayout.height)
         binding.mainViewpager.adapter = MainPagerAdapter(supportFragmentManager, lifecycle)
+    }
+
+    private fun popUpUpdateApplication() {
+        val fragment = UpdateApplicationFragment()
+        fragment.show(supportFragmentManager, fragment.tag)
     }
 }

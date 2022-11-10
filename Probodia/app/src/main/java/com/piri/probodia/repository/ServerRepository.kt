@@ -18,6 +18,9 @@ class ServerRepository {
     suspend fun refreshApiToken(apiToken : String, refreshApiToken : String) =
         client.refreshApiToken("Bearer $apiToken", refreshApiToken)
 
+    suspend fun getVersionRunnable(apiToken : String, version : Int) =
+        client.getVersionRunnable("Bearer $apiToken", version)
+
     suspend fun postGlucose(apiToken : String, timeTag : String, glucose : Int, recordDate : String)
         = client.postGlucose("Bearer $apiToken", PostGlucoseBody(timeTag, glucose, recordDate))
 
