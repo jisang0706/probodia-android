@@ -1,15 +1,18 @@
 package com.piri.probodia.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.piri.probodia.R
 import com.piri.probodia.data.remote.body.FoodGLBody
 import com.piri.probodia.data.remote.model.FoodDetailDto
 import com.piri.probodia.data.remote.model.OneGLDto
 import com.piri.probodia.repository.AIGlucoseServerRepository
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.repository.ServerFoodRepository
+import com.piri.probodia.widget.utils.HttpErrorCode
 import com.piri.probodia.widget.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -44,7 +47,7 @@ class SearchFoodDetailViewModel : BaseViewModel() {
     val foodSmallInfo : LiveData<FoodDetailDto>
         get() = _foodSmallInfo
 
-    val coroutineGLExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val coroutineGLExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
         _isGLError.call()
     }
@@ -60,23 +63,36 @@ class SearchFoodDetailViewModel : BaseViewModel() {
         _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
     }
 
-    fun getFoodGLInfo(preferenceRepository : PreferenceRepository, foodBigId : String, foodSmallId : String) = viewModelScope.launch(coroutineGLExceptionHandler) {
+    fun getFoodGLInfo(preferenceRepository : PreferenceRepository, foodBigId : String, foodSmallId : String) = viewModelScope.launch(coroutineExceptionHandler) {
         var apiToken : String
         try {
             apiToken = preferenceRepository.getApiToken().apiAccessToken
             _foodBigInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodBigId)
         } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
-            apiToken = preferenceRepository.getApiToken().apiAccessToken
-            _foodBigInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodBigId)
+            if (e.message == HttpErrorCode.error500) {
+                _foodBigInfo.value = FoodDetailDto("", "", "", 0, "", 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+                )
+            } else {
+                refreshApiToken(preferenceRepository)
+                apiToken = preferenceRepository.getApiToken().apiAccessToken
+                _foodBigInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodBigId)
+            }
         }
 
         try {
-            _foodSmallInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodSmallId)
-        } catch (e : Exception) {
-            refreshApiToken(preferenceRepository)
             apiToken = preferenceRepository.getApiToken().apiAccessToken
             _foodSmallInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodSmallId)
+        } catch (e : Exception) {
+            if (e.message == HttpErrorCode.error500) {
+                _foodSmallInfo.value = FoodDetailDto("", "", "", 0, "", 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+                )
+            } else {
+                refreshApiToken(preferenceRepository)
+                apiToken = preferenceRepository.getApiToken().apiAccessToken
+                _foodSmallInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodSmallId)
+            }
         }
     }
 

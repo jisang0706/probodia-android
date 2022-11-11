@@ -80,6 +80,7 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
         })
 
         viewModel.foodGL.observe(this) {
+            Log.e("FOODDETAIL", it.toString())
             binding.glucoseText.text = when(it.main.healthGL) {
                 "high" -> "조금만 더 열심히 관리해보아요"
                 "mid" -> "잘하고있어요"
@@ -151,6 +152,24 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 applyItem(postMealItem)
             }
             parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+        viewModel.foodBigInfo.observe(viewLifecycleOwner) {
+            if (it.name.isEmpty()) {
+                binding.foodBig.visibility = View.GONE
+                if (binding.foodSmall.visibility == View.GONE) {
+                    binding.foodGlLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        viewModel.foodSmallInfo.observe(viewLifecycleOwner) {
+            if (it.name.isEmpty()) {
+                binding.foodSmall.visibility = View.GONE
+                if (binding.foodBig.visibility == View.GONE) {
+                    binding.foodGlLayout.visibility = View.GONE
+                }
+            }
         }
 
         binding.foodBig.setOnClickListener {
