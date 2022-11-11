@@ -22,7 +22,7 @@ import com.piri.probodia.widget.utils.BottomSearchFood
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecordTodayFragment(val record : (sortation : SortationDto, kind : Int) -> Unit) : Fragment() {
+class RecordTodayFragment @JvmOverloads constructor(val record : (sortation : SortationDto, kind : Int) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentRecordTodayBinding
     private lateinit var viewModel : RecordHistoryViewModel
