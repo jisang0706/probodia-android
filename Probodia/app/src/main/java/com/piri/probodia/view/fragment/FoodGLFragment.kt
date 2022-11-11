@@ -63,6 +63,9 @@ class FoodGLFragment(val foodId : String, val data : FoodDetailDto) : BaseBottom
                 it.cholesterol,
                 it.salt
             ))
+
+            binding.quantityText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            binding.foodInfoRv.visibility = View.VISIBLE
         }
 
         viewModel.foodGL.observe(this) {
