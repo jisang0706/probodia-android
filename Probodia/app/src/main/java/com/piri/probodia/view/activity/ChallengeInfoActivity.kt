@@ -35,10 +35,6 @@ class ChallengeInfoActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ChallengeInfoViewModel::class.java)
         binding.vm = viewModel
 
-        if (!intent.getBooleanExtra("VIEW", false)) {
-            binding.enterBtn.text = "확인"
-        }
-
         viewModel.setData(intent.getParcelableExtra("DATA")!!)
 
         setEnterBtnPosition()
@@ -58,13 +54,9 @@ class ChallengeInfoActivity : AppCompatActivity() {
         }
 
         binding.enterBtn.setOnClickListener {
-            if (binding.enterBtn.text == "참가하기") {
-                val intent = Intent(applicationContext, ChallengeParticipateActivity::class.java)
-                intent.putExtra("DATA", viewModel.data.value)
-                activityResultLauncher.launch(intent)
-            } else {
-                finish()
-            }
+            val intent = Intent(applicationContext, ChallengeParticipateActivity::class.java)
+            intent.putExtra("DATA", viewModel.data.value)
+            activityResultLauncher.launch(intent)
         }
 
         activityResultLauncher = registerForActivityResult(

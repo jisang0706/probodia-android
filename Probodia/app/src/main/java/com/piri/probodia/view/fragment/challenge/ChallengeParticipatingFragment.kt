@@ -13,6 +13,7 @@ import com.piri.probodia.adapter.ChallengeParticipatingAdapter
 import com.piri.probodia.databinding.FragmentChallengeParticipatingBinding
 import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.view.activity.ChallengeInfoActivity
+import com.piri.probodia.view.activity.ChallengeRecordInfoActivity
 import com.piri.probodia.viewmodel.ChallengeParticipatingViewModel
 
 class ChallengeParticipatingFragment() : Fragment() {
@@ -38,8 +39,7 @@ class ChallengeParticipatingFragment() : Fragment() {
 
         challengeParticipatingAdapter.setOnItemClickListener(object : ChallengeParticipatingAdapter.OnItemClickListener {
             override fun onItemClick(position : Int) {
-                val intent = Intent(requireContext(), ChallengeInfoActivity::class.java)
-                intent.putExtra("VIEW", false)
+                val intent = Intent(requireContext(), ChallengeRecordInfoActivity::class.java)
                 intent.putExtra("DATA", challengeParticipatingAdapter.getData(position))
                 startActivity(intent)
             }

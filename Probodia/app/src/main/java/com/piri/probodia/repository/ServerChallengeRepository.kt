@@ -15,4 +15,7 @@ class ServerChallengeRepository {
 
     suspend fun getParticipatedChallenge(apiToken : String)
         = client.getParticipatedChallenge("Bearer $apiToken")
+
+    suspend fun getChallengeRecord(apiToken : String, challengeId : Int)
+        = client.getChallengeRecord("Bearer $apiToken", challengeId)
 }

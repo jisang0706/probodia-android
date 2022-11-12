@@ -10,4 +10,8 @@
     <string name="challenge_date_text">%1$d년 %2$d월 %3$d일 ~ %4$d월 %5$d일</string>
 
     <string name="challenge_point">%d Point</string>
+
+    <string name="challenge_degree">달성도 : %d%%</string>
+    <string name="challenge_info_point">상금 : %d Point</string>
+    <string name="challenge_state">상태 : %s</string>
 </resources>

@@ -2,6 +2,7 @@ package com.piri.probodia.data.remote.api
 
 import com.piri.probodia.data.remote.model.ChallengeDto
 import com.piri.probodia.data.remote.model.ChallengeParticipateDto
+import com.piri.probodia.data.remote.model.ChallengeRecordDto
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -24,4 +25,10 @@ interface ServerChallengeService {
     suspend fun getParticipatedChallenge(
         @Header("Authorization") token : String
     ) : MutableList<ChallengeDto>
+
+    @GET("api/challenge/participant/getAllActivity/{challengeId}")
+    suspend fun getChallengeRecord(
+        @Header("Authorization") token : String,
+        @Path("challengeId") challengeId : Int
+    ) : MutableList<ChallengeRecordDto>
 }
