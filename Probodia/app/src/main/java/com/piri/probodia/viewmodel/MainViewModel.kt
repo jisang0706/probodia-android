@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.piri.probodia.BuildConfig
 import com.piri.probodia.repository.PreferenceRepository
+import com.piri.probodia.widget.utils.Version
 import kotlinx.coroutines.launch
 
 class MainViewModel : BaseViewModel() {
@@ -16,11 +17,11 @@ class MainViewModel : BaseViewModel() {
     fun getVersionRunnable(preferenceRepo : PreferenceRepository) = viewModelScope.launch(coroutineExceptionHandler) {
         try {
             val accessToken = preferenceRepo.getApiToken().apiAccessToken
-            _versionRunnable.value = serverRepository.getVersionRunnable(accessToken, BuildConfig.VERSION_CODE)
+            _versionRunnable.value = serverRepository.getVersionRunnable(accessToken, Version.versionCode)
         } catch (e : Exception) {
             refreshApiToken(preferenceRepo)
             val accessToken = preferenceRepo.getApiToken().apiAccessToken
-            _versionRunnable.value = serverRepository.getVersionRunnable(accessToken, BuildConfig.VERSION_CODE)
+            _versionRunnable.value = serverRepository.getVersionRunnable(accessToken, Version.versionCode)
         }
     }
 }

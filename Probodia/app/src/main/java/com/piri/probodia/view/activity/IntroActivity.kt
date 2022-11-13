@@ -83,7 +83,6 @@ class IntroActivity : AppCompatActivity() {
         }
 
         viewModel.join.observe(this) {
-            Log.e("INTRO", viewModel.kakaoUserId.value.toString())
             if (it) {
                 viewModel.putUserData(
                     PreferenceRepository(applicationContext),

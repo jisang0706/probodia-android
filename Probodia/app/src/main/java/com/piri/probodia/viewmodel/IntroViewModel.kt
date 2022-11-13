@@ -78,11 +78,9 @@ class IntroViewModel : BaseViewModel() {
     fun apiLogin() = viewModelScope.launch(coroutineExceptionHandler) {
         if (getUserJoined()) {
             _apiToken.value = getApiToken()
-            Log.e("ACCESSTOKEN", _apiToken.value.toString())
             _join.value = false
         } else {
             _apiToken.value = getApiToken()
-            Log.e("ACCESSTOKEN", _apiToken.value.toString())
             _join.value = true
         }
     }
