@@ -24,8 +24,8 @@ object SSLUtil {
     fun generateSecureOkHttpClient(context : Context, kind : Int) : OkHttpClient {
 
         var httpClientBuilder = OkHttpClient.Builder()
-            .readTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(20, TimeUnit.SECONDS)
 
         val cf = CertificateFactory.getInstance("X.509")
         val caInput : InputStream = if (kind == 1) {

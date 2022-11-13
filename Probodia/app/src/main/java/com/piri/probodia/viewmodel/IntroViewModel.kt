@@ -10,6 +10,8 @@ import com.piri.probodia.widget.utils.SingleLiveEvent
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.piri.probodia.data.remote.body.PutUserData
+import com.piri.probodia.data.remote.model.UserDto
 import kotlinx.coroutines.launch
 
 class IntroViewModel : BaseViewModel() {
@@ -37,6 +39,10 @@ class IntroViewModel : BaseViewModel() {
     private var _apiToken = MutableLiveData<ApiToken>()
     val apiToken : LiveData<ApiToken>
         get() = _apiToken
+
+    private val _joinResult = MutableLiveData<UserDto>()
+    val joinResult : LiveData<UserDto>
+        get() = _joinResult
 
     fun autoLogin() {
         if (AuthApiClient.instance.hasToken()) {
@@ -75,6 +81,8 @@ class IntroViewModel : BaseViewModel() {
             Log.e("ACCESSTOKEN", _apiToken.value.toString())
             _join.value = false
         } else {
+            _apiToken.value = getApiToken()
+            Log.e("ACCESSTOKEN", _apiToken.value.toString())
             _join.value = true
         }
     }
@@ -87,5 +95,20 @@ class IntroViewModel : BaseViewModel() {
 
     fun saveApiToken(preferenceRepository : PreferenceRepository, apiToken: ApiToken) = viewModelScope.launch {
         preferenceRepository.saveApiToken(apiToken)
+    }
+
+    fun putUserData(preferenceRepository : PreferenceRepository, userId : String, age : Int, gender : String, height : Int, weight : Int, diabete : String) = viewModelScope.launch(coroutineExceptionHandler) {
+        try {
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            val userData = PutUserData(
+                userId, height, weight, gender, diabete, age)
+            _joinResult.value = serverRepository.putUserData(accessToken, userData)
+        } catch (e : Exception) {
+            refreshApiToken(preferenceRepository)
+            val accessToken = preferenceRepository.getApiToken().apiAccessToken
+            _joinResult.value = serverRepository.putUserData(accessToken, PutUserData(
+                userId, height, weight, gender, diabete, age
+            ))
+        }
     }
 }

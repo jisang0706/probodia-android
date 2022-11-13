@@ -83,11 +83,24 @@ class IntroActivity : AppCompatActivity() {
         }
 
         viewModel.join.observe(this) {
+            Log.e("INTRO", viewModel.kakaoUserId.value.toString())
             if (it) {
-                goJoin()
+                viewModel.putUserData(
+                    PreferenceRepository(applicationContext),
+                    viewModel.kakaoUserId.value.toString(),
+                    0,
+                    "여성",
+                    0,
+                    0,
+                    "2형 당뇨"
+                )
             } else {
                 goMain()
             }
+        }
+
+        viewModel.joinResult.observe(this) {
+            goMain()
         }
 
         viewModel.isError.observe(this) {
