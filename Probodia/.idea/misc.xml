@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/drawable/ic_homeselected.xml" value="0.2296875" />
         <entry key="app/src/main/res/drawable/ic_leftarrow.xml" value="0.1787037037037037" />
         <entry key="app/src/main/res/drawable/ic_leftgray.xml" value="0.34629629629629627" />
+        <entry key="app/src/main/res/drawable/ic_making.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/drawable/ic_meal.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.20092592592592592" />
@@ -75,7 +76,7 @@
         <entry key="app/src/main/res/layout/fragment_analysis_range.xml" value="0.2596685082872928" />
         <entry key="app/src/main/res/layout/fragment_analysis_recorded.xml" value="0.18611111111111112" />
         <entry key="app/src/main/res/layout/fragment_analysis_recorded_range.xml" value="0.18611111111111112" />
-        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_date_picker_dialog.xml" value="0.33194444444444443" />
         <entry key="app/src/main/res/layout/fragment_etc.xml" value="0.2955801104972376" />
