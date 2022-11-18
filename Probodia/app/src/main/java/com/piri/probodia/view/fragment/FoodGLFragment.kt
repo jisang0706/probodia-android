@@ -36,6 +36,9 @@ class FoodGLFragment(val foodId : String, val data : FoodDetailDto) : BaseBottom
 
         binding.enterBtn.text = "닫기"
         binding.foodGlLayout.visibility = View.GONE
+        binding.quantityTitle.visibility = View.GONE
+        binding.quantityLayout.visibility = View.GONE
+        binding.quantityBottomLine.visibility = View.GONE
 
         viewModel.setFoodInfo(data)
 
