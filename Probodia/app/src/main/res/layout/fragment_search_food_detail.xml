@@ -87,6 +87,7 @@
                     android:minWidth="0dp"
                     android:paddingHorizontal="10dp"
                     android:text="인분"
+                    android:drawableRight="@drawable/ic_refresh"
                     style="?attr/borderlessButtonStyle"/>
             </LinearLayout>
 

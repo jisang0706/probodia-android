@@ -111,9 +111,18 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             if (edittext!!.isNotEmpty() && "${binding.quantityEdit.text!!}".last() != '.') {
                 getFoodGL(
                     viewModel.foodInfo.value!!,
-                    ("${binding.quantityEdit.text!!}".toDouble() *
-                            viewModel.foodInfo.value!!.quantityByOne).toInt()
+                    getQuantity()
                 )
+            }
+        }
+
+        binding.quantityBtn.setOnClickListener {
+            if (binding.quantityBtn.text == "인분") {
+                binding.quantityBtn.setText("g")
+                binding.quantityEdit.setText(("${binding.quantityEdit.text}".toDouble() * viewModel.foodInfo.value!!.quantityByOne).toInt().toString())
+            } else {
+                binding.quantityBtn.text = "인분"
+                binding.quantityEdit.setText(("${binding.quantityEdit.text}".toDouble() / viewModel.foodInfo.value!!.quantityByOne).toString().substring(0, 4))
             }
         }
 
@@ -133,7 +142,10 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
 
         binding.enterBtn.setOnClickListener {
             if (kind == R.integer.record) {
-                if ("${binding.quantityEdit.text}" == "") binding.quantityEdit.setText("1")
+                if ("${binding.quantityEdit.text}" == "") {
+                    binding.quantityEdit.setText("1")
+                    binding.quantityBtn.text = "인분"
+                }
                 if ("${binding.quantityEdit.text}"[binding.quantityEdit.text.length - 1] == '.') {
                     binding.quantityEdit.setText(
                         "${binding.quantityEdit.text}".substring(
@@ -145,7 +157,7 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 val postMealItem = PostMealBody.PostMealItem(
                     viewModel.foodInfo.value!!.name,
                     foodId,
-                    viewModel.foodInfo.value!!.quantityByOne * "${binding.quantityEdit.text}".toDouble(),
+                    getQuantity().toDouble(),
                     viewModel.foodInfo.value!!.calories.roundToInt(),
                     0,
                     ""
@@ -239,5 +251,14 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             item.cholesterol * ratio,
             item.salt * ratio
         ))
+    }
+
+    fun getQuantity() : Int {
+        return if (binding.quantityBtn.text == "인분") {
+            ("${binding.quantityEdit.text!!}".toDouble() *
+                    viewModel.foodInfo.value!!.quantityByOne).toInt()
+        } else {
+            "${binding.quantityEdit.text!!}".toDouble().roundToInt()
+        }
     }
 }
