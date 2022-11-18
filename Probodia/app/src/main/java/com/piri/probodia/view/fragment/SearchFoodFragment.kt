@@ -1,20 +1,15 @@
 package com.piri.probodia.view.fragment
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +25,10 @@ import com.piri.probodia.viewmodel.SearchFoodViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
+import com.piri.probodia.data.db.FoodDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.PostMealItem) -> Unit = {}, val foodName : String = "") : BaseBottomSheetDialogFragment() {
@@ -61,6 +60,8 @@ class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.Post
         if (foodName != "") {
             binding.foodEdittext.setText(foodName, TextView.BufferType.EDITABLE)
             viewModel.getFood(true, PreferenceRepository(requireContext()), binding.foodEdittext.text.toString(), 1)
+        } else {
+            viewModel.getFoodDb(FoodDatabase.getDatabase(requireContext()))
         }
 
         binding.foodEdittext.addTextChangedListener(object : TextWatcher {
@@ -76,6 +77,9 @@ class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.Post
                 val name = "${binding.foodEdittext.text}"
                 if (name.isNotEmpty() && Pattern.matches("^[a-zA-Z0-9가-힣]+$", name)) {
                     viewModel.setFoodName(name)
+                }
+                else if (name.isEmpty()) {
+                    viewModel.getFoodDb(FoodDatabase.getDatabase(requireContext()))
                 }
             }
         })
@@ -97,7 +101,7 @@ class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.Post
                 listAdapter.notifyDataSetChanged()
             }
 
-            if (it.second.data != null && it.second.data.isNotEmpty()) {
+            if (it.second.data != null && it.second.data.isNotEmpty() && binding.foodEdittext.text.isNotEmpty()) {
                 listAdapter.addDataSet(it.second.data as MutableList<ApiItemName>)
                 listAdapter.notifyDataSetChanged()
             }
@@ -107,6 +111,7 @@ class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.Post
             override fun onItemClick(v: View, position: Int) {
                 val item = listAdapter.dataSet[position] as FoodDto.FoodItem
                 if (item != null) {
+                    viewModel.saveFoodDb(FoodDatabase.getDatabase(requireContext()), item)
                     val fragment = SearchFoodDetailFragment(kind, item.foodId, ::applyItem)
                     fragment.show(childFragmentManager, fragment.tag)
                 } else {
@@ -150,6 +155,28 @@ class SearchFoodFragment(val kind : Int, val addItem : (item : PostMealBody.Post
 
         binding.cancelBtn.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+        viewModel.foodDbResult.observe(viewLifecycleOwner) { entityList ->
+            Log.e("FOOD", entityList.toString())
+            CoroutineScope(Dispatchers.Main).launch {
+                val foodList = buildList<FoodDto.FoodItem> {
+                    for (item in entityList) {
+                        add(FoodDto.FoodItem(
+                            item.foodName,
+                            item.foodId
+                        ))
+                    }
+                }
+
+                listAdapter.resetDataSet()
+                listAdapter.notifyDataSetChanged()
+
+                if (foodList != null && foodList.isNotEmpty()) {
+                    listAdapter.addDataSet(foodList as MutableList<ApiItemName>)
+                    listAdapter.notifyDataSetChanged()
+                }
+            }
         }
 
         return binding.root
