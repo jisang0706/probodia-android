@@ -32,6 +32,8 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
 
     private lateinit var listAdapter : FoodInfoAdapter
 
+    private var first = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -60,23 +62,7 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             binding.foodInfoRv.adapter = listAdapter
             binding.foodInfoRv.layoutManager = LinearLayoutManager(requireContext())
 
-            viewModel.getFoodGL(PreferenceRepository(requireContext()), FoodGLBody(
-                foodId,
-                it.bigCategory,
-                it.smallCategory,
-                it.name,
-                it.quantityByOne,
-                it.quantityByOneUnit,
-                it.calories,
-                it.carbohydrate,
-                it.sugars,
-                it.protein,
-                it.fat,
-                it.transFat,
-                it.saturatedFat,
-                it.cholesterol,
-                it.salt
-            ))
+            getFoodGL(it, it.quantityByOne)
         })
 
         viewModel.foodGL.observe(this) {
@@ -97,7 +83,14 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 }
             )
 
-            viewModel.getFoodGLInfo(PreferenceRepository(requireContext()), it.foodBig.foodId, it.foodSmall.foodId)
+            if (first) {
+                first = false
+                viewModel.getFoodGLInfo(
+                    PreferenceRepository(requireContext()),
+                    it.foodBig.foodId,
+                    it.foodSmall.foodId
+                )
+            }
         }
 
         binding.quantityEdit.addTextChangedListener { edittext ->
@@ -113,6 +106,14 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                             "${binding.quantityEdit.text}".substring(ind + 1, binding.quantityEdit.text.length)
                 )
                 binding.quantityEdit.setSelection(binding.quantityEdit.text.length)
+            }
+
+            if (edittext!!.isNotEmpty() && "${binding.quantityEdit.text!!}".last() != '.') {
+                getFoodGL(
+                    viewModel.foodInfo.value!!,
+                    ("${binding.quantityEdit.text!!}".toDouble() *
+                            viewModel.foodInfo.value!!.quantityByOne).toInt()
+                )
             }
         }
 
@@ -217,5 +218,26 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
             Pair("콜레스테롤", item.cholesterol),
             Pair("나트륨", item.salt)
         )
+    }
+
+    fun getFoodGL(item : FoodDetailDto, quantity : Int) {
+        val ratio = quantity / item.quantityByOne
+        viewModel.getFoodGL(PreferenceRepository(requireContext()), FoodGLBody(
+            foodId,
+            item.bigCategory,
+            item.smallCategory,
+            item.name,
+            quantity,
+            item.quantityByOneUnit,
+            item.calories * ratio,
+            item.carbohydrate * ratio,
+            item.sugars * ratio,
+            item.protein * ratio,
+            item.fat * ratio,
+            item.transFat * ratio,
+            item.saturatedFat * ratio,
+            item.cholesterol * ratio,
+            item.salt * ratio
+        ))
     }
 }
