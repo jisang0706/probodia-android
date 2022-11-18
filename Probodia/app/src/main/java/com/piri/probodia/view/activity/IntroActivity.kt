@@ -88,7 +88,7 @@ class IntroActivity : AppCompatActivity() {
                     PreferenceRepository(applicationContext),
                     viewModel.kakaoUserId.value.toString(),
                     0,
-                    "여성",
+                    "W",
                     0,
                     0,
                     "2형 당뇨"
