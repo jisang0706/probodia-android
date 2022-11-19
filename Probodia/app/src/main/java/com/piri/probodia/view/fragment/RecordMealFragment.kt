@@ -41,6 +41,7 @@ import com.piri.probodia.viewmodel.RecordAnythingViewModel
 import com.piri.probodia.viewmodel.RecordMealViewModel
 import com.piri.probodia.viewmodel.factory.RecordAnythingViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.piri.probodia.data.remote.body.FoodAllGLBody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,6 +96,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
                 listAdapter.deleteItem(position)
                 listAdapter.notifyDataSetChanged()
                 baseViewModel.setInputAll(listAdapter.itemCount > 0)
+                getFoodAllGL()
             }
 
             override fun onItemEditClick(position: Int) {
@@ -119,6 +121,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
             }
             listAdapter.notifyDataSetChanged()
             baseViewModel.setInputAll(listAdapter.itemCount > 0)
+            getFoodAllGL()
         }
 
         binding.searchBtn.setOnClickListener {
@@ -184,6 +187,25 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
             val fragment = RecognitionFoodFragment(::addMealItem, mealViewModel.foodImage.value, it.foodList)
             fragment.show(childFragmentManager, fragment.tag)
         })
+
+        mealViewModel.foodGL.observe(this) {
+            Log.e("GLUCOSE", it.foodGL.toString())
+            binding.glucoseText.text = when(it.healthGL) {
+                "high" -> "조금만 더 열심히 관리해보아요"
+                "mid" -> "잘하고있어요"
+                "low" -> "와우! 최고의 식단인걸요"
+                else -> "와우! 최고의 식단인걸요"
+            }
+
+            binding.glucoseIcon.setImageResource(
+                when(it.healthGL) {
+                    "high" -> R.drawable.sad
+                    "mid" -> R.drawable.soso
+                    "low" -> R.drawable.smile
+                    else -> R.drawable.smile
+                }
+            )
+        }
 
         binding.cancelBtn.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
@@ -330,6 +352,31 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
         meal.quantity = meal.quantity.roundToInt().toDouble()
         listAdapter.addItem(meal)
         listAdapter.notifyDataSetChanged()
+        getFoodAllGL()
         baseViewModel.setInputAll(listAdapter.itemCount > 0)
+    }
+
+    fun getFoodAllGL() {
+        if (listAdapter.itemCount > 0) {
+            binding.glucoseTopLayout.visibility = View.VISIBLE
+            binding.glucoseLayout.visibility = View.VISIBLE
+            val foodAllGLBody = FoodAllGLBody(
+                buildList {
+                    for (item in listAdapter.getList()) {
+                        add(
+                            FoodAllGLBody.FoodGL(
+                                item.foodId,
+                                item.quantity.roundToInt()
+                            )
+                        )
+                    }
+                }.toMutableList()
+            )
+
+            mealViewModel.getFoodGL(PreferenceRepository(requireContext()), foodAllGLBody)
+        } else {
+            binding.glucoseTopLayout.visibility = View.GONE
+            binding.glucoseLayout.visibility = View.GONE
+        }
     }
 }

@@ -113,6 +113,36 @@
                     android:drawableRight="@drawable/ic_rightarrow"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/glucose_top_layout"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                android:background="@color/gray_200"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/glucose_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/glucose_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp" />
+
+                <TextView
+                    android:id="@+id/glucose_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/food_add_rv"
                 android:layout_width="match_parent"
