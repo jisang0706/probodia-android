@@ -21,6 +21,7 @@ import com.piri.probodia.viewmodel.SearchFoodDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.piri.probodia.data.remote.body.FoodGLBody
 import com.piri.probodia.view.fragment.FoodGLFragment
+import java.lang.Integer.min
 import kotlin.math.roundToInt
 
 class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyItem : (item : PostMealBody.PostMealItem) -> Unit) : BaseBottomSheetDialogFragment() {
@@ -121,7 +122,13 @@ class SearchFoodDetailFragment(val kind : Int, val foodId : String, val applyIte
                 binding.quantityEdit.setText(("${binding.quantityEdit.text}".toDouble() * viewModel.foodInfo.value!!.quantityByOne).toInt().toString())
             } else {
                 binding.quantityBtn.text = "인분"
-                binding.quantityEdit.setText(("${binding.quantityEdit.text}".toDouble() / viewModel.foodInfo.value!!.quantityByOne).toString().substring(0, 4))
+                var personQuantity = ("${binding.quantityEdit.text}".toDouble() / viewModel.foodInfo.value!!.quantityByOne)
+                val personQuantityText = if ((personQuantity * 1000).toInt() == personQuantity.toInt() * 1000) {
+                    "${personQuantity.toInt()}"
+                } else {
+                    "$personQuantity"
+                }
+                binding.quantityEdit.setText(personQuantityText.substring(0, min(4, personQuantityText.length)))
             }
         }
 
