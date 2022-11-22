@@ -28,4 +28,6 @@
     <integer name="record_meal_add_code">10004</integer>
 
     <integer name="record_medicine_set_code">11003</integer>
+
+    <integer name="challenge_participant_code">20001</integer>
 </resources>

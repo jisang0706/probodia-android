@@ -15,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Probodia">
         <activity
+            android:name=".view.activity.ChallengeRecordInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.ChallengeParticipateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.ChallengeInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.ShowDoctorActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>

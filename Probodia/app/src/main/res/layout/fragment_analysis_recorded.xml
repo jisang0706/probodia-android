@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.AnalysisRecordedFragment">
+        tools:context=".view.fragment.record.analysis.AnalysisRecordedFragment">
 
         <TextView
             android:id="@+id/analysis_recorded_text"

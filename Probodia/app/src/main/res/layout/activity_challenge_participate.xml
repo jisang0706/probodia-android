@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.ChallengeParticipateViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.ChallengeParticipateActivity"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_leftarrow"
+            android:background="@android:color/transparent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:padding="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/challenge_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/challenge_image"
+            android:scaleType="centerCrop"
+            android:background="@drawable/white_pure_2_background"
+            android:layout_below="@id/cancel_btn"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="14dp"/>
+
+        <LinearLayout
+            android:id="@+id/challenge_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:maxLength="3"
+            android:layout_toRightOf="@id/challenge_image"
+            android:layout_alignTop="@id/challenge_image">
+
+            <TextView
+                android:id="@+id/challenge_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.data.name}"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/challenge_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.times)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"/>
+
+                <TextView
+                    android:id="@+id/challenge_until"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/challenge_until_text(vm.untilDate)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginLeft="8dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/challenge_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{@string/challenge_date_text(vm.date[0], vm.date[1], vm.date[2], vm.date[3], vm.date[4])}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line_1"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:orientation="horizontal"
+            android:background="@color/gray_200"
+            android:layout_below="@id/challenge_info_layout"
+            android:layout_marginVertical="24dp" />
+
+        <TextView
+            android:id="@+id/challenge_cnt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/line_1"
+            android:text="참가인원"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/challenge_cnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/challenge_cnt_title"
+            android:layout_alignParentLeft="true"
+            android:text="@{@string/challenge_cnt_text(vm.data.totalCnt)}"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp"/>
+
+        <LinearLayout
+            android:id="@+id/line_2"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:orientation="horizontal"
+            android:background="@color/gray_200"
+            android:layout_below="@id/challenge_cnt"
+            android:layout_marginVertical="24dp" />
+
+        <TextView
+            android:id="@+id/challenge_point_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/line_2"
+            android:text="적립 포인트"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/challenge_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/line_2"
+            android:text="@{@string/challenge_point(vm.data.earnPoint)}"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/primary_100_2_background"
+            android:text="참가하고 포인트받기"
+            android:textSize="16dp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+</layout>

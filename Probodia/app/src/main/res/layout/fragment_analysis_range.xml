@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.fragment.AnalysisGlucoseRangeFragment">
+        tools:context=".view.fragment.record.analysis.AnalysisGlucoseRangeFragment">
 
         <RelativeLayout
             android:id="@+id/title_text_layout"

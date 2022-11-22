@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/challenge_image"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/challenge_image"
+            android:scaleType="centerCrop"
+            android:background="@drawable/white_pure_2_background"/>
+
+        <TextView
+            android:id="@+id/challenge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/challenge_image"
+            android:layout_alignParentLeft="true"
+            android:text="혈당 꾸준히 기록하기"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/challenge_start_remain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/challenge_title"
+            android:text="5일 뒤 시작"
+            android:textSize="12dp"
+            android:background="@drawable/white_1_background"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginVertical="8dp"/>
+
+        <TextView
+            android:id="@+id/challenge_rule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/challenge_start_remain"
+            android:layout_below="@id/challenge_title"
+            android:text="주 1회 2번씩"
+            android:textSize="12dp"
+            android:background="@drawable/white_1_background"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginLeft="8dp"/>
+    </RelativeLayout>
+</layout>

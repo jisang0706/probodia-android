@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.piri.probodia.viewmodel.ChallengeInfoViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/challenge_info_base_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".view.activity.ChallengeInfoActivity"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/challenge_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/challenge_image"
+                    android:scaleType="centerCrop"/>
+
+                <ImageButton
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_leftarrow"
+                    android:background="@android:color/transparent"
+                    android:padding="20dp"/>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/challenge_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="@{vm.data.name}"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/challenge_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/challenge_title"
+                    android:text="@{@string/challenge_rule_text(vm.data.frequency.dateType, vm.data.frequency.period, vm.data.frequency.times)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/challenge_until"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_title"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/challenge_rule"
+                    android:background="@drawable/white_1_background"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:text="@{@string/challenge_until_text(vm.untilDate)}"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/challenge_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/challenge_until"
+                    android:layout_below="@id/challenge_title"
+                    android:text="@{@string/challenge_cnt_text(vm.data.totalCnt)}"
+                    android:textSize="12dp"
+                    android:background="@drawable/white_1_background"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray_200"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/challenge_date_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="챌린지 기간"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/challenge_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_date_title"
+                    android:layout_alignParentLeft="true"
+                    android:text="@{@string/challenge_date_text(vm.date[0], vm.date[1], vm.date[2], vm.date[3], vm.date[4])}"
+                    android:layout_marginTop="12dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray_200"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/challenge_caution_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="챌린지 진행시 알아야 할 사항"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/challenge_caution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_caution_title"
+                    android:layout_alignParentLeft="true"
+                    android:text="@{vm.cautionText}"
+                    android:layout_marginTop="12dp"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/primary_100_2_background"
+                android:text="참가하기"
+                android:textSize="16dp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>

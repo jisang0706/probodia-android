@@ -9,7 +9,7 @@
     </data>
 
     <LinearLayout
-        tools:context=".view.fragment.TimeSelectorFragment"
+        tools:context=".view.fragment.record.TimeSelectorFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

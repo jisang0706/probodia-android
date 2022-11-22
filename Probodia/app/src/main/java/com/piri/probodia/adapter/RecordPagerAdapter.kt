@@ -1,14 +1,13 @@
 package com.piri.probodia.adapter
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.piri.probodia.data.remote.model.SortationDto
-import com.piri.probodia.view.fragment.RecordAnalysisFragment
-import com.piri.probodia.view.fragment.RecordPastFragment
-import com.piri.probodia.view.fragment.RecordTodayFragment
+import com.piri.probodia.view.fragment.record.analysis.RecordAnalysisFragment
+import com.piri.probodia.view.fragment.record.RecordPastFragment
+import com.piri.probodia.view.fragment.record.RecordTodayFragment
 
 class RecordPagerAdapter(fm: FragmentManager, lc: Lifecycle, record : (sortation : SortationDto, kind : Int) -> Unit) : FragmentStateAdapter(fm, lc) {
     val recordTodayFragment = RecordTodayFragment(record)
