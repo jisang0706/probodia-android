@@ -14,6 +14,7 @@ import com.piri.probodia.data.remote.body.FoodGLBody
 import com.piri.probodia.data.remote.model.FoodDetailDto
 import com.piri.probodia.databinding.FragmentSearchFoodDetailBinding
 import com.piri.probodia.repository.PreferenceRepository
+import com.piri.probodia.view.fragment.record.BaseBottomSheetDialogFragment
 import com.piri.probodia.viewmodel.SearchFoodDetailViewModel
 
 class FoodGLFragment(val foodId : String, val data : FoodDetailDto) : BaseBottomSheetDialogFragment() {
