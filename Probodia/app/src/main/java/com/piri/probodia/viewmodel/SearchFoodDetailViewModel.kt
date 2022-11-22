@@ -53,14 +53,32 @@ class SearchFoodDetailViewModel : BaseViewModel() {
     }
 
     fun getFoodInfo(preferenceRepository : PreferenceRepository, foodId : String) = viewModelScope.launch(coroutineExceptionHandler) {
-        val apiToken = preferenceRepository.getApiToken().apiAccessToken
-        _foodInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodId)
-        _foodQuantityText.value = "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
+        try {
+            val apiToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodId)
+            _foodQuantityText.value =
+                "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
+        } catch (e : Exception) {
+            if (e.localizedMessage != HttpErrorCode.error500) {
+                refreshApiToken(preferenceRepository)
+                val apiToken = preferenceRepository.getApiToken().apiAccessToken
+                _foodInfo.value = serverFoodRepository.getFoodDetail(apiToken, foodId)
+                _foodQuantityText.value =
+                    "1인분 (${foodInfo.value!!.quantityByOne}g)당 | ${foodInfo.value!!.calories.roundToInt()} kcal"
+            }
+        }
     }
 
     fun getFoodGL(preferenceRepository : PreferenceRepository, foodGLBody : FoodGLBody) = viewModelScope.launch(coroutineGLExceptionHandler) {
-        val apiToken = preferenceRepository.getApiToken().apiAccessToken
-        _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
+        try {
+            val apiToken = preferenceRepository.getApiToken().apiAccessToken
+            _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
+        } catch (e : Exception) {
+            if (e.localizedMessage != HttpErrorCode.error500) {
+                val apiToken = preferenceRepository.getApiToken().apiAccessToken
+                _foodGL.value = aiGlucoseServerRepository.getGL(apiToken, foodGLBody)
+            }
+        }
     }
 
     fun getFoodGLInfo(preferenceRepository : PreferenceRepository, foodBigId : String, foodSmallId : String) = viewModelScope.launch(coroutineExceptionHandler) {
