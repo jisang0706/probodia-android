@@ -2,5 +2,5 @@ package com.piri.probodia.widget.utils
 
 object Version {
 
-    const val versionCode = 21
+    const val versionCode = 23
 }
