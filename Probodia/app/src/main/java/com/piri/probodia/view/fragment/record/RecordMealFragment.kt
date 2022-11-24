@@ -112,7 +112,7 @@ class RecordMealFragment(val reload : () -> Unit, val recordType : Int, val data
                 listAdapter.addItem(
                     PostMealBody.PostMealItem(
                     data.mealDetails[i].foodName,
-                    "",
+                    data.mealDetails[i].foodId,
                     data.mealDetails[i].quantity.toDouble(),
                     data.mealDetails[i].calories,
                     data.mealDetails[i].bloodSugar,

@@ -17,7 +17,7 @@ data class MealDto(
 
         val recordId : Int,
 
-        val recordDate : String
+        val recordDate : String,
     ) : Parcelable
 
     @Parcelize
@@ -32,6 +32,8 @@ data class MealDto(
 
         val foodName : String,
 
-        val quantity : Int
+        val quantity : Int,
+
+        val foodId : String
     ) : Parcelable
 }
