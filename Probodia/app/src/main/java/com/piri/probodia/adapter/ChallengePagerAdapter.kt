@@ -9,17 +9,26 @@ import com.piri.probodia.view.fragment.challenge.ChallengeParticipatingFragment
 import com.piri.probodia.view.fragment.challenge.ChallengeViewFragment
 
 class ChallengePagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
-    val challengeViewFragment = ChallengeViewFragment(::refreshFragment)
-    val challengeParticipatingFragment = ChallengeParticipatingFragment()
-//    val challengeHistoryFragment = ChallengeHistoryFragment()
+    private lateinit var challengeViewFragment : ChallengeViewFragment
+    private lateinit var challengeParticipatingFragment : ChallengeParticipatingFragment
 
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> challengeViewFragment
-            1 -> challengeParticipatingFragment
-//            2 -> challengeHistoryFragment
+            0 -> {
+                if (!this::challengeViewFragment.isInitialized) {
+                    challengeViewFragment = ChallengeViewFragment()
+                    challengeViewFragment.setRefresh(::refreshFragment)
+                }
+                challengeViewFragment
+            }
+            1 -> {
+                if(!this::challengeParticipatingFragment.isInitialized) {
+                    challengeParticipatingFragment = ChallengeParticipatingFragment()
+                }
+                challengeParticipatingFragment
+            }
             else -> challengeViewFragment
         }
     }
@@ -28,13 +37,13 @@ class ChallengePagerAdapter(fm : FragmentManager, lc : Lifecycle) : FragmentStat
         return when(position) {
             0 -> "구경하기"
             1 -> "참가중인 챌린지"
-//            2 -> "내 기록"
             else -> "구경하기"
         }
     }
 
-    fun refreshFragment() {
-        challengeViewFragment.getChallengeList()
-        challengeParticipatingFragment.getParticipatingChallengeList()
+    private fun refreshFragment() {
+        if (this::challengeParticipatingFragment.isInitialized) {
+            challengeParticipatingFragment.getParticipatingChallengeList()
+        }
     }
 }

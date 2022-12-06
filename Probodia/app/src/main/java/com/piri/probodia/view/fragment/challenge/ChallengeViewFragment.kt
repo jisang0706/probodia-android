@@ -18,13 +18,15 @@ import com.piri.probodia.repository.PreferenceRepository
 import com.piri.probodia.view.activity.ChallengeInfoActivity
 import com.piri.probodia.viewmodel.ChallengeViewViewModel
 
-class ChallengeViewFragment(val refreshFragment : () -> Unit) : Fragment() {
+class ChallengeViewFragment() : Fragment() {
 
     private lateinit var binding : FragmentChallengeViewBinding
     private lateinit var viewModel : ChallengeViewViewModel
     private lateinit var challengeViewAdapter : ChallengeViewAdapter
 
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+
+    private lateinit var refreshFragment : () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,12 +64,19 @@ class ChallengeViewFragment(val refreshFragment : () -> Unit) : Fragment() {
             val resultIntent = result.data
             if (resultIntent != null) {
                 if (result.resultCode == R.integer.challenge_participant_code) {
+                    if (this::refreshFragment.isInitialized) {
+                        getChallengeList()
+                    }
                     refreshFragment()
                 }
             }
         }
 
         return binding.root
+    }
+
+    fun setRefresh(refresh : () -> Unit) {
+        refreshFragment = refresh
     }
 
     fun getChallengeList() {

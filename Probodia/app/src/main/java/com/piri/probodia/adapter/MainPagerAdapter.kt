@@ -10,20 +10,45 @@ import com.piri.probodia.view.fragment.etc.EtcFragment
 import com.piri.probodia.view.fragment.record.RecordFragment
 
 class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
-    val recordFragment = RecordFragment()
-    val challengeFragment = ChallengeFragment()
-    val communityFragment = CommunityFragment()
-    val etcFragment = EtcFragment()
+    private lateinit var recordFragment : RecordFragment
+    private lateinit var challengeFragment : ChallengeFragment
+    private lateinit var communityFragment : CommunityFragment
+    private lateinit var etcFragment : EtcFragment
 
     override fun getItemCount() = 4
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> recordFragment
-            1 -> challengeFragment
-            2 -> communityFragment
-            3 -> etcFragment
-            else -> recordFragment
+            0 -> {
+                if (!this::recordFragment.isInitialized) {
+                    recordFragment = RecordFragment()
+                }
+                recordFragment
+            }
+            1 -> {
+                if (!this::challengeFragment.isInitialized) {
+                    challengeFragment = ChallengeFragment()
+                }
+                challengeFragment
+            }
+            2 -> {
+                if (!this::communityFragment.isInitialized) {
+                    communityFragment = CommunityFragment()
+                }
+                communityFragment
+            }
+            3 -> {
+                if (!this::etcFragment.isInitialized) {
+                    etcFragment = EtcFragment()
+                }
+                etcFragment
+            }
+            else -> {
+                if (!this::recordFragment.isInitialized) {
+                    recordFragment = RecordFragment()
+                }
+                recordFragment
+            }
         }
     }
 
