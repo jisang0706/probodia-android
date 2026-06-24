@@ -48,6 +48,12 @@ Probodia Android는 당뇨 관리를 하는 사용자가 매일의 건강 기록
 | 로컬 저장소 | Room 기반 최근 음식 검색 이력 저장 |
 | 운영 대응 | Firebase Crashlytics, 앱 버전 체크, 서버 연결 실패 화면, 인증 실패 처리, SSL 대응 |
 
+<p align="center">
+  <img src="docs/assets/probodia-playstore-medical-rank.jpg" width="360" alt="Probodia Google Play medical category rank">
+</p>
+
+Google Play 의료 카테고리 인기 차트 15위에 노출되었습니다. (2022.11.18 기준)
+
 ## 문제 정의
 
 당뇨 관리는 혈당 수치만 기록해서 끝나는 작업이 아닙니다. 식사, 복약, 혈압, 혈당 기록이 함께 쌓일 때 생활 패턴을 돌아볼 수 있습니다. 특히 음식 선택은 당뇨 관리에 직접적인 영향을 주지만, 사용자가 매번 영양 성분과 혈당 영향을 판단하기 어렵습니다.
