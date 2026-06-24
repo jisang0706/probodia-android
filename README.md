@@ -11,9 +11,21 @@ Probodia Android는 당뇨 관리를 하는 사용자가 매일의 건강 기록
 ## App Preview
 
 <p align="center">
-  <img src="docs/assets/probodia-record-preview-1.png" width="420" alt="Probodia record screen preview 1">
-  <img src="docs/assets/probodia-record-preview-2.png" width="420" alt="Probodia record screen preview 2">
+  <a href="https://youtu.be/v8gOddnVU50">앱 실행 및 핵심 기능 시연 영상</a>
 </p>
+
+<table>
+  <tr>
+    <td width="50%" align="center" valign="top">
+      <img src="docs/assets/probodia-record-home.jpg" width="260" alt="Probodia record home screen">
+      <br><br>
+      <img src="docs/assets/probodia-food-detail.jpg" width="260" alt="Probodia food detail screen">
+    </td>
+    <td width="50%" align="center" valign="top">
+      <img src="docs/assets/probodia-analysis-report.jpg" width="260" alt="Probodia analysis report screen">
+    </td>
+  </tr>
+</table>
 
 ## Portfolio Summary
 
